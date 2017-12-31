@@ -1,0 +1,12 @@
+{
+  "name": "rereact-nano",
+  "version": "0.1.0",
+  "sources": ["src"],
+  "package-specs": {
+    "module": "commonjs",
+    "in-source": true
+  },
+  "suffix": ".bs.js",
+  "bs-dependencies": ["bs-webapi"],
+  "refmt": 3
+}
