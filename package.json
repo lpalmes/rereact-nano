@@ -7,7 +7,9 @@
     "clean": "bsb -clean-world",
     "webpack": "webpack -w"
   },
-  "keywords": ["BuckleScript"],
+  "keywords": [
+    "BuckleScript"
+  ],
   "author": "",
   "license": "MIT",
   "devDependencies": {
@@ -15,6 +17,7 @@
   },
   "dependencies": {
     "bs-webapi": "^0.7.0",
+    "reductive": "^0.2.0",
     "webpack": "^3.10.0"
   }
 }
