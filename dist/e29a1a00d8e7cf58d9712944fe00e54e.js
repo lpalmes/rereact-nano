@@ -69,7 +69,7 @@ require = (function (modules, cache, entry) {
 
   // Override the current require with this new one
   return newRequire;
-})({11:[function(require,module,exports) {
+})({9:[function(require,module,exports) {
 'use strict';
 
 
@@ -171,7 +171,7 @@ exports.assert_failure             = assert_failure;
 exports.undefined_recursive_module = undefined_recursive_module;
 /*  Not a pure module */
 
-},{}],9:[function(require,module,exports) {
+},{}],13:[function(require,module,exports) {
 'use strict';
 
 var Caml_builtin_exceptions = require("./caml_builtin_exceptions.js");
@@ -287,7 +287,7 @@ exports.caml_array_get    = caml_array_get;
 exports.caml_array_set    = caml_array_set;
 /* No side effect */
 
-},{"./caml_builtin_exceptions.js":11}],6:[function(require,module,exports) {
+},{"./caml_builtin_exceptions.js":9}],6:[function(require,module,exports) {
 'use strict';
 
 var Caml_array = require("./caml_array.js");
@@ -924,7 +924,7 @@ exports._8      = _8;
 exports.__8     = __8;
 /* No side effect */
 
-},{"./caml_array.js":9}],5:[function(require,module,exports) {
+},{"./caml_array.js":13}],7:[function(require,module,exports) {
 'use strict';
 
 
@@ -936,7 +936,7 @@ function __(tag, block) {
 exports.__ = __;
 /* No side effect */
 
-},{}],12:[function(require,module,exports) {
+},{}],26:[function(require,module,exports) {
 'use strict';
 
 var Block                   = require("./block.js");
@@ -1247,7 +1247,7 @@ exports.caml_lessthan          = caml_lessthan;
 exports.caml_lessequal         = caml_lessequal;
 /* No side effect */
 
-},{"./block.js":5,"./caml_builtin_exceptions.js":11}],20:[function(require,module,exports) {
+},{"./block.js":7,"./caml_builtin_exceptions.js":9}],34:[function(require,module,exports) {
 
 // shim for using process in browser
 var process = module.exports = {};
@@ -1434,7 +1434,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],14:[function(require,module,exports) {
+},{}],28:[function(require,module,exports) {
 var process = require("process");
 'use strict';
 
@@ -1567,7 +1567,7 @@ exports.caml_ml_input_char          = caml_ml_input_char;
 exports.caml_ml_out_channels_list   = caml_ml_out_channels_list;
 /* stdin Not a pure module */
 
-},{"./curry.js":6,"./caml_builtin_exceptions.js":11,"process":20}],17:[function(require,module,exports) {
+},{"./curry.js":6,"./caml_builtin_exceptions.js":9,"process":34}],29:[function(require,module,exports) {
 var process = require("process");
 'use strict';
 
@@ -1669,7 +1669,7 @@ exports.caml_sys_is_directory   = caml_sys_is_directory;
 exports.caml_sys_file_exists    = caml_sys_file_exists;
 /* No side effect */
 
-},{"./caml_builtin_exceptions.js":11,"process":20}],21:[function(require,module,exports) {
+},{"./caml_builtin_exceptions.js":9,"process":34}],35:[function(require,module,exports) {
 'use strict';
 
 var Caml_builtin_exceptions = require("./caml_builtin_exceptions.js");
@@ -1713,7 +1713,7 @@ exports.caml_nativeint_bswap = caml_nativeint_bswap;
 exports.imul                 = imul;
 /* imul Not a pure module */
 
-},{"./caml_builtin_exceptions.js":11}],23:[function(require,module,exports) {
+},{"./caml_builtin_exceptions.js":9}],37:[function(require,module,exports) {
 'use strict';
 
 
@@ -1746,7 +1746,7 @@ var repeat = ( (String.prototype.repeat && function (count,self){return self.rep
 exports.repeat = repeat;
 /* repeat Not a pure module */
 
-},{}],22:[function(require,module,exports) {
+},{}],36:[function(require,module,exports) {
 'use strict';
 
 var Caml_obj                = require("./caml_obj.js");
@@ -2348,7 +2348,7 @@ exports.bits_of_float = bits_of_float;
 exports.get64         = get64;
 /* two_ptr_32_dbl Not a pure module */
 
-},{"./caml_obj.js":12,"./caml_int32.js":21,"./caml_utils.js":23,"./caml_builtin_exceptions.js":11}],15:[function(require,module,exports) {
+},{"./caml_obj.js":26,"./caml_int32.js":35,"./caml_utils.js":37,"./caml_builtin_exceptions.js":9}],30:[function(require,module,exports) {
 'use strict';
 
 var Curry                   = require("./curry.js");
@@ -3151,7 +3151,7 @@ exports.caml_int64_of_string     = caml_int64_of_string;
 exports.caml_nativeint_of_string = caml_nativeint_of_string;
 /* float_of_string Not a pure module */
 
-},{"./curry.js":6,"./caml_int32.js":21,"./caml_int64.js":22,"./caml_utils.js":23,"./caml_builtin_exceptions.js":11}],18:[function(require,module,exports) {
+},{"./curry.js":6,"./caml_int32.js":35,"./caml_int64.js":36,"./caml_utils.js":37,"./caml_builtin_exceptions.js":9}],31:[function(require,module,exports) {
 'use strict';
 
 var Caml_builtin_exceptions = require("./caml_builtin_exceptions.js");
@@ -3356,7 +3356,7 @@ exports.string_of_char            = string_of_char;
 exports.get                       = get;
 /* No side effect */
 
-},{"./caml_builtin_exceptions.js":11}],10:[function(require,module,exports) {
+},{"./caml_builtin_exceptions.js":9}],12:[function(require,module,exports) {
 'use strict';
 
 
@@ -3404,7 +3404,7 @@ exports.create                       = create;
 exports.isCamlExceptionOrOpenVariant = isCamlExceptionOrOpenVariant;
 /* No side effect */
 
-},{}],16:[function(require,module,exports) {
+},{}],32:[function(require,module,exports) {
 'use strict';
 
 
@@ -3413,7 +3413,7 @@ var not_implemented = (function (s){ throw new Error(s)});
 exports.not_implemented = not_implemented;
 /* not_implemented Not a pure module */
 
-},{}],19:[function(require,module,exports) {
+},{}],33:[function(require,module,exports) {
 'use strict';
 
 var Block = require("./block.js");
@@ -3643,7 +3643,7 @@ exports.erase_rel    = erase_rel;
 exports.concat_fmt   = concat_fmt;
 /* No side effect */
 
-},{"./block.js":5}],13:[function(require,module,exports) {
+},{"./block.js":7}],27:[function(require,module,exports) {
 'use strict';
 
 var Curry                    = require("./curry.js");
@@ -4339,7 +4339,7 @@ exports.unsafe_really_input = unsafe_really_input;
 exports.do_at_exit          = do_at_exit;
 /* No side effect */
 
-},{"./curry.js":6,"./caml_io.js":14,"./caml_obj.js":12,"./caml_sys.js":17,"./caml_format.js":15,"./caml_string.js":18,"./caml_exceptions.js":10,"./caml_missing_polyfill.js":16,"./caml_builtin_exceptions.js":11,"./camlinternalFormatBasics.js":19}],7:[function(require,module,exports) {
+},{"./curry.js":6,"./caml_io.js":28,"./caml_obj.js":26,"./caml_sys.js":29,"./caml_format.js":30,"./caml_string.js":31,"./caml_exceptions.js":12,"./caml_missing_polyfill.js":32,"./caml_builtin_exceptions.js":9,"./camlinternalFormatBasics.js":33}],25:[function(require,module,exports) {
 'use strict';
 
 var Curry                   = require("./curry.js");
@@ -6032,7 +6032,7 @@ exports.sort_uniq    = sort_uniq;
 exports.merge        = merge;
 /* No side effect */
 
-},{"./curry.js":6,"./caml_obj.js":12,"./pervasives.js":13,"./caml_builtin_exceptions.js":11}],8:[function(require,module,exports) {
+},{"./curry.js":6,"./caml_obj.js":26,"./pervasives.js":27,"./caml_builtin_exceptions.js":9}],11:[function(require,module,exports) {
 'use strict';
 
 var Caml_exceptions = require("./caml_exceptions.js");
@@ -6089,7 +6089,7 @@ exports.raiseTypeError           = raiseTypeError;
 exports.raiseUriError            = raiseUriError;
 /* No side effect */
 
-},{"./caml_exceptions.js":10}],4:[function(require,module,exports) {
+},{"./caml_exceptions.js":12}],5:[function(require,module,exports) {
 'use strict';
 
 var Curry                   = require("./curry.js");
@@ -6523,14 +6523,12 @@ exports.stable_sort   = stable_sort;
 exports.fast_sort     = fast_sort;
 /* No side effect */
 
-},{"./curry.js":6,"./js_exn.js":8,"./caml_array.js":9,"./caml_exceptions.js":10,"./caml_builtin_exceptions.js":11}],3:[function(require,module,exports) {
+},{"./curry.js":6,"./js_exn.js":11,"./caml_array.js":13,"./caml_exceptions.js":12,"./caml_builtin_exceptions.js":9}],3:[function(require,module,exports) {
 // Generated by BUCKLESCRIPT VERSION 2.1.0, PLEASE EDIT WITH CARE
 'use strict';
 
-var List    = require("bs-platform/lib/js/list.js");
 var $$Array = require("bs-platform/lib/js/array.js");
 var Block   = require("bs-platform/lib/js/block.js");
-var Curry   = require("bs-platform/lib/js/curry.js");
 
 var defaultProps = /* record */[
   /* id : None */0,
@@ -6564,7 +6562,7 @@ function element(component) {
 
 function listToElement(elements) {
   return /* Nested */Block.__(1, [
-            /* None */0,
+            "List",
             defaultProps,
             elements
           ]);
@@ -6572,15 +6570,34 @@ function listToElement(elements) {
 
 function arrayToElement(elements) {
   return /* Nested */Block.__(1, [
-            /* None */0,
+            "List",
             defaultProps,
             $$Array.to_list(elements)
           ]);
 }
 
+var nullElement = /* Flat */Block.__(0, [/* [] */0]);
+
+exports.defaultProps       = defaultProps;
+exports.statelessComponent = statelessComponent;
+exports.stringToElement    = stringToElement;
+exports.nullElement        = nullElement;
+exports.element            = element;
+exports.listToElement      = listToElement;
+exports.arrayToElement     = arrayToElement;
+/* No side effect */
+
+},{"bs-platform/lib/js/array.js":5,"bs-platform/lib/js/block.js":7}],24:[function(require,module,exports) {
+// Generated by BUCKLESCRIPT VERSION 2.1.0, PLEASE EDIT WITH CARE
+'use strict';
+
+var List  = require("bs-platform/lib/js/list.js");
+var Block = require("bs-platform/lib/js/block.js");
+var Curry = require("bs-platform/lib/js/curry.js");
+
 function createDomElement(name, id, value, onClick, onChange, children, _) {
   return /* Nested */Block.__(1, [
-            /* Some */[name],
+            name,
             /* record */[
               /* id */id,
               /* value */value,
@@ -6665,83 +6682,101 @@ function addProps(domElement, props) {
   }
 }
 
-function reconcile(element, parentElement) {
-  if (element.tag) {
-    var elements = element[2];
-    var name = element[0];
-    if (name) {
-      var node = document.createElement(name[0]);
-      parentElement.appendChild(node);
-      addProps(node, element[1]);
-      return List.iter((function (e) {
-                    return reconcile(e, node);
-                  }), elements);
+function mapReactElement(parentElement, reactElement) {
+  if (reactElement.tag) {
+    var elements = reactElement[2];
+    var name = reactElement[0];
+    if (name === "List") {
+      return /* INested */Block.__(1, [
+                name,
+                List.map((function (param) {
+                        return mapReactElement(parentElement, param);
+                      }), elements)
+              ]);
     } else {
-      return List.iter((function (e) {
-                    return reconcile(e, parentElement);
-                  }), elements);
+      var node = document.createElement(name);
+      parentElement.appendChild(node);
+      addProps(node, reactElement[1]);
+      return /* INested */Block.__(1, [
+                name,
+                List.map((function (param) {
+                        return mapReactElement(node, param);
+                      }), elements)
+              ]);
     }
   } else {
-    return List.iter((function (elm) {
-                  if (elm.tag) {
-                    return reconcile(Curry._1(elm[0][/* render */1], /* () */0), parentElement);
-                  } else {
-                    parentElement.innerText = elm[0];
-                    return /* () */0;
-                  }
-                }), element[0]);
+    return /* IFlat */Block.__(0, [List.map((function (param) {
+                      return reconcile(parentElement, param);
+                    }), reactElement[0])]);
   }
 }
 
-function render(element, parentElement) {
+function reconcile(parentElement, element) {
+  if (element.tag) {
+    var component = element[0];
+    var subElements = Curry._1(component[/* render */1], /* () */0);
+    var instanceSubTree = mapReactElement(parentElement, subElements);
+    return /* record */[
+            /* component : Some */[component],
+            /* element */element,
+            /* instanceSubTree */instanceSubTree,
+            /* domElement */parentElement,
+            /* subElements */subElements
+          ];
+  } else {
+    parentElement.innerText = element[0];
+    return /* record */[
+            /* component : None */0,
+            /* element */element,
+            /* instanceSubTree : IFlat */Block.__(0, [/* [] */0]),
+            /* domElement */parentElement,
+            /* subElements : Flat */Block.__(0, [/* [] */0])
+          ];
+  }
+}
+
+var renderReactElement = mapReactElement;
+
+function render(reactElement, parentElement) {
   var match = parentElement.lastElementChild;
   if (match !== null) {
-    console.log(match);
     parentElement.removeChild(match);
-    return reconcile(element, parentElement);
+    return mapReactElement(parentElement, reactElement);
   } else {
     console.log("No child");
-    return reconcile(element, parentElement);
+    return mapReactElement(parentElement, reactElement);
   }
 }
 
-var ReactDom = /* module */[
-  /* createDomElement */createDomElement,
-  /* div */div,
-  /* h1 */h1,
-  /* h2 */h2,
-  /* h3 */h3,
-  /* h4 */h4,
-  /* h5 */h5,
-  /* h6 */h6,
-  /* span */span,
-  /* ul */ul,
-  /* li */li,
-  /* img */img,
-  /* button */button,
-  /* input */input,
-  /* addProps */addProps,
-  /* reconcile */reconcile,
-  /* render */render
-];
-
-var nullElement = /* Flat */Block.__(0, [/* [] */0]);
-
-exports.defaultProps       = defaultProps;
-exports.statelessComponent = statelessComponent;
-exports.stringToElement    = stringToElement;
-exports.nullElement        = nullElement;
-exports.element            = element;
-exports.listToElement      = listToElement;
-exports.arrayToElement     = arrayToElement;
-exports.ReactDom           = ReactDom;
+exports.createDomElement   = createDomElement;
+exports.div                = div;
+exports.h1                 = h1;
+exports.h2                 = h2;
+exports.h3                 = h3;
+exports.h4                 = h4;
+exports.h5                 = h5;
+exports.h6                 = h6;
+exports.span               = span;
+exports.ul                 = ul;
+exports.li                 = li;
+exports.img                = img;
+exports.button             = button;
+exports.input              = input;
+exports.addProps           = addProps;
+exports.mapReactElement    = mapReactElement;
+exports.reconcile          = reconcile;
+exports.renderReactElement = renderReactElement;
+exports.render             = render;
 /* No side effect */
 
-},{"bs-platform/lib/js/list.js":7,"bs-platform/lib/js/array.js":4,"bs-platform/lib/js/block.js":5,"bs-platform/lib/js/curry.js":6}],2:[function(require,module,exports) {
+},{"bs-platform/lib/js/list.js":25,"bs-platform/lib/js/block.js":7,"bs-platform/lib/js/curry.js":6}],2:[function(require,module,exports) {
 // Generated by BUCKLESCRIPT VERSION 2.1.0, PLEASE EDIT WITH CARE
 'use strict';
 
-var Rereact = require("./rereact.bs.js");
+var List       = require("bs-platform/lib/js/list.js");
+var Rereact    = require("./rereact.bs.js");
+var Pervasives = require("bs-platform/lib/js/pervasives.js");
+var RereactDom = require("./rereactDom.bs.js");
 
 var component = Rereact.statelessComponent("Test");
 
@@ -6750,8 +6785,11 @@ function createElement($staropt$star, children, _) {
   return Rereact.element(/* record */[
               /* debugName */component[/* debugName */0],
               /* render */(function () {
-                  return Rereact.ReactDom[/* h4 */5](/* None */0, /* None */0, /* None */0, /* None */0, /* :: */[
-                              Rereact.stringToElement(name),
+                  return RereactDom.div(/* None */0, /* None */0, /* None */0, /* None */0, /* :: */[
+                              RereactDom.h4(/* None */0, /* None */0, /* None */0, /* None */0, /* :: */[
+                                    Rereact.stringToElement(name),
+                                    /* [] */0
+                                  ], /* () */0),
                               /* :: */[
                                 Rereact.listToElement(children),
                                 /* [] */0
@@ -6772,23 +6810,46 @@ function createElement$1(_, _$1, _$2) {
   return Rereact.element(/* record */[
               /* debugName */component$1[/* debugName */0],
               /* render */(function () {
-                  return Rereact.ReactDom[/* div */1](/* None */0, /* None */0, /* None */0, /* None */0, /* :: */[
-                              createElement(/* None */0, /* :: */[
-                                    Rereact.ReactDom[/* button */12](/* None */0, /* None */0, /* Some */[(function () {
-                                              console.log("hello");
-                                              return /* () */0;
-                                            })], /* None */0, /* :: */[
-                                          Rereact.stringToElement("click me"),
-                                          /* [] */0
-                                        ], /* () */0),
-                                    /* [] */0
-                                  ], /* () */0),
+                  return RereactDom.div(/* None */0, /* None */0, /* None */0, /* None */0, /* :: */[
+                              Rereact.listToElement(List.map((function (e) {
+                                          return RereactDom.div(/* None */0, /* None */0, /* None */0, /* None */0, /* :: */[
+                                                      Rereact.stringToElement(Pervasives.string_of_int(e)),
+                                                      /* [] */0
+                                                    ], /* () */0);
+                                        }), /* :: */[
+                                        1,
+                                        /* :: */[
+                                          2,
+                                          /* :: */[
+                                            3,
+                                            /* :: */[
+                                              4,
+                                              /* :: */[
+                                                5,
+                                                /* [] */0
+                                              ]
+                                            ]
+                                          ]
+                                        ]
+                                      ])),
                               /* :: */[
-                                Rereact.ReactDom[/* input */13](/* None */0, /* Some */["Hello my friend"], /* None */0, /* Some */[(function (e) {
-                                          console.log(e);
-                                          return /* () */0;
-                                        })], /* [] */0, /* () */0),
-                                /* [] */0
+                                createElement(/* None */0, /* :: */[
+                                      RereactDom.button(/* None */0, /* None */0, /* Some */[(function () {
+                                                console.log("hello");
+                                                return /* () */0;
+                                              })], /* None */0, /* :: */[
+                                            Rereact.stringToElement("click me"),
+                                            /* [] */0
+                                          ], /* () */0),
+                                      /* [] */0
+                                    ], /* () */0),
+                                /* :: */[
+                                  RereactDom.input(/* None */0, /* Some */["Hello my friend"], /* None */0, /* Some */[(function (e) {
+                                            console.log(e);
+                                            return /* () */0;
+                                          })], /* [] */0, /* () */0),
+                                  /* [] */0
+                                ]
                               ]
                             ], /* () */0);
                 })
@@ -6800,10 +6861,14 @@ var Sample = /* module */[
   /* createElement */createElement$1
 ];
 
+var numberOfRenders = [0];
+
 function render() {
   var match = document.getElementById("container");
   if (match !== null) {
-    return Rereact.ReactDom[/* render */16](createElement$1("Test", /* [] */0, /* () */0), match);
+    var instance = RereactDom.render(createElement$1("Test", /* [] */0, /* () */0), match);
+    console.log(instance);
+    return /* () */0;
   } else {
     console.log("No dom element found :(");
     return /* () */0;
@@ -6814,15 +6879,27 @@ var ParcelModule = /* module */[];
 
 render(/* () */0);
 
-module.hot.accept(render);
+module.hot.dispose((function () {
+        var newValue = numberOfRenders[0] + 1 | 0;
+        numberOfRenders[0] = newValue;
+        return /* () */0;
+      }));
 
-exports.Test         = Test;
-exports.Sample       = Sample;
-exports.render       = render;
-exports.ParcelModule = ParcelModule;
+module.hot.accept((function () {
+        render(/* () */0);
+        numberOfRenders[0] = numberOfRenders[0] + 1 | 0;
+        console.log(numberOfRenders);
+        return /* () */0;
+      }));
+
+exports.Test            = Test;
+exports.Sample          = Sample;
+exports.numberOfRenders = numberOfRenders;
+exports.render          = render;
+exports.ParcelModule    = ParcelModule;
 /* component Not a pure module */
 
-},{"./rereact.bs.js":3}],0:[function(require,module,exports) {
+},{"bs-platform/lib/js/list.js":25,"./rereact.bs.js":3,"bs-platform/lib/js/pervasives.js":27,"./rereactDom.bs.js":24}],0:[function(require,module,exports) {
 var global = (1, eval)('this');
 var OldModule = module.bundle.Module;
 function Module() {
@@ -6840,7 +6917,7 @@ function Module() {
 module.bundle.Module = Module;
 
 if (!module.bundle.parent && typeof WebSocket !== 'undefined') {
-  var ws = new WebSocket('ws://' + window.location.hostname + ':49413/');
+  var ws = new WebSocket('ws://' + window.location.hostname + ':51489/');
   ws.onmessage = function(event) {
     var data = JSON.parse(event.data);
 
