@@ -1,24 +1,5 @@
 open Rereact.ReactDom;
 
-open Bs_webapi.Dom;
-
-type appState = {
-  frameworks: list(string),
-  edit: bool
-};
-
-type action =
-  | AddFramework(string)
-  | Edit(bool);
-
-let reducer = (state, action) =>
-  switch action {
-  | AddFramework(value) => {...state, frameworks: [value, ...state.frameworks]}
-  | Edit(edit) => {...state, edit}
-  };
-
-let store = Reductive.Store.create(~reducer, ~preloadedState={frameworks: [], edit: false}, ());
-
 module Test = {
   let component = Rereact.statelessComponent("Test");
   let createElement = (~name="Reason", ~children, _) =>
@@ -28,47 +9,34 @@ module Test = {
     });
 };
 
-module RecursiveComponent = {
-  let component = Rereact.statelessComponent("Test");
-  let rec createElement = (~count, ~children, _) =>
-    Rereact.element({
-      ...component,
-      render: () => {
-        Js.log(count);
-        <div>
-          (Rereact.stringToElement(count |> string_of_int))
-          (count == 1 ? Rereact.nullElement : createElement(~count=count - 1, ~children, ()))
-        </div>
-      }
-    });
-};
-
 module Sample = {
   let component = Rereact.statelessComponent("Sample");
-  let createElement = (~name, ~frameworks, ~children, _) =>
+  let createElement = (~name, ~children, _) =>
     Rereact.element({
       ...component,
       render: () =>
         <div>
           <Test>
-            <button onClick=((_) => Reductive.Store.dispatch(store, AddFramework("Rereact")))>
+            <button onClick=((_) => print_endline("hello"))>
               (Rereact.stringToElement("click me"))
             </button>
-            (Rereact.listToElement(List.map((name) => <Test name />, frameworks)))
           </Test>
           <input value="Hello my friend" onChange=((e) => Js.log(e)) />
         </div>
     });
 };
 
-let renderApp = () => {
-  let state = Reductive.Store.getState(store);
-  switch (Document.getElementById("container", document)) {
-  | Some(dom) => render(<Sample name="ReasonML BA" frameworks=state.frameworks />, dom)
+let render = () =>
+  switch (Bs_webapi.Dom.Document.getElementById("container", Bs_webapi.Dom.document)) {
+  | Some(dom) => render(<Sample name="Test" />, dom)
   | None => print_endline("No dom element found :(")
-  }
+  };
+
+module ParcelModule = {
+  [@bs.val] [@bs.scope "module.hot"] external dispose : (unit => unit) => unit = "";
+  [@bs.val] [@bs.scope "module.hot"] external accept : (unit => unit) => unit = "";
 };
 
-renderApp();
+render();
 
-Reductive.Store.subscribe(store, renderApp);
+ParcelModule.accept(render);

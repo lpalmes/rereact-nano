@@ -1,0 +1,1 @@
+{"dependencies":[],"generated":{"js":"'use strict';\n\n\nfunction __(tag, block) {\n  block.tag = tag;\n  return block;\n}\n\nexports.__ = __;\n/* No side effect */\n"},"hash":"8c7e9cac89af43d566edca2af51aec6a"}

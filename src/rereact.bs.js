@@ -139,7 +139,7 @@ function addProps(domElement, props) {
   }
 }
 
-function render(element, parentElement) {
+function reconcile(element, parentElement) {
   if (element.tag) {
     var elements = element[2];
     var name = element[0];
@@ -148,22 +148,34 @@ function render(element, parentElement) {
       parentElement.appendChild(node);
       addProps(node, element[1]);
       return List.iter((function (e) {
-                    return render(e, node);
+                    return reconcile(e, node);
                   }), elements);
     } else {
       return List.iter((function (e) {
-                    return render(e, parentElement);
+                    return reconcile(e, parentElement);
                   }), elements);
     }
   } else {
     return List.iter((function (elm) {
                   if (elm.tag) {
-                    return render(Curry._1(elm[0][/* render */1], /* () */0), parentElement);
+                    return reconcile(Curry._1(elm[0][/* render */1], /* () */0), parentElement);
                   } else {
                     parentElement.innerText = elm[0];
                     return /* () */0;
                   }
                 }), element[0]);
+  }
+}
+
+function render(element, parentElement) {
+  var match = parentElement.lastElementChild;
+  if (match !== null) {
+    console.log(match);
+    parentElement.removeChild(match);
+    return reconcile(element, parentElement);
+  } else {
+    console.log("No child");
+    return reconcile(element, parentElement);
   }
 }
 
@@ -183,6 +195,7 @@ var ReactDom = /* module */[
   /* button */button,
   /* input */input,
   /* addProps */addProps,
+  /* reconcile */reconcile,
   /* render */render
 ];
 

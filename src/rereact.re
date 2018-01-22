@@ -32,6 +32,16 @@ let arrayToElement = (elements) => Nested(None, defaultProps, Array.to_list(elem
 
 module ReactDom = {
   open Bs_webapi.Dom;
+  type renderedElement =
+    | IFlat(list(instance))
+    | INested(string, list(renderedElement))
+  and instance = {
+    component: option(component),
+    element,
+    instanceSubTree: renderedElement,
+    domElement: Dom.element,
+    subElements: reactElement
+  };
   let createDomElement =
       (
         name,
@@ -74,14 +84,26 @@ module ReactDom = {
     | None => ()
     }
   };
-  let rec render = (element: reactElement, parentElement: Dom.element) =>
+  let rec reconcile =
+          (element: reactElement, parentElement: Dom.element, instance: option(renderedElement))
+          : renderedElement =>
     switch element {
     | Flat(elements) =>
-      List.iter(
+      List.map(
         (elm) =>
           switch elm {
-          | String(value) => Element.setInnerText(parentElement, value)
-          | Component(component) => render(component.render(), parentElement)
+          | String(value) =>
+            Element.setInnerText(parentElement, value);
+            IFlat([
+              {
+                component: None,
+                element: elm,
+                instanceSubTree: IFlat([]),
+                domElement: parentElement,
+                subElements: Flat([])
+              }
+            ])
+          | Component(component) => reconcile(component.render(), parentElement, None)
           },
         elements
       )
@@ -91,8 +113,18 @@ module ReactDom = {
         let node = Document.createElement(name, document);
         Element.appendChild(node, parentElement);
         addProps(node, props);
-        List.iter((e) => render(e, node), elements)
-      | None => List.iter((e) => render(e, parentElement), elements)
+        List.iter((e) => reconcile(e, node), elements)
+      | None => List.iter((e) => reconcile(e, parentElement), elements)
       }
+    };
+  let render = (element: reactElement, parentElement: Dom.element) =>
+    switch (Element.lastElementChild(parentElement)) {
+    | Some(childElement) =>
+      Js.log(childElement);
+      let _ = Element.removeChild(childElement, parentElement);
+      reconcile(element, parentElement)
+    | None =>
+      Js.log("No child");
+      reconcile(element, parentElement)
     };
 };
