@@ -69,7 +69,7 @@ require = (function (modules, cache, entry) {
 
   // Override the current require with this new one
   return newRequire;
-})({9:[function(require,module,exports) {
+})({12:[function(require,module,exports) {
 'use strict';
 
 
@@ -171,7 +171,7 @@ exports.assert_failure             = assert_failure;
 exports.undefined_recursive_module = undefined_recursive_module;
 /*  Not a pure module */
 
-},{}],13:[function(require,module,exports) {
+},{}],19:[function(require,module,exports) {
 'use strict';
 
 var Caml_builtin_exceptions = require("./caml_builtin_exceptions.js");
@@ -287,7 +287,7 @@ exports.caml_array_get    = caml_array_get;
 exports.caml_array_set    = caml_array_set;
 /* No side effect */
 
-},{"./caml_builtin_exceptions.js":9}],6:[function(require,module,exports) {
+},{"./caml_builtin_exceptions.js":12}],9:[function(require,module,exports) {
 'use strict';
 
 var Caml_array = require("./caml_array.js");
@@ -924,7 +924,7 @@ exports._8      = _8;
 exports.__8     = __8;
 /* No side effect */
 
-},{"./caml_array.js":13}],7:[function(require,module,exports) {
+},{"./caml_array.js":19}],8:[function(require,module,exports) {
 'use strict';
 
 
@@ -936,7 +936,7 @@ function __(tag, block) {
 exports.__ = __;
 /* No side effect */
 
-},{}],26:[function(require,module,exports) {
+},{}],13:[function(require,module,exports) {
 'use strict';
 
 var Block                   = require("./block.js");
@@ -1247,7 +1247,7 @@ exports.caml_lessthan          = caml_lessthan;
 exports.caml_lessequal         = caml_lessequal;
 /* No side effect */
 
-},{"./block.js":7,"./caml_builtin_exceptions.js":9}],34:[function(require,module,exports) {
+},{"./block.js":8,"./caml_builtin_exceptions.js":12}],21:[function(require,module,exports) {
 
 // shim for using process in browser
 var process = module.exports = {};
@@ -1434,7 +1434,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],28:[function(require,module,exports) {
+},{}],10:[function(require,module,exports) {
 var process = require("process");
 'use strict';
 
@@ -1567,7 +1567,7 @@ exports.caml_ml_input_char          = caml_ml_input_char;
 exports.caml_ml_out_channels_list   = caml_ml_out_channels_list;
 /* stdin Not a pure module */
 
-},{"./curry.js":6,"./caml_builtin_exceptions.js":9,"process":34}],29:[function(require,module,exports) {
+},{"./curry.js":9,"./caml_builtin_exceptions.js":12,"process":21}],11:[function(require,module,exports) {
 var process = require("process");
 'use strict';
 
@@ -1669,7 +1669,7 @@ exports.caml_sys_is_directory   = caml_sys_is_directory;
 exports.caml_sys_file_exists    = caml_sys_file_exists;
 /* No side effect */
 
-},{"./caml_builtin_exceptions.js":9,"process":34}],35:[function(require,module,exports) {
+},{"./caml_builtin_exceptions.js":12,"process":21}],24:[function(require,module,exports) {
 'use strict';
 
 var Caml_builtin_exceptions = require("./caml_builtin_exceptions.js");
@@ -1713,7 +1713,7 @@ exports.caml_nativeint_bswap = caml_nativeint_bswap;
 exports.imul                 = imul;
 /* imul Not a pure module */
 
-},{"./caml_builtin_exceptions.js":9}],37:[function(require,module,exports) {
+},{"./caml_builtin_exceptions.js":12}],22:[function(require,module,exports) {
 'use strict';
 
 
@@ -1746,7 +1746,7 @@ var repeat = ( (String.prototype.repeat && function (count,self){return self.rep
 exports.repeat = repeat;
 /* repeat Not a pure module */
 
-},{}],36:[function(require,module,exports) {
+},{}],23:[function(require,module,exports) {
 'use strict';
 
 var Caml_obj                = require("./caml_obj.js");
@@ -2348,7 +2348,7 @@ exports.bits_of_float = bits_of_float;
 exports.get64         = get64;
 /* two_ptr_32_dbl Not a pure module */
 
-},{"./caml_obj.js":26,"./caml_int32.js":35,"./caml_utils.js":37,"./caml_builtin_exceptions.js":9}],30:[function(require,module,exports) {
+},{"./caml_obj.js":13,"./caml_int32.js":24,"./caml_utils.js":22,"./caml_builtin_exceptions.js":12}],14:[function(require,module,exports) {
 'use strict';
 
 var Curry                   = require("./curry.js");
@@ -3151,7 +3151,7 @@ exports.caml_int64_of_string     = caml_int64_of_string;
 exports.caml_nativeint_of_string = caml_nativeint_of_string;
 /* float_of_string Not a pure module */
 
-},{"./curry.js":6,"./caml_int32.js":35,"./caml_int64.js":36,"./caml_utils.js":37,"./caml_builtin_exceptions.js":9}],31:[function(require,module,exports) {
+},{"./curry.js":9,"./caml_int32.js":24,"./caml_int64.js":23,"./caml_utils.js":22,"./caml_builtin_exceptions.js":12}],17:[function(require,module,exports) {
 'use strict';
 
 var Caml_builtin_exceptions = require("./caml_builtin_exceptions.js");
@@ -3356,7 +3356,7 @@ exports.string_of_char            = string_of_char;
 exports.get                       = get;
 /* No side effect */
 
-},{"./caml_builtin_exceptions.js":9}],12:[function(require,module,exports) {
+},{"./caml_builtin_exceptions.js":12}],15:[function(require,module,exports) {
 'use strict';
 
 
@@ -3404,7 +3404,7 @@ exports.create                       = create;
 exports.isCamlExceptionOrOpenVariant = isCamlExceptionOrOpenVariant;
 /* No side effect */
 
-},{}],32:[function(require,module,exports) {
+},{}],16:[function(require,module,exports) {
 'use strict';
 
 
@@ -3413,7 +3413,7 @@ var not_implemented = (function (s){ throw new Error(s)});
 exports.not_implemented = not_implemented;
 /* not_implemented Not a pure module */
 
-},{}],33:[function(require,module,exports) {
+},{}],18:[function(require,module,exports) {
 'use strict';
 
 var Block = require("./block.js");
@@ -3643,7 +3643,7 @@ exports.erase_rel    = erase_rel;
 exports.concat_fmt   = concat_fmt;
 /* No side effect */
 
-},{"./block.js":7}],27:[function(require,module,exports) {
+},{"./block.js":8}],6:[function(require,module,exports) {
 'use strict';
 
 var Curry                    = require("./curry.js");
@@ -4339,7 +4339,7 @@ exports.unsafe_really_input = unsafe_really_input;
 exports.do_at_exit          = do_at_exit;
 /* No side effect */
 
-},{"./curry.js":6,"./caml_io.js":28,"./caml_obj.js":26,"./caml_sys.js":29,"./caml_format.js":30,"./caml_string.js":31,"./caml_exceptions.js":12,"./caml_missing_polyfill.js":32,"./caml_builtin_exceptions.js":9,"./camlinternalFormatBasics.js":33}],25:[function(require,module,exports) {
+},{"./curry.js":9,"./caml_io.js":10,"./caml_obj.js":13,"./caml_sys.js":11,"./caml_format.js":14,"./caml_string.js":17,"./caml_exceptions.js":15,"./caml_missing_polyfill.js":16,"./caml_builtin_exceptions.js":12,"./camlinternalFormatBasics.js":18}],5:[function(require,module,exports) {
 'use strict';
 
 var Curry                   = require("./curry.js");
@@ -6032,7 +6032,7 @@ exports.sort_uniq    = sort_uniq;
 exports.merge        = merge;
 /* No side effect */
 
-},{"./curry.js":6,"./caml_obj.js":26,"./pervasives.js":27,"./caml_builtin_exceptions.js":9}],11:[function(require,module,exports) {
+},{"./curry.js":9,"./caml_obj.js":13,"./pervasives.js":6,"./caml_builtin_exceptions.js":12}],20:[function(require,module,exports) {
 'use strict';
 
 var Caml_exceptions = require("./caml_exceptions.js");
@@ -6089,7 +6089,7 @@ exports.raiseTypeError           = raiseTypeError;
 exports.raiseUriError            = raiseUriError;
 /* No side effect */
 
-},{"./caml_exceptions.js":12}],5:[function(require,module,exports) {
+},{"./caml_exceptions.js":15}],7:[function(require,module,exports) {
 'use strict';
 
 var Curry                   = require("./curry.js");
@@ -6523,12 +6523,14 @@ exports.stable_sort   = stable_sort;
 exports.fast_sort     = fast_sort;
 /* No side effect */
 
-},{"./curry.js":6,"./js_exn.js":11,"./caml_array.js":13,"./caml_exceptions.js":12,"./caml_builtin_exceptions.js":9}],3:[function(require,module,exports) {
+},{"./curry.js":9,"./js_exn.js":20,"./caml_array.js":19,"./caml_exceptions.js":15,"./caml_builtin_exceptions.js":12}],3:[function(require,module,exports) {
 // Generated by BUCKLESCRIPT VERSION 2.1.0, PLEASE EDIT WITH CARE
 'use strict';
 
-var $$Array = require("bs-platform/lib/js/array.js");
-var Block   = require("bs-platform/lib/js/block.js");
+var $$Array                 = require("bs-platform/lib/js/array.js");
+var Block                   = require("bs-platform/lib/js/block.js");
+var Curry                   = require("bs-platform/lib/js/curry.js");
+var Caml_builtin_exceptions = require("bs-platform/lib/js/caml_builtin_exceptions.js");
 
 var defaultProps = /* record */[
   /* id : None */0,
@@ -6537,14 +6539,57 @@ var defaultProps = /* record */[
   /* onChange : None */0
 ];
 
-function statelessComponent(debugName) {
+function $$default() {
+  return /* () */0;
+}
+
+function chain(handlerOne, handlerTwo, payload) {
+  Curry._1(handlerOne, payload);
+  return Curry._1(handlerTwo, payload);
+}
+
+var Callback = /* module */[
+  /* default */$$default,
+  /* chain */chain
+];
+
+function basicComponent(debugName) {
   return /* record */[
           /* debugName */debugName,
           /* render */(function () {
-              return /* Flat */Block.__(0, [/* [] */0]);
+              throw [
+                    Caml_builtin_exceptions.assert_failure,
+                    [
+                      "rereact.re",
+                      52,
+                      21
+                    ]
+                  ];
+            }),
+          /* initialState */(function () {
+              return /* () */0;
+            }),
+          /* reducer */(function (_, _$1) {
+              return /* NoUpdate */0;
             })
         ];
 }
+
+function statelessComponent(debugName) {
+  var init = basicComponent(debugName);
+  return /* record */[
+          /* debugName */init[/* debugName */0],
+          /* render */init[/* render */1],
+          /* initialState */(function () {
+              return /* () */0;
+            }),
+          /* reducer */init[/* reducer */3]
+        ];
+}
+
+var statefulComponent = basicComponent;
+
+var reducerComponent = basicComponent;
 
 function stringToElement(value) {
   return /* Flat */Block.__(0, [/* :: */[
@@ -6579,7 +6624,11 @@ function arrayToElement(elements) {
 var nullElement = /* Flat */Block.__(0, [/* [] */0]);
 
 exports.defaultProps       = defaultProps;
+exports.Callback           = Callback;
+exports.basicComponent     = basicComponent;
 exports.statelessComponent = statelessComponent;
+exports.statefulComponent  = statefulComponent;
+exports.reducerComponent   = reducerComponent;
 exports.stringToElement    = stringToElement;
 exports.nullElement        = nullElement;
 exports.element            = element;
@@ -6587,7 +6636,7 @@ exports.listToElement      = listToElement;
 exports.arrayToElement     = arrayToElement;
 /* No side effect */
 
-},{"bs-platform/lib/js/array.js":5,"bs-platform/lib/js/block.js":7}],24:[function(require,module,exports) {
+},{"bs-platform/lib/js/array.js":7,"bs-platform/lib/js/block.js":8,"bs-platform/lib/js/curry.js":9,"bs-platform/lib/js/caml_builtin_exceptions.js":12}],4:[function(require,module,exports) {
 // Generated by BUCKLESCRIPT VERSION 2.1.0, PLEASE EDIT WITH CARE
 'use strict';
 
@@ -6682,6 +6731,46 @@ function addProps(domElement, props) {
   }
 }
 
+function createSelf(instance) {
+  return /* record */[
+          /* state */instance[/* iState */2],
+          /* reduce */(function (payloadToAction, payload) {
+              var action = Curry._1(payloadToAction, payload);
+              console.log(payloadToAction);
+              var match = instance[/* component */0];
+              if (match) {
+                var stateUpdate = Curry._1(match[0][/* reducer */3], action);
+                console.log(stateUpdate);
+                return /* () */0;
+              } else {
+                return /* () */0;
+              }
+            }),
+          /* send */(function (action) {
+              var match = instance[/* component */0];
+              if (match) {
+                var stateUpdate = Curry._2(match[0][/* reducer */3], action, instance[/* iState */2]);
+                console.log(stateUpdate);
+                return /* () */0;
+              } else {
+                return /* () */0;
+              }
+            })
+        ];
+}
+
+function createInstance(component, element, instanceSubTree, subElements) {
+  var iState = Curry._1(component[/* initialState */2], /* () */0);
+  return /* record */[
+          /* component : Some */[component],
+          /* element */element,
+          /* iState */iState,
+          /* instanceSubTree */instanceSubTree,
+          /* domElement */document.createElement("span"),
+          /* subElements */subElements
+        ];
+}
+
 function mapReactElement(parentElement, reactElement) {
   if (reactElement.tag) {
     var elements = reactElement[2];
@@ -6714,38 +6803,40 @@ function mapReactElement(parentElement, reactElement) {
 function reconcile(parentElement, element) {
   if (element.tag) {
     var component = element[0];
-    var subElements = Curry._1(component[/* render */1], /* () */0);
+    var instance = createInstance(component, element, /* IFlat */Block.__(0, [/* [] */0]), /* Flat */Block.__(0, [/* [] */0]));
+    var self = createSelf(instance);
+    var subElements = Curry._1(component[/* render */1], self);
     var instanceSubTree = mapReactElement(parentElement, subElements);
-    return /* record */[
-            /* component : Some */[component],
-            /* element */element,
-            /* instanceSubTree */instanceSubTree,
-            /* domElement */parentElement,
-            /* subElements */subElements
-          ];
+    return /* Instance */[/* record */[
+              /* component */instance[/* component */0],
+              /* element */instance[/* element */1],
+              /* iState */instance[/* iState */2],
+              /* instanceSubTree */instanceSubTree,
+              /* domElement */parentElement,
+              /* subElements */subElements
+            ]];
   } else {
     parentElement.innerText = element[0];
-    return /* record */[
-            /* component : None */0,
-            /* element */element,
-            /* instanceSubTree : IFlat */Block.__(0, [/* [] */0]),
-            /* domElement */parentElement,
-            /* subElements : Flat */Block.__(0, [/* [] */0])
-          ];
+    return /* Instance */[/* record */[
+              /* component : None */0,
+              /* element */element,
+              /* iState : () */0,
+              /* instanceSubTree : IFlat */Block.__(0, [/* [] */0]),
+              /* domElement */parentElement,
+              /* subElements : Flat */Block.__(0, [/* [] */0])
+            ]];
   }
 }
 
 var renderReactElement = mapReactElement;
 
+var globalInstance = [/* IFlat */Block.__(0, [/* [] */0])];
+
 function render(reactElement, parentElement) {
   var match = parentElement.lastElementChild;
-  if (match !== null) {
-    parentElement.removeChild(match);
-    return mapReactElement(parentElement, reactElement);
-  } else {
-    console.log("No child");
-    return mapReactElement(parentElement, reactElement);
-  }
+  var instance = match !== null ? (parentElement.removeChild(match), mapReactElement(parentElement, reactElement)) : mapReactElement(parentElement, reactElement);
+  globalInstance[0] = instance;
+  return instance;
 }
 
 exports.createDomElement   = createDomElement;
@@ -6763,110 +6854,83 @@ exports.img                = img;
 exports.button             = button;
 exports.input              = input;
 exports.addProps           = addProps;
+exports.createSelf         = createSelf;
+exports.createInstance     = createInstance;
 exports.mapReactElement    = mapReactElement;
 exports.reconcile          = reconcile;
 exports.renderReactElement = renderReactElement;
+exports.globalInstance     = globalInstance;
 exports.render             = render;
 /* No side effect */
 
-},{"bs-platform/lib/js/list.js":25,"bs-platform/lib/js/block.js":7,"bs-platform/lib/js/curry.js":6}],2:[function(require,module,exports) {
+},{"bs-platform/lib/js/list.js":5,"bs-platform/lib/js/block.js":8,"bs-platform/lib/js/curry.js":9}],2:[function(require,module,exports) {
 // Generated by BUCKLESCRIPT VERSION 2.1.0, PLEASE EDIT WITH CARE
 'use strict';
 
 var List       = require("bs-platform/lib/js/list.js");
+var Block      = require("bs-platform/lib/js/block.js");
+var Curry      = require("bs-platform/lib/js/curry.js");
 var Rereact    = require("./rereact.bs.js");
 var Pervasives = require("bs-platform/lib/js/pervasives.js");
 var RereactDom = require("./rereactDom.bs.js");
 
-var component = Rereact.statelessComponent("Test");
-
-function createElement($staropt$star, children, _) {
-  var name = $staropt$star ? $staropt$star[0] : "Reason";
+function createElement(_, _$1) {
   return Rereact.element(/* record */[
-              /* debugName */component[/* debugName */0],
-              /* render */(function () {
+              /* debugName */"Sample",
+              /* render */(function (param) {
+                  var send = param[/* send */2];
                   return RereactDom.div(/* None */0, /* None */0, /* None */0, /* None */0, /* :: */[
-                              RereactDom.h4(/* None */0, /* None */0, /* None */0, /* None */0, /* :: */[
-                                    Rereact.stringToElement(name),
+                              RereactDom.button(/* None */0, /* None */0, /* Some */[(function () {
+                                        return Curry._1(send, /* Add */Block.__(0, [10]));
+                                      })], /* None */0, /* :: */[
+                                    Rereact.stringToElement("click me"),
                                     /* [] */0
                                   ], /* () */0),
                               /* :: */[
-                                Rereact.listToElement(children),
+                                Rereact.listToElement(List.map((function (e) {
+                                            return RereactDom.div(/* None */0, /* None */0, /* None */0, /* None */0, /* :: */[
+                                                        Rereact.stringToElement(Pervasives.string_of_int(e)),
+                                                        /* [] */0
+                                                      ], /* () */0);
+                                          }), param[/* state */0][/* elements */0])),
                                 /* [] */0
                               ]
                             ], /* () */0);
-                })
-            ]);
-}
-
-var Test = /* module */[
-  /* component */component,
-  /* createElement */createElement
-];
-
-var component$1 = Rereact.statelessComponent("Sample");
-
-function createElement$1(_, _$1, _$2) {
-  return Rereact.element(/* record */[
-              /* debugName */component$1[/* debugName */0],
-              /* render */(function () {
-                  return RereactDom.div(/* None */0, /* None */0, /* None */0, /* None */0, /* :: */[
-                              Rereact.listToElement(List.map((function (e) {
-                                          return RereactDom.div(/* None */0, /* None */0, /* None */0, /* None */0, /* :: */[
-                                                      Rereact.stringToElement(Pervasives.string_of_int(e)),
-                                                      /* [] */0
-                                                    ], /* () */0);
-                                        }), /* :: */[
-                                        1,
-                                        /* :: */[
-                                          2,
-                                          /* :: */[
-                                            3,
-                                            /* :: */[
-                                              4,
-                                              /* :: */[
-                                                5,
-                                                /* [] */0
-                                              ]
-                                            ]
-                                          ]
-                                        ]
-                                      ])),
+                }),
+              /* initialState */(function () {
+                  return /* record */[/* elements : :: */[
+                            1,
+                            /* :: */[
+                              2,
                               /* :: */[
-                                createElement(/* None */0, /* :: */[
-                                      RereactDom.button(/* None */0, /* None */0, /* Some */[(function () {
-                                                console.log("hello");
-                                                return /* () */0;
-                                              })], /* None */0, /* :: */[
-                                            Rereact.stringToElement("click me"),
-                                            /* [] */0
-                                          ], /* () */0),
-                                      /* [] */0
-                                    ], /* () */0),
+                                4,
                                 /* :: */[
-                                  RereactDom.input(/* None */0, /* Some */["Hello my friend"], /* None */0, /* Some */[(function (e) {
-                                            console.log(e);
-                                            return /* () */0;
-                                          })], /* [] */0, /* () */0),
+                                  5,
                                   /* [] */0
                                 ]
                               ]
-                            ], /* () */0);
+                            ]
+                          ]];
+                }),
+              /* reducer */(function (action, state) {
+                  if (typeof action === "number") {
+                    return /* Update */[/* record */[/* elements : [] */0]];
+                  } else {
+                    return /* Update */[/* record */[/* elements : :: */[
+                                action[0],
+                                state[/* elements */0]
+                              ]]];
+                  }
                 })
             ]);
 }
 
-var Sample = /* module */[
-  /* component */component$1,
-  /* createElement */createElement$1
-];
-
-var numberOfRenders = [0];
+var Sample = /* module */[/* createElement */createElement];
 
 function render() {
   var match = document.getElementById("container");
   if (match !== null) {
-    var instance = RereactDom.render(createElement$1("Test", /* [] */0, /* () */0), match);
+    var instance = RereactDom.render(createElement(/* [] */0, /* () */0), match);
     console.log(instance);
     return /* () */0;
   } else {
@@ -6879,27 +6943,14 @@ var ParcelModule = /* module */[];
 
 render(/* () */0);
 
-module.hot.dispose((function () {
-        var newValue = numberOfRenders[0] + 1 | 0;
-        numberOfRenders[0] = newValue;
-        return /* () */0;
-      }));
+module.hot.accept(render);
 
-module.hot.accept((function () {
-        render(/* () */0);
-        numberOfRenders[0] = numberOfRenders[0] + 1 | 0;
-        console.log(numberOfRenders);
-        return /* () */0;
-      }));
+exports.Sample       = Sample;
+exports.render       = render;
+exports.ParcelModule = ParcelModule;
+/*  Not a pure module */
 
-exports.Test            = Test;
-exports.Sample          = Sample;
-exports.numberOfRenders = numberOfRenders;
-exports.render          = render;
-exports.ParcelModule    = ParcelModule;
-/* component Not a pure module */
-
-},{"bs-platform/lib/js/list.js":25,"./rereact.bs.js":3,"bs-platform/lib/js/pervasives.js":27,"./rereactDom.bs.js":24}],0:[function(require,module,exports) {
+},{"bs-platform/lib/js/list.js":5,"bs-platform/lib/js/block.js":8,"bs-platform/lib/js/curry.js":9,"./rereact.bs.js":3,"bs-platform/lib/js/pervasives.js":6,"./rereactDom.bs.js":4}],0:[function(require,module,exports) {
 var global = (1, eval)('this');
 var OldModule = module.bundle.Module;
 function Module() {
@@ -6917,7 +6968,7 @@ function Module() {
 module.bundle.Module = Module;
 
 if (!module.bundle.parent && typeof WebSocket !== 'undefined') {
-  var ws = new WebSocket('ws://' + window.location.hostname + ':51489/');
+  var ws = new WebSocket('ws://' + window.location.hostname + ':51821/');
   ws.onmessage = function(event) {
     var data = JSON.parse(event.data);
 

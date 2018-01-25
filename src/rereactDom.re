@@ -3,15 +3,18 @@ open Rereact;
 open Bs_webapi.Dom;
 
 type renderedElement =
-  | IFlat(list(instance))
+  | IFlat(list(opaqueInstance))
   | INested(string, list(renderedElement))
-and instance = {
-  component: option(component),
+and instance('state, 'action) = {
+  component: option(component('state, 'action)),
   element,
+  iState: 'state,
   instanceSubTree: renderedElement,
   domElement: Dom.element,
   subElements: reactElement
-};
+}
+and opaqueInstance =
+  | Instance(instance('state, 'action)): opaqueInstance;
 
 let createDomElement =
     (
@@ -70,6 +73,40 @@ let addProps = (domElement: Dom.element, props) => {
   }
 };
 
+let createSelf = (~instance) : self(_) => {
+  state: instance.iState,
+  reduce: (payloadToAction, payload) => {
+    let action = payloadToAction(payload);
+    Js.log(payloadToAction);
+    switch instance.component {
+    | Some(component) =>
+      let stateUpdate = component.reducer(action);
+      Js.log(stateUpdate)
+    | None => ()
+    }
+  },
+  send: (action) =>
+    switch instance.component {
+    | Some(component) =>
+      let stateUpdate = component.reducer(action, instance.iState);
+      Js.log(stateUpdate);
+      ()
+    | None => ()
+    }
+};
+
+let createInstance = (~component, ~element, ~instanceSubTree, ~subElements) => {
+  let iState = component.initialState();
+  {
+    component: Some(component),
+    element,
+    domElement: Document.createElement("span", document),
+    iState,
+    instanceSubTree,
+    subElements
+  }
+};
+
 let rec mapReactElement = (parentElement: Dom.element, reactElement) =>
   switch reactElement {
   | Flat(l) => IFlat(List.map(reconcile(parentElement), l))
@@ -83,31 +120,39 @@ let rec mapReactElement = (parentElement: Dom.element, reactElement) =>
       INested(name, List.map(mapReactElement(node), elements))
     }
   }
-and reconcile = (parentElement: Dom.element, element) : instance =>
+and reconcile = (parentElement: Dom.element, element) : opaqueInstance =>
   switch element {
   | Component(component) =>
-    let subElements = component.render();
+    let instance =
+      createInstance(~component, ~element, ~instanceSubTree=IFlat([]), ~subElements=Flat([]));
+    let self = createSelf(~instance);
+    let subElements = component.render(self);
     let instanceSubTree = renderReactElement(parentElement, subElements);
-    {component: Some(component), element, instanceSubTree, subElements, domElement: parentElement}
+    Instance({...instance, instanceSubTree, subElements, domElement: parentElement})
   | String(value) =>
     Element.setInnerText(parentElement, value);
-    {
+    Instance({
       component: None,
       element,
+      iState: (),
       instanceSubTree: IFlat([]),
       domElement: parentElement,
       subElements: Flat([])
-    }
+    })
   }
 and renderReactElement = (parentElement: Dom.element, reactElement) : renderedElement =>
   mapReactElement(parentElement, reactElement);
 
-let render = (reactElement, parentElement: Dom.element) =>
-  switch (Element.lastElementChild(parentElement)) {
-  | Some(childElement) =>
-    let _ = Element.removeChild(childElement, parentElement);
-    renderReactElement(parentElement, reactElement)
-  | None =>
-    Js.log("No child");
-    renderReactElement(parentElement, reactElement)
-  };
+let globalInstance = ref(IFlat([]));
+
+let render = (reactElement, parentElement: Dom.element) => {
+  let instance =
+    switch (Element.lastElementChild(parentElement)) {
+    | Some(childElement) =>
+      let _ = Element.removeChild(childElement, parentElement);
+      renderReactElement(parentElement, reactElement)
+    | None => renderReactElement(parentElement, reactElement)
+    };
+  globalInstance := instance;
+  instance
+};

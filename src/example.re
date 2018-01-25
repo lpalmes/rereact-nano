@@ -1,46 +1,40 @@
 open RereactDom;
 
-module Test = {
-  let component = Rereact.statelessComponent("Test");
-  let createElement = (~name="Reason", ~children, _) =>
-    Rereact.element({
-      ...component,
-      render: () =>
-        <div> <h4> (Rereact.stringToElement(name)) </h4> (Rereact.listToElement(children)) </div>
-    });
-};
-
 module Sample = {
-  let component = Rereact.statelessComponent("Sample");
-  let createElement = (~name, ~children, _) =>
+  type superState = {elements: list(int)};
+  type action =
+    | Add(int)
+    | Remove(int)
+    | Empty;
+  let createElement = (~children as _, _) =>
     Rereact.element({
-      ...component,
-      render: () =>
+      debugName: "Sample",
+      initialState: () => {elements: [1, 2, 4, 5]},
+      reducer: (action: action, state) =>
+        switch action {
+        | Add(value) => Rereact.Update({elements: [value, ...state.elements]})
+        | Remove(value) => Rereact.Update({elements: [value, ...state.elements]})
+        | Empty => Rereact.Update({elements: []})
+        },
+      render: ({state, send}) =>
         <div>
+          <button onClick=((_) => send(Add(10)))> (Rereact.stringToElement("click me")) </button>
           (
             Rereact.listToElement(
               List.map(
                 (e) => <div> (Rereact.stringToElement(string_of_int(e))) </div>,
-                [1, 2, 3, 4, 5]
+                state.elements
               )
             )
           )
-          <Test>
-            <button onClick=((_) => print_endline("hello"))>
-              (Rereact.stringToElement("click me"))
-            </button>
-          </Test>
-          <input value="Hello my friend" onChange=((e) => Js.log(e)) />
         </div>
     });
 };
 
-let numberOfRenders = ref(0);
-
 let render = () =>
   switch (Bs_webapi.Dom.Document.getElementById("container", Bs_webapi.Dom.document)) {
   | Some(dom) =>
-    let instance = render(<Sample name="Test" />, dom);
+    let instance = render(<Sample />, dom);
     Js.log(instance)
   | None => print_endline("No dom element found :(")
   };
@@ -52,17 +46,4 @@ module ParcelModule = {
 
 render();
 
-ParcelModule.dispose(
-  () => {
-    let newValue = numberOfRenders^ + 1;
-    numberOfRenders := newValue
-  }
-);
-
-ParcelModule.accept(
-  () => {
-    render();
-    numberOfRenders := numberOfRenders^ + 1;
-    Js.log(numberOfRenders)
-  }
-);
+ParcelModule.accept(render);

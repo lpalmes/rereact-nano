@@ -92,6 +92,46 @@ function addProps(domElement, props) {
   }
 }
 
+function createSelf(instance) {
+  return /* record */[
+          /* state */instance[/* iState */2],
+          /* reduce */(function (payloadToAction, payload) {
+              var action = Curry._1(payloadToAction, payload);
+              console.log(payloadToAction);
+              var match = instance[/* component */0];
+              if (match) {
+                var stateUpdate = Curry._1(match[0][/* reducer */3], action);
+                console.log(stateUpdate);
+                return /* () */0;
+              } else {
+                return /* () */0;
+              }
+            }),
+          /* send */(function (action) {
+              var match = instance[/* component */0];
+              if (match) {
+                var stateUpdate = Curry._2(match[0][/* reducer */3], action, instance[/* iState */2]);
+                console.log(stateUpdate);
+                return /* () */0;
+              } else {
+                return /* () */0;
+              }
+            })
+        ];
+}
+
+function createInstance(component, element, instanceSubTree, subElements) {
+  var iState = Curry._1(component[/* initialState */2], /* () */0);
+  return /* record */[
+          /* component : Some */[component],
+          /* element */element,
+          /* iState */iState,
+          /* instanceSubTree */instanceSubTree,
+          /* domElement */document.createElement("span"),
+          /* subElements */subElements
+        ];
+}
+
 function mapReactElement(parentElement, reactElement) {
   if (reactElement.tag) {
     var elements = reactElement[2];
@@ -124,38 +164,40 @@ function mapReactElement(parentElement, reactElement) {
 function reconcile(parentElement, element) {
   if (element.tag) {
     var component = element[0];
-    var subElements = Curry._1(component[/* render */1], /* () */0);
+    var instance = createInstance(component, element, /* IFlat */Block.__(0, [/* [] */0]), /* Flat */Block.__(0, [/* [] */0]));
+    var self = createSelf(instance);
+    var subElements = Curry._1(component[/* render */1], self);
     var instanceSubTree = mapReactElement(parentElement, subElements);
-    return /* record */[
-            /* component : Some */[component],
-            /* element */element,
-            /* instanceSubTree */instanceSubTree,
-            /* domElement */parentElement,
-            /* subElements */subElements
-          ];
+    return /* Instance */[/* record */[
+              /* component */instance[/* component */0],
+              /* element */instance[/* element */1],
+              /* iState */instance[/* iState */2],
+              /* instanceSubTree */instanceSubTree,
+              /* domElement */parentElement,
+              /* subElements */subElements
+            ]];
   } else {
     parentElement.innerText = element[0];
-    return /* record */[
-            /* component : None */0,
-            /* element */element,
-            /* instanceSubTree : IFlat */Block.__(0, [/* [] */0]),
-            /* domElement */parentElement,
-            /* subElements : Flat */Block.__(0, [/* [] */0])
-          ];
+    return /* Instance */[/* record */[
+              /* component : None */0,
+              /* element */element,
+              /* iState : () */0,
+              /* instanceSubTree : IFlat */Block.__(0, [/* [] */0]),
+              /* domElement */parentElement,
+              /* subElements : Flat */Block.__(0, [/* [] */0])
+            ]];
   }
 }
 
 var renderReactElement = mapReactElement;
 
+var globalInstance = [/* IFlat */Block.__(0, [/* [] */0])];
+
 function render(reactElement, parentElement) {
   var match = parentElement.lastElementChild;
-  if (match !== null) {
-    parentElement.removeChild(match);
-    return mapReactElement(parentElement, reactElement);
-  } else {
-    console.log("No child");
-    return mapReactElement(parentElement, reactElement);
-  }
+  var instance = match !== null ? (parentElement.removeChild(match), mapReactElement(parentElement, reactElement)) : mapReactElement(parentElement, reactElement);
+  globalInstance[0] = instance;
+  return instance;
 }
 
 exports.createDomElement   = createDomElement;
@@ -173,8 +215,11 @@ exports.img                = img;
 exports.button             = button;
 exports.input              = input;
 exports.addProps           = addProps;
+exports.createSelf         = createSelf;
+exports.createInstance     = createInstance;
 exports.mapReactElement    = mapReactElement;
 exports.reconcile          = reconcile;
 exports.renderReactElement = renderReactElement;
+exports.globalInstance     = globalInstance;
 exports.render             = render;
 /* No side effect */
