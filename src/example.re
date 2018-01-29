@@ -1,5 +1,29 @@
 open RereactDom;
 
+module MiniTest = {
+  type superState = int;
+  type action =
+    | Increment(int)
+    | Decrement(int);
+  let createElement = (~children as _, _) =>
+    Rereact.element({
+      debugName: "Sample",
+      initialState: () => 1,
+      reducer: (action: action, state) =>
+        switch action {
+        | Increment(value) => Rereact.Update(state + value)
+        | Decrement(value) => Rereact.Update(state - value)
+        },
+      render: ({state, send}) =>
+        <div>
+          <button onClick=((_) => send(Increment(10)))>
+            (Rereact.stringToElement("Increment"))
+          </button>
+          <span> (Rereact.stringToElement(string_of_int(state))) </span>
+        </div>
+    });
+};
+
 module Sample = {
   type superState = {elements: list(int)};
   type action =
@@ -18,6 +42,7 @@ module Sample = {
         },
       render: ({state, send}) =>
         <div>
+          <MiniTest />
           <button onClick=((_) => send(Add(10)))> (Rereact.stringToElement("click me")) </button>
           (
             Rereact.listToElement(

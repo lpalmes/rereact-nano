@@ -4,17 +4,20 @@ open Bs_webapi.Dom;
 
 type renderedElement =
   | IFlat(list(opaqueInstance))
-  | INested(string, list(renderedElement))
+  | INested(string, list(renderedElement), Dom.element)
 and instance('state, 'action) = {
   component: option(component('state, 'action)),
   element,
   iState: 'state,
   instanceSubTree: renderedElement,
   domElement: Dom.element,
-  subElements: reactElement
+  subElements: reactElement,
+  pendingStateUpdates: ref(list(('state => update('state, 'action))))
 }
 and opaqueInstance =
   | Instance(instance('state, 'action)): opaqueInstance;
+
+let globalInstance = ref(IFlat([]));
 
 let createDomElement =
     (
@@ -75,23 +78,21 @@ let addProps = (domElement: Dom.element, props) => {
 
 let createSelf = (~instance) : self(_) => {
   state: instance.iState,
-  reduce: (payloadToAction, payload) => {
-    let action = payloadToAction(payload);
-    Js.log(payloadToAction);
+  reduce: (payloadToAction, payload) =>
     switch instance.component {
     | Some(component) =>
+      let action = payloadToAction(payload);
       let stateUpdate = component.reducer(action);
-      Js.log(stateUpdate)
-    | None => ()
-    }
-  },
+      instance.pendingStateUpdates := [stateUpdate, ...instance.pendingStateUpdates^]
+    | _ => ()
+    },
   send: (action) =>
     switch instance.component {
     | Some(component) =>
-      let stateUpdate = component.reducer(action, instance.iState);
-      Js.log(stateUpdate);
-      ()
-    | None => ()
+      let stateUpdate = component.reducer(action);
+      instance.pendingStateUpdates := [stateUpdate, ...instance.pendingStateUpdates^];
+      Js.log(Array.of_list(instance.pendingStateUpdates^))
+    | _ => ()
     }
 };
 
@@ -103,21 +104,38 @@ let createInstance = (~component, ~element, ~instanceSubTree, ~subElements) => {
     domElement: Document.createElement("span", document),
     iState,
     instanceSubTree,
-    subElements
+    subElements,
+    pendingStateUpdates: ref([])
   }
 };
 
-let rec mapReactElement = (parentElement: Dom.element, reactElement) =>
+let rec mapRenderedElement = (f, renderedElement) =>
+  switch renderedElement {
+  | IFlat(l) =>
+    let nextL = List.map(f, l);
+    let unchanged = List.for_all2((===), l, nextL);
+    unchanged ? renderedElement : IFlat(nextL)
+  | INested(s, l, d) =>
+    let nextL = List.map(mapRenderedElement(f), l);
+    let unchanged = List.for_all2((===), l, nextL);
+    unchanged ? renderedElement : INested(s, nextL, d)
+  };
+
+let rec renderReactElement = (parentElement: Dom.element, reactElement) : renderedElement =>
   switch reactElement {
   | Flat(l) => IFlat(List.map(reconcile(parentElement), l))
   | Nested(name, props, elements) =>
     if (name == "List") {
-      INested(name, List.map(mapReactElement(parentElement), elements))
+      INested(
+        name,
+        List.map(renderReactElement(parentElement), elements),
+        Document.createElement("span", document)
+      )
     } else {
       let node = Document.createElement(name, document);
       Element.appendChild(node, parentElement);
       addProps(node, props);
-      INested(name, List.map(mapReactElement(node), elements))
+      INested(name, List.map(renderReactElement(node), elements), node)
     }
   }
 and reconcile = (parentElement: Dom.element, element) : opaqueInstance =>
@@ -137,13 +155,74 @@ and reconcile = (parentElement: Dom.element, element) : opaqueInstance =>
       iState: (),
       instanceSubTree: IFlat([]),
       domElement: parentElement,
-      subElements: Flat([])
+      subElements: Flat([]),
+      pendingStateUpdates: ref([])
+    })
+  };
+
+let executePendingStateUpdates = (opaqueInstance) => {
+  let Instance(instance) = opaqueInstance;
+  let executeUpdate = (~state, stateUpdate) =>
+    switch (stateUpdate(state)) {
+    | NoUpdate => state
+    | Update(newState) => newState
+    };
+  let rec executeUpdates = (~state, stateUpdates) =>
+    switch stateUpdates {
+    | [] => state
+    | [stateUpdate, ...otherStateUpdates] =>
+      let nextState = executeUpdate(~state, stateUpdate);
+      executeUpdates(~state=nextState, otherStateUpdates)
+    };
+  let pendingUpdates = List.rev(instance.pendingStateUpdates^);
+  instance.pendingStateUpdates := [];
+  let nextState = executeUpdates(~state=instance.iState, pendingUpdates);
+  instance.iState === nextState ? opaqueInstance : Instance({...instance, iState: nextState})
+};
+
+let flushPendingUpdatesFromInstance = (instance) => executePendingStateUpdates(instance);
+
+let flushPendingUpdates = (renderedElement) =>
+  mapRenderedElement(flushPendingUpdatesFromInstance, renderedElement);
+
+let rec renderRenderedElement = (renderedElement) =>
+  switch renderedElement {
+  | IFlat(l) => IFlat(l)
+  | INested(name, elements, d) =>
+    if (name == "List") {
+      INested(name, List.map(renderRenderedElement, elements), d)
+    } else {
+      let node = Document.createElement(name, document);
+      Element.appendChild(node, d);
+      INested(name, List.map(renderRenderedElement, elements), node)
+    }
+  }
+and reconcileRenderedElement = (Instance(instance)) : opaqueInstance => {
+  let {domElement, element} = instance;
+  switch element {
+  | Component(component) =>
+    let self = createSelf(~instance);
+    let subElements = component.render(self);
+    let instanceSubTree = renderReactElement(domElement, subElements);
+    Instance({...instance, instanceSubTree, subElements, domElement})
+  | String(value) =>
+    Element.setInnerText(domElement, value);
+    Instance({
+      component: None,
+      element,
+      iState: (),
+      instanceSubTree: IFlat([]),
+      domElement,
+      subElements: Flat([]),
+      pendingStateUpdates: ref([])
     })
   }
-and renderReactElement = (parentElement: Dom.element, reactElement) : renderedElement =>
-  mapReactElement(parentElement, reactElement);
+};
 
-let globalInstance = ref(IFlat([]));
+let rerender = (renderedElement) => {
+  let rendered = flushPendingUpdates(renderedElement);
+  Js.log(rendered)
+};
 
 let render = (reactElement, parentElement: Dom.element) => {
   let instance =

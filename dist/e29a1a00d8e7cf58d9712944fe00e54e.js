@@ -69,7 +69,7 @@ require = (function (modules, cache, entry) {
 
   // Override the current require with this new one
   return newRequire;
-})({12:[function(require,module,exports) {
+})({10:[function(require,module,exports) {
 'use strict';
 
 
@@ -287,7 +287,7 @@ exports.caml_array_get    = caml_array_get;
 exports.caml_array_set    = caml_array_set;
 /* No side effect */
 
-},{"./caml_builtin_exceptions.js":12}],9:[function(require,module,exports) {
+},{"./caml_builtin_exceptions.js":10}],7:[function(require,module,exports) {
 'use strict';
 
 var Caml_array = require("./caml_array.js");
@@ -936,7 +936,7 @@ function __(tag, block) {
 exports.__ = __;
 /* No side effect */
 
-},{}],13:[function(require,module,exports) {
+},{}],15:[function(require,module,exports) {
 'use strict';
 
 var Block                   = require("./block.js");
@@ -1247,7 +1247,7 @@ exports.caml_lessthan          = caml_lessthan;
 exports.caml_lessequal         = caml_lessequal;
 /* No side effect */
 
-},{"./block.js":8,"./caml_builtin_exceptions.js":12}],21:[function(require,module,exports) {
+},{"./block.js":8,"./caml_builtin_exceptions.js":10}],20:[function(require,module,exports) {
 
 // shim for using process in browser
 var process = module.exports = {};
@@ -1434,7 +1434,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],10:[function(require,module,exports) {
+},{}],11:[function(require,module,exports) {
 var process = require("process");
 'use strict';
 
@@ -1567,7 +1567,7 @@ exports.caml_ml_input_char          = caml_ml_input_char;
 exports.caml_ml_out_channels_list   = caml_ml_out_channels_list;
 /* stdin Not a pure module */
 
-},{"./curry.js":9,"./caml_builtin_exceptions.js":12,"process":21}],11:[function(require,module,exports) {
+},{"./curry.js":7,"./caml_builtin_exceptions.js":10,"process":20}],16:[function(require,module,exports) {
 var process = require("process");
 'use strict';
 
@@ -1669,7 +1669,7 @@ exports.caml_sys_is_directory   = caml_sys_is_directory;
 exports.caml_sys_file_exists    = caml_sys_file_exists;
 /* No side effect */
 
-},{"./caml_builtin_exceptions.js":12,"process":21}],24:[function(require,module,exports) {
+},{"./caml_builtin_exceptions.js":10,"process":20}],22:[function(require,module,exports) {
 'use strict';
 
 var Caml_builtin_exceptions = require("./caml_builtin_exceptions.js");
@@ -1713,7 +1713,7 @@ exports.caml_nativeint_bswap = caml_nativeint_bswap;
 exports.imul                 = imul;
 /* imul Not a pure module */
 
-},{"./caml_builtin_exceptions.js":12}],22:[function(require,module,exports) {
+},{"./caml_builtin_exceptions.js":10}],24:[function(require,module,exports) {
 'use strict';
 
 
@@ -2348,7 +2348,7 @@ exports.bits_of_float = bits_of_float;
 exports.get64         = get64;
 /* two_ptr_32_dbl Not a pure module */
 
-},{"./caml_obj.js":13,"./caml_int32.js":24,"./caml_utils.js":22,"./caml_builtin_exceptions.js":12}],14:[function(require,module,exports) {
+},{"./caml_obj.js":15,"./caml_int32.js":22,"./caml_utils.js":24,"./caml_builtin_exceptions.js":10}],12:[function(require,module,exports) {
 'use strict';
 
 var Curry                   = require("./curry.js");
@@ -3151,7 +3151,7 @@ exports.caml_int64_of_string     = caml_int64_of_string;
 exports.caml_nativeint_of_string = caml_nativeint_of_string;
 /* float_of_string Not a pure module */
 
-},{"./curry.js":9,"./caml_int32.js":24,"./caml_int64.js":23,"./caml_utils.js":22,"./caml_builtin_exceptions.js":12}],17:[function(require,module,exports) {
+},{"./curry.js":7,"./caml_int32.js":22,"./caml_int64.js":23,"./caml_utils.js":24,"./caml_builtin_exceptions.js":10}],17:[function(require,module,exports) {
 'use strict';
 
 var Caml_builtin_exceptions = require("./caml_builtin_exceptions.js");
@@ -3356,7 +3356,7 @@ exports.string_of_char            = string_of_char;
 exports.get                       = get;
 /* No side effect */
 
-},{"./caml_builtin_exceptions.js":12}],15:[function(require,module,exports) {
+},{"./caml_builtin_exceptions.js":10}],13:[function(require,module,exports) {
 'use strict';
 
 
@@ -3404,7 +3404,7 @@ exports.create                       = create;
 exports.isCamlExceptionOrOpenVariant = isCamlExceptionOrOpenVariant;
 /* No side effect */
 
-},{}],16:[function(require,module,exports) {
+},{}],14:[function(require,module,exports) {
 'use strict';
 
 
@@ -4339,7 +4339,7 @@ exports.unsafe_really_input = unsafe_really_input;
 exports.do_at_exit          = do_at_exit;
 /* No side effect */
 
-},{"./curry.js":9,"./caml_io.js":10,"./caml_obj.js":13,"./caml_sys.js":11,"./caml_format.js":14,"./caml_string.js":17,"./caml_exceptions.js":15,"./caml_missing_polyfill.js":16,"./caml_builtin_exceptions.js":12,"./camlinternalFormatBasics.js":18}],5:[function(require,module,exports) {
+},{"./curry.js":7,"./caml_io.js":11,"./caml_obj.js":15,"./caml_sys.js":16,"./caml_format.js":12,"./caml_string.js":17,"./caml_exceptions.js":13,"./caml_missing_polyfill.js":14,"./caml_builtin_exceptions.js":10,"./camlinternalFormatBasics.js":18}],5:[function(require,module,exports) {
 'use strict';
 
 var Curry                   = require("./curry.js");
@@ -6032,7 +6032,7 @@ exports.sort_uniq    = sort_uniq;
 exports.merge        = merge;
 /* No side effect */
 
-},{"./curry.js":9,"./caml_obj.js":13,"./pervasives.js":6,"./caml_builtin_exceptions.js":12}],20:[function(require,module,exports) {
+},{"./curry.js":7,"./caml_obj.js":15,"./pervasives.js":6,"./caml_builtin_exceptions.js":10}],21:[function(require,module,exports) {
 'use strict';
 
 var Caml_exceptions = require("./caml_exceptions.js");
@@ -6089,7 +6089,7 @@ exports.raiseTypeError           = raiseTypeError;
 exports.raiseUriError            = raiseUriError;
 /* No side effect */
 
-},{"./caml_exceptions.js":15}],7:[function(require,module,exports) {
+},{"./caml_exceptions.js":13}],9:[function(require,module,exports) {
 'use strict';
 
 var Curry                   = require("./curry.js");
@@ -6523,7 +6523,7 @@ exports.stable_sort   = stable_sort;
 exports.fast_sort     = fast_sort;
 /* No side effect */
 
-},{"./curry.js":9,"./js_exn.js":20,"./caml_array.js":19,"./caml_exceptions.js":15,"./caml_builtin_exceptions.js":12}],3:[function(require,module,exports) {
+},{"./curry.js":7,"./js_exn.js":21,"./caml_array.js":19,"./caml_exceptions.js":13,"./caml_builtin_exceptions.js":10}],3:[function(require,module,exports) {
 // Generated by BUCKLESCRIPT VERSION 2.1.0, PLEASE EDIT WITH CARE
 'use strict';
 
@@ -6636,13 +6636,14 @@ exports.listToElement      = listToElement;
 exports.arrayToElement     = arrayToElement;
 /* No side effect */
 
-},{"bs-platform/lib/js/array.js":7,"bs-platform/lib/js/block.js":8,"bs-platform/lib/js/curry.js":9,"bs-platform/lib/js/caml_builtin_exceptions.js":12}],4:[function(require,module,exports) {
+},{"bs-platform/lib/js/array.js":9,"bs-platform/lib/js/block.js":8,"bs-platform/lib/js/curry.js":7,"bs-platform/lib/js/caml_builtin_exceptions.js":10}],4:[function(require,module,exports) {
 // Generated by BUCKLESCRIPT VERSION 2.1.0, PLEASE EDIT WITH CARE
 'use strict';
 
-var List  = require("bs-platform/lib/js/list.js");
-var Block = require("bs-platform/lib/js/block.js");
-var Curry = require("bs-platform/lib/js/curry.js");
+var List    = require("bs-platform/lib/js/list.js");
+var $$Array = require("bs-platform/lib/js/array.js");
+var Block   = require("bs-platform/lib/js/block.js");
+var Curry   = require("bs-platform/lib/js/curry.js");
 
 function createDomElement(name, id, value, onClick, onChange, children, _) {
   return /* Nested */Block.__(1, [
@@ -6735,12 +6736,14 @@ function createSelf(instance) {
   return /* record */[
           /* state */instance[/* iState */2],
           /* reduce */(function (payloadToAction, payload) {
-              var action = Curry._1(payloadToAction, payload);
-              console.log(payloadToAction);
               var match = instance[/* component */0];
               if (match) {
+                var action = Curry._1(payloadToAction, payload);
                 var stateUpdate = Curry._1(match[0][/* reducer */3], action);
-                console.log(stateUpdate);
+                instance[/* pendingStateUpdates */6][0] = /* :: */[
+                  stateUpdate,
+                  instance[/* pendingStateUpdates */6][0]
+                ];
                 return /* () */0;
               } else {
                 return /* () */0;
@@ -6749,8 +6752,12 @@ function createSelf(instance) {
           /* send */(function (action) {
               var match = instance[/* component */0];
               if (match) {
-                var stateUpdate = Curry._2(match[0][/* reducer */3], action, instance[/* iState */2]);
-                console.log(stateUpdate);
+                var stateUpdate = Curry._1(match[0][/* reducer */3], action);
+                instance[/* pendingStateUpdates */6][0] = /* :: */[
+                  stateUpdate,
+                  instance[/* pendingStateUpdates */6][0]
+                ];
+                console.log($$Array.of_list(instance[/* pendingStateUpdates */6][0]));
                 return /* () */0;
               } else {
                 return /* () */0;
@@ -6767,11 +6774,56 @@ function createInstance(component, element, instanceSubTree, subElements) {
           /* iState */iState,
           /* instanceSubTree */instanceSubTree,
           /* domElement */document.createElement("span"),
-          /* subElements */subElements
+          /* subElements */subElements,
+          /* pendingStateUpdates */[/* [] */0]
         ];
 }
 
-function mapReactElement(parentElement, reactElement) {
+function mapReactElement(f, reactElement) {
+  if (reactElement.tag) {
+    return /* INested */Block.__(1, [
+              reactElement[0],
+              List.map((function (param) {
+                      return mapReactElement(f, param);
+                    }), reactElement[2])
+            ]);
+  } else {
+    return /* IFlat */Block.__(0, [List.map(f, reactElement[0])]);
+  }
+}
+
+function mapRenderedElement(f, renderedElement) {
+  if (renderedElement.tag) {
+    var l = renderedElement[1];
+    var nextL = List.map((function (param) {
+            return mapRenderedElement(f, param);
+          }), l);
+    var unchanged = List.for_all2((function (prim, prim$1) {
+            return +(prim === prim$1);
+          }), l, nextL);
+    if (unchanged !== 0) {
+      return renderedElement;
+    } else {
+      return /* INested */Block.__(1, [
+                renderedElement[0],
+                nextL
+              ]);
+    }
+  } else {
+    var l$1 = renderedElement[0];
+    var nextL$1 = List.map(f, l$1);
+    var unchanged$1 = List.for_all2((function (prim, prim$1) {
+            return +(prim === prim$1);
+          }), l$1, nextL$1);
+    if (unchanged$1 !== 0) {
+      return renderedElement;
+    } else {
+      return /* IFlat */Block.__(0, [nextL$1]);
+    }
+  }
+}
+
+function renderReactElement(parentElement, reactElement) {
   if (reactElement.tag) {
     var elements = reactElement[2];
     var name = reactElement[0];
@@ -6779,7 +6831,7 @@ function mapReactElement(parentElement, reactElement) {
       return /* INested */Block.__(1, [
                 name,
                 List.map((function (param) {
-                        return mapReactElement(parentElement, param);
+                        return renderReactElement(parentElement, param);
                       }), elements)
               ]);
     } else {
@@ -6789,7 +6841,7 @@ function mapReactElement(parentElement, reactElement) {
       return /* INested */Block.__(1, [
                 name,
                 List.map((function (param) {
-                        return mapReactElement(node, param);
+                        return renderReactElement(node, param);
                       }), elements)
               ]);
     }
@@ -6806,14 +6858,15 @@ function reconcile(parentElement, element) {
     var instance = createInstance(component, element, /* IFlat */Block.__(0, [/* [] */0]), /* Flat */Block.__(0, [/* [] */0]));
     var self = createSelf(instance);
     var subElements = Curry._1(component[/* render */1], self);
-    var instanceSubTree = mapReactElement(parentElement, subElements);
+    var instanceSubTree = renderReactElement(parentElement, subElements);
     return /* Instance */[/* record */[
               /* component */instance[/* component */0],
               /* element */instance[/* element */1],
               /* iState */instance[/* iState */2],
               /* instanceSubTree */instanceSubTree,
               /* domElement */parentElement,
-              /* subElements */subElements
+              /* subElements */subElements,
+              /* pendingStateUpdates */instance[/* pendingStateUpdates */6]
             ]];
   } else {
     parentElement.innerText = element[0];
@@ -6823,47 +6876,104 @@ function reconcile(parentElement, element) {
               /* iState : () */0,
               /* instanceSubTree : IFlat */Block.__(0, [/* [] */0]),
               /* domElement */parentElement,
-              /* subElements : Flat */Block.__(0, [/* [] */0])
+              /* subElements : Flat */Block.__(0, [/* [] */0]),
+              /* pendingStateUpdates */[/* [] */0]
             ]];
   }
 }
 
-var renderReactElement = mapReactElement;
-
 var globalInstance = [/* IFlat */Block.__(0, [/* [] */0])];
+
+function executePendingStateUpdates(opaqueInstance) {
+  var instance = opaqueInstance[0];
+  var executeUpdate = function (state, stateUpdate) {
+    var match = Curry._1(stateUpdate, state);
+    if (match) {
+      return match[0];
+    } else {
+      return state;
+    }
+  };
+  var executeUpdates = function (_state, _stateUpdates) {
+    while(true) {
+      var stateUpdates = _stateUpdates;
+      var state = _state;
+      if (stateUpdates) {
+        var nextState = executeUpdate(state, stateUpdates[0]);
+        _stateUpdates = stateUpdates[1];
+        _state = nextState;
+        continue ;
+        
+      } else {
+        return state;
+      }
+    };
+  };
+  var pendingUpdates = List.rev(instance[/* pendingStateUpdates */6][0]);
+  instance[/* pendingStateUpdates */6][0] = /* [] */0;
+  var nextState = executeUpdates(instance[/* iState */2], pendingUpdates);
+  var match = +(instance[/* iState */2] === nextState);
+  if (match !== 0) {
+    return opaqueInstance;
+  } else {
+    var newrecord = instance.slice();
+    return /* Instance */[(newrecord[/* iState */2] = nextState, newrecord)];
+  }
+}
+
+var flushPendingUpdatesFromInstance = executePendingStateUpdates;
+
+function flushPendingUpdates(renderedElement) {
+  return mapRenderedElement(flushPendingUpdatesFromInstance, renderedElement);
+}
+
+function rerender(renderedElement) {
+  if (renderedElement.tag) {
+    return List.iter(rerender, renderedElement[1]);
+  } else {
+    return List.iter((function () {
+                  return /* () */0;
+                }), renderedElement[0]);
+  }
+}
 
 function render(reactElement, parentElement) {
   var match = parentElement.lastElementChild;
-  var instance = match !== null ? (parentElement.removeChild(match), mapReactElement(parentElement, reactElement)) : mapReactElement(parentElement, reactElement);
+  var instance = match !== null ? (parentElement.removeChild(match), renderReactElement(parentElement, reactElement)) : renderReactElement(parentElement, reactElement);
   globalInstance[0] = instance;
   return instance;
 }
 
-exports.createDomElement   = createDomElement;
-exports.div                = div;
-exports.h1                 = h1;
-exports.h2                 = h2;
-exports.h3                 = h3;
-exports.h4                 = h4;
-exports.h5                 = h5;
-exports.h6                 = h6;
-exports.span               = span;
-exports.ul                 = ul;
-exports.li                 = li;
-exports.img                = img;
-exports.button             = button;
-exports.input              = input;
-exports.addProps           = addProps;
-exports.createSelf         = createSelf;
-exports.createInstance     = createInstance;
-exports.mapReactElement    = mapReactElement;
-exports.reconcile          = reconcile;
-exports.renderReactElement = renderReactElement;
-exports.globalInstance     = globalInstance;
-exports.render             = render;
+exports.createDomElement                = createDomElement;
+exports.div                             = div;
+exports.h1                              = h1;
+exports.h2                              = h2;
+exports.h3                              = h3;
+exports.h4                              = h4;
+exports.h5                              = h5;
+exports.h6                              = h6;
+exports.span                            = span;
+exports.ul                              = ul;
+exports.li                              = li;
+exports.img                             = img;
+exports.button                          = button;
+exports.input                           = input;
+exports.addProps                        = addProps;
+exports.createSelf                      = createSelf;
+exports.createInstance                  = createInstance;
+exports.mapReactElement                 = mapReactElement;
+exports.mapRenderedElement              = mapRenderedElement;
+exports.renderReactElement              = renderReactElement;
+exports.reconcile                       = reconcile;
+exports.globalInstance                  = globalInstance;
+exports.executePendingStateUpdates      = executePendingStateUpdates;
+exports.flushPendingUpdatesFromInstance = flushPendingUpdatesFromInstance;
+exports.flushPendingUpdates             = flushPendingUpdates;
+exports.rerender                        = rerender;
+exports.render                          = render;
 /* No side effect */
 
-},{"bs-platform/lib/js/list.js":5,"bs-platform/lib/js/block.js":8,"bs-platform/lib/js/curry.js":9}],2:[function(require,module,exports) {
+},{"bs-platform/lib/js/list.js":5,"bs-platform/lib/js/array.js":9,"bs-platform/lib/js/block.js":8,"bs-platform/lib/js/curry.js":7}],2:[function(require,module,exports) {
 // Generated by BUCKLESCRIPT VERSION 2.1.0, PLEASE EDIT WITH CARE
 'use strict';
 
@@ -6881,19 +6991,58 @@ function createElement(_, _$1) {
                   var send = param[/* send */2];
                   return RereactDom.div(/* None */0, /* None */0, /* None */0, /* None */0, /* :: */[
                               RereactDom.button(/* None */0, /* None */0, /* Some */[(function () {
-                                        return Curry._1(send, /* Add */Block.__(0, [10]));
+                                        return Curry._1(send, /* Increment */Block.__(0, [10]));
                                       })], /* None */0, /* :: */[
-                                    Rereact.stringToElement("click me"),
+                                    Rereact.stringToElement("Increment"),
                                     /* [] */0
                                   ], /* () */0),
                               /* :: */[
-                                Rereact.listToElement(List.map((function (e) {
-                                            return RereactDom.div(/* None */0, /* None */0, /* None */0, /* None */0, /* :: */[
-                                                        Rereact.stringToElement(Pervasives.string_of_int(e)),
-                                                        /* [] */0
-                                                      ], /* () */0);
-                                          }), param[/* state */0][/* elements */0])),
+                                RereactDom.span(/* None */0, /* None */0, /* None */0, /* None */0, /* :: */[
+                                      Rereact.stringToElement(Pervasives.string_of_int(param[/* state */0])),
+                                      /* [] */0
+                                    ], /* () */0),
                                 /* [] */0
+                              ]
+                            ], /* () */0);
+                }),
+              /* initialState */(function () {
+                  return 1;
+                }),
+              /* reducer */(function (action, state) {
+                  if (action.tag) {
+                    return /* Update */[state - action[0] | 0];
+                  } else {
+                    return /* Update */[state + action[0] | 0];
+                  }
+                })
+            ]);
+}
+
+var MiniTest = /* module */[/* createElement */createElement];
+
+function createElement$1(_, _$1) {
+  return Rereact.element(/* record */[
+              /* debugName */"Sample",
+              /* render */(function (param) {
+                  var send = param[/* send */2];
+                  return RereactDom.div(/* None */0, /* None */0, /* None */0, /* None */0, /* :: */[
+                              createElement(/* [] */0, /* () */0),
+                              /* :: */[
+                                RereactDom.button(/* None */0, /* None */0, /* Some */[(function () {
+                                          return Curry._1(send, /* Add */Block.__(0, [10]));
+                                        })], /* None */0, /* :: */[
+                                      Rereact.stringToElement("click me"),
+                                      /* [] */0
+                                    ], /* () */0),
+                                /* :: */[
+                                  Rereact.listToElement(List.map((function (e) {
+                                              return RereactDom.div(/* None */0, /* None */0, /* None */0, /* None */0, /* :: */[
+                                                          Rereact.stringToElement(Pervasives.string_of_int(e)),
+                                                          /* [] */0
+                                                        ], /* () */0);
+                                            }), param[/* state */0][/* elements */0])),
+                                  /* [] */0
+                                ]
                               ]
                             ], /* () */0);
                 }),
@@ -6925,12 +7074,12 @@ function createElement(_, _$1) {
             ]);
 }
 
-var Sample = /* module */[/* createElement */createElement];
+var Sample = /* module */[/* createElement */createElement$1];
 
 function render() {
   var match = document.getElementById("container");
   if (match !== null) {
-    var instance = RereactDom.render(createElement(/* [] */0, /* () */0), match);
+    var instance = RereactDom.render(createElement$1(/* [] */0, /* () */0), match);
     console.log(instance);
     return /* () */0;
   } else {
@@ -6945,12 +7094,13 @@ render(/* () */0);
 
 module.hot.accept(render);
 
+exports.MiniTest     = MiniTest;
 exports.Sample       = Sample;
 exports.render       = render;
 exports.ParcelModule = ParcelModule;
 /*  Not a pure module */
 
-},{"bs-platform/lib/js/list.js":5,"bs-platform/lib/js/block.js":8,"bs-platform/lib/js/curry.js":9,"./rereact.bs.js":3,"bs-platform/lib/js/pervasives.js":6,"./rereactDom.bs.js":4}],0:[function(require,module,exports) {
+},{"bs-platform/lib/js/list.js":5,"bs-platform/lib/js/block.js":8,"bs-platform/lib/js/curry.js":7,"./rereact.bs.js":3,"bs-platform/lib/js/pervasives.js":6,"./rereactDom.bs.js":4}],0:[function(require,module,exports) {
 var global = (1, eval)('this');
 var OldModule = module.bundle.Module;
 function Module() {
@@ -6968,7 +7118,7 @@ function Module() {
 module.bundle.Module = Module;
 
 if (!module.bundle.parent && typeof WebSocket !== 'undefined') {
-  var ws = new WebSocket('ws://' + window.location.hostname + ':51821/');
+  var ws = new WebSocket('ws://' + window.location.hostname + ':64986/');
   ws.onmessage = function(event) {
     var data = JSON.parse(event.data);
 

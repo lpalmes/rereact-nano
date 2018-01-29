@@ -15,19 +15,58 @@ function createElement(_, _$1) {
                   var send = param[/* send */2];
                   return RereactDom.div(/* None */0, /* None */0, /* None */0, /* None */0, /* :: */[
                               RereactDom.button(/* None */0, /* None */0, /* Some */[(function () {
-                                        return Curry._1(send, /* Add */Block.__(0, [10]));
+                                        return Curry._1(send, /* Increment */Block.__(0, [10]));
                                       })], /* None */0, /* :: */[
-                                    Rereact.stringToElement("click me"),
+                                    Rereact.stringToElement("Increment"),
                                     /* [] */0
                                   ], /* () */0),
                               /* :: */[
-                                Rereact.listToElement(List.map((function (e) {
-                                            return RereactDom.div(/* None */0, /* None */0, /* None */0, /* None */0, /* :: */[
-                                                        Rereact.stringToElement(Pervasives.string_of_int(e)),
-                                                        /* [] */0
-                                                      ], /* () */0);
-                                          }), param[/* state */0][/* elements */0])),
+                                RereactDom.span(/* None */0, /* None */0, /* None */0, /* None */0, /* :: */[
+                                      Rereact.stringToElement(Pervasives.string_of_int(param[/* state */0])),
+                                      /* [] */0
+                                    ], /* () */0),
                                 /* [] */0
+                              ]
+                            ], /* () */0);
+                }),
+              /* initialState */(function () {
+                  return 1;
+                }),
+              /* reducer */(function (action, state) {
+                  if (action.tag) {
+                    return /* Update */[state - action[0] | 0];
+                  } else {
+                    return /* Update */[state + action[0] | 0];
+                  }
+                })
+            ]);
+}
+
+var MiniTest = /* module */[/* createElement */createElement];
+
+function createElement$1(_, _$1) {
+  return Rereact.element(/* record */[
+              /* debugName */"Sample",
+              /* render */(function (param) {
+                  var send = param[/* send */2];
+                  return RereactDom.div(/* None */0, /* None */0, /* None */0, /* None */0, /* :: */[
+                              createElement(/* [] */0, /* () */0),
+                              /* :: */[
+                                RereactDom.button(/* None */0, /* None */0, /* Some */[(function () {
+                                          return Curry._1(send, /* Add */Block.__(0, [10]));
+                                        })], /* None */0, /* :: */[
+                                      Rereact.stringToElement("click me"),
+                                      /* [] */0
+                                    ], /* () */0),
+                                /* :: */[
+                                  Rereact.listToElement(List.map((function (e) {
+                                              return RereactDom.div(/* None */0, /* None */0, /* None */0, /* None */0, /* :: */[
+                                                          Rereact.stringToElement(Pervasives.string_of_int(e)),
+                                                          /* [] */0
+                                                        ], /* () */0);
+                                            }), param[/* state */0][/* elements */0])),
+                                  /* [] */0
+                                ]
                               ]
                             ], /* () */0);
                 }),
@@ -59,12 +98,12 @@ function createElement(_, _$1) {
             ]);
 }
 
-var Sample = /* module */[/* createElement */createElement];
+var Sample = /* module */[/* createElement */createElement$1];
 
 function render() {
   var match = document.getElementById("container");
   if (match !== null) {
-    var instance = RereactDom.render(createElement(/* [] */0, /* () */0), match);
+    var instance = RereactDom.render(createElement$1(/* [] */0, /* () */0), match);
     console.log(instance);
     return /* () */0;
   } else {
@@ -79,6 +118,7 @@ render(/* () */0);
 
 module.hot.accept(render);
 
+exports.MiniTest     = MiniTest;
 exports.Sample       = Sample;
 exports.render       = render;
 exports.ParcelModule = ParcelModule;
