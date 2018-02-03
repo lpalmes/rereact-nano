@@ -12,7 +12,7 @@ and instance('state, 'action) = {
   instanceSubTree: renderedElement,
   domElement: Dom.element,
   subElements: reactElement,
-  pendingStateUpdates: ref(list(('state => update('state, 'action))))
+  pendingStateUpdates: ref(list('state => update('state, 'action)))
 }
 and opaqueInstance =
   | Instance(instance('state, 'action)): opaqueInstance;
@@ -24,8 +24,8 @@ let createDomElement =
       name,
       ~id: option(string)=?,
       ~value: option(string)=?,
-      ~onClick: option((Dom.event => unit))=?,
-      ~onChange: option((Dom.event => unit))=?,
+      ~onClick: option(Dom.event => unit)=?,
+      ~onChange: option(Dom.event => unit)=?,
       ~children: list(reactElement),
       _: unit
     ) =>
@@ -73,7 +73,7 @@ let addProps = (domElement: Dom.element, props) => {
   switch props.onChange {
   | Some(func) => Element.addEventListener("change", func, domElement)
   | None => ()
-  }
+  };
 };
 
 let createSelf = (~instance) : self(_) => {
@@ -83,15 +83,16 @@ let createSelf = (~instance) : self(_) => {
     | Some(component) =>
       let action = payloadToAction(payload);
       let stateUpdate = component.reducer(action);
-      instance.pendingStateUpdates := [stateUpdate, ...instance.pendingStateUpdates^]
+      instance.pendingStateUpdates :=
+        [stateUpdate, ...instance.pendingStateUpdates^];
     | _ => ()
     },
-  send: (action) =>
+  send: action =>
     switch instance.component {
     | Some(component) =>
       let stateUpdate = component.reducer(action);
-      instance.pendingStateUpdates := [stateUpdate, ...instance.pendingStateUpdates^];
-      Js.log(Array.of_list(instance.pendingStateUpdates^))
+      instance.pendingStateUpdates :=
+        [stateUpdate, ...instance.pendingStateUpdates^];
     | _ => ()
     }
 };
@@ -106,7 +107,7 @@ let createInstance = (~component, ~element, ~instanceSubTree, ~subElements) => {
     instanceSubTree,
     subElements,
     pendingStateUpdates: ref([])
-  }
+  };
 };
 
 let rec mapRenderedElement = (f, renderedElement) =>
@@ -114,14 +115,16 @@ let rec mapRenderedElement = (f, renderedElement) =>
   | IFlat(l) =>
     let nextL = List.map(f, l);
     let unchanged = List.for_all2((===), l, nextL);
-    unchanged ? renderedElement : IFlat(nextL)
+    unchanged ? renderedElement : IFlat(nextL);
   | INested(s, l, d) =>
     let nextL = List.map(mapRenderedElement(f), l);
     let unchanged = List.for_all2((===), l, nextL);
-    unchanged ? renderedElement : INested(s, nextL, d)
+    unchanged ? renderedElement : INested(s, nextL, d);
   };
 
-let rec renderReactElement = (parentElement: Dom.element, reactElement) : renderedElement =>
+let rec renderReactElement =
+        (parentElement: Dom.element, reactElement)
+        : renderedElement =>
   switch reactElement {
   | Flat(l) => IFlat(List.map(reconcile(parentElement), l))
   | Nested(name, props, elements) =>
@@ -130,23 +133,33 @@ let rec renderReactElement = (parentElement: Dom.element, reactElement) : render
         name,
         List.map(renderReactElement(parentElement), elements),
         Document.createElement("span", document)
-      )
+      );
     } else {
       let node = Document.createElement(name, document);
       Element.appendChild(node, parentElement);
       addProps(node, props);
-      INested(name, List.map(renderReactElement(node), elements), node)
+      INested(name, List.map(renderReactElement(node), elements), node);
     }
   }
 and reconcile = (parentElement: Dom.element, element) : opaqueInstance =>
   switch element {
   | Component(component) =>
     let instance =
-      createInstance(~component, ~element, ~instanceSubTree=IFlat([]), ~subElements=Flat([]));
+      createInstance(
+        ~component,
+        ~element,
+        ~instanceSubTree=IFlat([]),
+        ~subElements=Flat([])
+      );
     let self = createSelf(~instance);
     let subElements = component.render(self);
     let instanceSubTree = renderReactElement(parentElement, subElements);
-    Instance({...instance, instanceSubTree, subElements, domElement: parentElement})
+    Instance({
+      ...instance,
+      instanceSubTree,
+      subElements,
+      domElement: parentElement
+    });
   | String(value) =>
     Element.setInnerText(parentElement, value);
     Instance({
@@ -157,10 +170,10 @@ and reconcile = (parentElement: Dom.element, element) : opaqueInstance =>
       domElement: parentElement,
       subElements: Flat([]),
       pendingStateUpdates: ref([])
-    })
+    });
   };
 
-let executePendingStateUpdates = (opaqueInstance) => {
+let executePendingStateUpdates = opaqueInstance => {
   let Instance(instance) = opaqueInstance;
   let executeUpdate = (~state, stateUpdate) =>
     switch (stateUpdate(state)) {
@@ -172,29 +185,34 @@ let executePendingStateUpdates = (opaqueInstance) => {
     | [] => state
     | [stateUpdate, ...otherStateUpdates] =>
       let nextState = executeUpdate(~state, stateUpdate);
-      executeUpdates(~state=nextState, otherStateUpdates)
+      executeUpdates(~state=nextState, otherStateUpdates);
     };
   let pendingUpdates = List.rev(instance.pendingStateUpdates^);
   instance.pendingStateUpdates := [];
   let nextState = executeUpdates(~state=instance.iState, pendingUpdates);
-  instance.iState === nextState ? opaqueInstance : Instance({...instance, iState: nextState})
+  instance.iState === nextState ?
+    opaqueInstance : Instance({...instance, iState: nextState});
 };
 
-let flushPendingUpdatesFromInstance = (instance) => executePendingStateUpdates(instance);
+let flushPendingUpdatesFromInstance = instance => {
+  let Instance({iState}) as instance = executePendingStateUpdates(instance);
+  Js.log(iState);
+  instance;
+};
 
-let flushPendingUpdates = (renderedElement) =>
+let flushPendingUpdates = renderedElement =>
   mapRenderedElement(flushPendingUpdatesFromInstance, renderedElement);
 
-let rec renderRenderedElement = (renderedElement) =>
+let rec renderRenderedElement = renderedElement =>
   switch renderedElement {
-  | IFlat(l) => IFlat(l)
+  | IFlat(l) => IFlat(List.map(reconcileRenderedElement, l))
   | INested(name, elements, d) =>
     if (name == "List") {
-      INested(name, List.map(renderRenderedElement, elements), d)
+      INested(name, List.map(renderRenderedElement, elements), d);
     } else {
       let node = Document.createElement(name, document);
       Element.appendChild(node, d);
-      INested(name, List.map(renderRenderedElement, elements), node)
+      INested(name, List.map(renderRenderedElement, elements), d);
     }
   }
 and reconcileRenderedElement = (Instance(instance)) : opaqueInstance => {
@@ -202,9 +220,9 @@ and reconcileRenderedElement = (Instance(instance)) : opaqueInstance => {
   switch element {
   | Component(component) =>
     let self = createSelf(~instance);
-    let subElements = component.render(self);
+    let subElements = component.render(Obj.magic(self));
     let instanceSubTree = renderReactElement(domElement, subElements);
-    Instance({...instance, instanceSubTree, subElements, domElement})
+    Instance({...instance, instanceSubTree, subElements, domElement});
   | String(value) =>
     Element.setInnerText(domElement, value);
     Instance({
@@ -215,23 +233,31 @@ and reconcileRenderedElement = (Instance(instance)) : opaqueInstance => {
       domElement,
       subElements: Flat([]),
       pendingStateUpdates: ref([])
-    })
-  }
+    });
+  };
 };
 
-let rerender = (renderedElement) => {
-  let rendered = flushPendingUpdates(renderedElement);
-  Js.log(rendered)
-};
+let rerender = renderedElement => flushPendingUpdates(renderedElement);
 
 let render = (reactElement, parentElement: Dom.element) => {
   let instance =
     switch (Element.lastElementChild(parentElement)) {
     | Some(childElement) =>
       let _ = Element.removeChild(childElement, parentElement);
-      renderReactElement(parentElement, reactElement)
+      renderReactElement(parentElement, reactElement);
     | None => renderReactElement(parentElement, reactElement)
     };
   globalInstance := instance;
-  instance
+  let _ =
+    Js.Global.setInterval(
+      () => {
+        let newInstance = rerender(globalInstance^);
+        if (newInstance !== globalInstance^) {
+          renderRenderedElement(newInstance);
+          globalInstance := newInstance;
+        };
+      },
+      100
+    );
+  globalInstance;
 };

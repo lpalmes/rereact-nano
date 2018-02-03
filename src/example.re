@@ -7,66 +7,46 @@ module MiniTest = {
     | Decrement(int);
   let createElement = (~children as _, _) =>
     Rereact.element({
-      debugName: "Sample",
+      debugName: "MiniTest",
       initialState: () => 1,
       reducer: (action: action, state) =>
         switch action {
         | Increment(value) => Rereact.Update(state + value)
-        | Decrement(value) => Rereact.Update(state - value)
+        | Decrement(value) =>
+          if (state - value >= 0) {
+            Rereact.Update(state - value);
+          } else {
+            Rereact.NoUpdate;
+          }
         },
       render: ({state, send}) =>
         <div>
-          <button onClick=((_) => send(Increment(10)))>
+          <button onClick=((_) => send(Increment(1)))>
             (Rereact.stringToElement("Increment"))
           </button>
           <span> (Rereact.stringToElement(string_of_int(state))) </span>
-        </div>
-    });
-};
-
-module Sample = {
-  type superState = {elements: list(int)};
-  type action =
-    | Add(int)
-    | Remove(int)
-    | Empty;
-  let createElement = (~children as _, _) =>
-    Rereact.element({
-      debugName: "Sample",
-      initialState: () => {elements: [1, 2, 4, 5]},
-      reducer: (action: action, state) =>
-        switch action {
-        | Add(value) => Rereact.Update({elements: [value, ...state.elements]})
-        | Remove(value) => Rereact.Update({elements: [value, ...state.elements]})
-        | Empty => Rereact.Update({elements: []})
-        },
-      render: ({state, send}) =>
-        <div>
-          <MiniTest />
-          <button onClick=((_) => send(Add(10)))> (Rereact.stringToElement("click me")) </button>
-          (
-            Rereact.listToElement(
-              List.map(
-                (e) => <div> (Rereact.stringToElement(string_of_int(e))) </div>,
-                state.elements
-              )
-            )
-          )
+          <button onClick=((_) => send(Decrement(1)))>
+            (Rereact.stringToElement("Decrement"))
+          </button>
         </div>
     });
 };
 
 let render = () =>
-  switch (Bs_webapi.Dom.Document.getElementById("container", Bs_webapi.Dom.document)) {
+  switch (
+    Bs_webapi.Dom.Document.getElementById("container", Bs_webapi.Dom.document)
+  ) {
   | Some(dom) =>
-    let instance = render(<Sample />, dom);
-    Js.log(instance)
+    let instance = render(<MiniTest />, dom);
+    ();
   | None => print_endline("No dom element found :(")
   };
 
 module ParcelModule = {
-  [@bs.val] [@bs.scope "module.hot"] external dispose : (unit => unit) => unit = "";
-  [@bs.val] [@bs.scope "module.hot"] external accept : (unit => unit) => unit = "";
+  [@bs.val] [@bs.scope "module.hot"]
+  external dispose : (unit => unit) => unit = "";
+  [@bs.val] [@bs.scope "module.hot"]
+  external accept : (unit => unit) => unit = "";
 };
 
 render();
