@@ -69,19 +69,7 @@ require = (function (modules, cache, entry) {
 
   // Override the current require with this new one
   return newRequire;
-})({6:[function(require,module,exports) {
-'use strict';
-
-
-function __(tag, block) {
-  block.tag = tag;
-  return block;
-}
-
-exports.__ = __;
-/* No side effect */
-
-},{}],10:[function(require,module,exports) {
+})({7:[function(require,module,exports) {
 'use strict';
 
 
@@ -183,7 +171,7 @@ exports.assert_failure             = assert_failure;
 exports.undefined_recursive_module = undefined_recursive_module;
 /*  Not a pure module */
 
-},{}],11:[function(require,module,exports) {
+},{}],17:[function(require,module,exports) {
 'use strict';
 
 var Caml_builtin_exceptions = require("./caml_builtin_exceptions.js");
@@ -299,7 +287,7 @@ exports.caml_array_get    = caml_array_get;
 exports.caml_array_set    = caml_array_set;
 /* No side effect */
 
-},{"./caml_builtin_exceptions.js":10}],7:[function(require,module,exports) {
+},{"./caml_builtin_exceptions.js":7}],9:[function(require,module,exports) {
 'use strict';
 
 var Caml_array = require("./caml_array.js");
@@ -936,979 +924,19 @@ exports._8      = _8;
 exports.__8     = __8;
 /* No side effect */
 
-},{"./caml_array.js":11}],16:[function(require,module,exports) {
+},{"./caml_array.js":17}],5:[function(require,module,exports) {
 'use strict';
 
 
-var id = [0];
-
-function caml_set_oo_id(b) {
-  b[1] = id[0];
-  id[0] += 1;
-  return b;
+function __(tag, block) {
+  block.tag = tag;
+  return block;
 }
 
-function get_id() {
-  id[0] += 1;
-  return id[0];
-}
-
-function create(str) {
-  var v_001 = get_id(/* () */0);
-  var v = /* tuple */[
-    str,
-    v_001
-  ];
-  v.tag = 248;
-  return v;
-}
-
-function isCamlExceptionOrOpenVariant(e) {
-  if (e === undefined) {
-    return /* false */0;
-  } else if (e.tag === 248) {
-    return /* true */1;
-  } else {
-    var slot = e[0];
-    if (slot !== undefined) {
-      return +(slot.tag === 248);
-    } else {
-      return /* false */0;
-    }
-  }
-}
-
-exports.caml_set_oo_id               = caml_set_oo_id;
-exports.get_id                       = get_id;
-exports.create                       = create;
-exports.isCamlExceptionOrOpenVariant = isCamlExceptionOrOpenVariant;
+exports.__ = __;
 /* No side effect */
 
-},{}],25:[function(require,module,exports) {
-'use strict';
-
-var Caml_exceptions = require("./caml_exceptions.js");
-
-var $$Error = Caml_exceptions.create("Js_exn.Error");
-
-function internalToOCamlException(e) {
-  if (Caml_exceptions.isCamlExceptionOrOpenVariant(e)) {
-    return e;
-  } else {
-    return [
-            $$Error,
-            e
-          ];
-  }
-}
-
-function raiseError(str) {
-  throw new Error(str);
-}
-
-function raiseEvalError(str) {
-  throw new EvalError(str);
-}
-
-function raiseRangeError(str) {
-  throw new RangeError(str);
-}
-
-function raiseReferenceError(str) {
-  throw new ReferenceError(str);
-}
-
-function raiseSyntaxError(str) {
-  throw new SyntaxError(str);
-}
-
-function raiseTypeError(str) {
-  throw new TypeError(str);
-}
-
-function raiseUriError(str) {
-  throw new URIError(str);
-}
-
-exports.$$Error                  = $$Error;
-exports.internalToOCamlException = internalToOCamlException;
-exports.raiseError               = raiseError;
-exports.raiseEvalError           = raiseEvalError;
-exports.raiseRangeError          = raiseRangeError;
-exports.raiseReferenceError      = raiseReferenceError;
-exports.raiseSyntaxError         = raiseSyntaxError;
-exports.raiseTypeError           = raiseTypeError;
-exports.raiseUriError            = raiseUriError;
-/* No side effect */
-
-},{"./caml_exceptions.js":16}],24:[function(require,module,exports) {
-'use strict';
-
-var Curry                   = require("./curry.js");
-var Js_exn                  = require("./js_exn.js");
-var Caml_array              = require("./caml_array.js");
-var Caml_exceptions         = require("./caml_exceptions.js");
-var Caml_builtin_exceptions = require("./caml_builtin_exceptions.js");
-
-function init(l, f) {
-  if (l) {
-    if (l < 0) {
-      throw [
-            Caml_builtin_exceptions.invalid_argument,
-            "Array.init"
-          ];
-    } else {
-      var res = Caml_array.caml_make_vect(l, Curry._1(f, 0));
-      for(var i = 1 ,i_finish = l - 1 | 0; i <= i_finish; ++i){
-        res[i] = Curry._1(f, i);
-      }
-      return res;
-    }
-  } else {
-    return /* array */[];
-  }
-}
-
-function make_matrix(sx, sy, init) {
-  var res = Caml_array.caml_make_vect(sx, /* array */[]);
-  for(var x = 0 ,x_finish = sx - 1 | 0; x <= x_finish; ++x){
-    res[x] = Caml_array.caml_make_vect(sy, init);
-  }
-  return res;
-}
-
-function copy(a) {
-  var l = a.length;
-  if (l) {
-    return Caml_array.caml_array_sub(a, 0, l);
-  } else {
-    return /* array */[];
-  }
-}
-
-function append(a1, a2) {
-  var l1 = a1.length;
-  if (l1) {
-    if (a2.length) {
-      return a1.concat(a2);
-    } else {
-      return Caml_array.caml_array_sub(a1, 0, l1);
-    }
-  } else {
-    return copy(a2);
-  }
-}
-
-function sub(a, ofs, len) {
-  if (len < 0 || ofs > (a.length - len | 0)) {
-    throw [
-          Caml_builtin_exceptions.invalid_argument,
-          "Array.sub"
-        ];
-  } else {
-    return Caml_array.caml_array_sub(a, ofs, len);
-  }
-}
-
-function fill(a, ofs, len, v) {
-  if (ofs < 0 || len < 0 || ofs > (a.length - len | 0)) {
-    throw [
-          Caml_builtin_exceptions.invalid_argument,
-          "Array.fill"
-        ];
-  } else {
-    for(var i = ofs ,i_finish = (ofs + len | 0) - 1 | 0; i <= i_finish; ++i){
-      a[i] = v;
-    }
-    return /* () */0;
-  }
-}
-
-function blit(a1, ofs1, a2, ofs2, len) {
-  if (len < 0 || ofs1 < 0 || ofs1 > (a1.length - len | 0) || ofs2 < 0 || ofs2 > (a2.length - len | 0)) {
-    throw [
-          Caml_builtin_exceptions.invalid_argument,
-          "Array.blit"
-        ];
-  } else {
-    return Caml_array.caml_array_blit(a1, ofs1, a2, ofs2, len);
-  }
-}
-
-function iter(f, a) {
-  for(var i = 0 ,i_finish = a.length - 1 | 0; i <= i_finish; ++i){
-    Curry._1(f, a[i]);
-  }
-  return /* () */0;
-}
-
-function map(f, a) {
-  var l = a.length;
-  if (l) {
-    var r = Caml_array.caml_make_vect(l, Curry._1(f, a[0]));
-    for(var i = 1 ,i_finish = l - 1 | 0; i <= i_finish; ++i){
-      r[i] = Curry._1(f, a[i]);
-    }
-    return r;
-  } else {
-    return /* array */[];
-  }
-}
-
-function iteri(f, a) {
-  for(var i = 0 ,i_finish = a.length - 1 | 0; i <= i_finish; ++i){
-    Curry._2(f, i, a[i]);
-  }
-  return /* () */0;
-}
-
-function mapi(f, a) {
-  var l = a.length;
-  if (l) {
-    var r = Caml_array.caml_make_vect(l, Curry._2(f, 0, a[0]));
-    for(var i = 1 ,i_finish = l - 1 | 0; i <= i_finish; ++i){
-      r[i] = Curry._2(f, i, a[i]);
-    }
-    return r;
-  } else {
-    return /* array */[];
-  }
-}
-
-function to_list(a) {
-  var _i = a.length - 1 | 0;
-  var _res = /* [] */0;
-  while(true) {
-    var res = _res;
-    var i = _i;
-    if (i < 0) {
-      return res;
-    } else {
-      _res = /* :: */[
-        a[i],
-        res
-      ];
-      _i = i - 1 | 0;
-      continue ;
-      
-    }
-  };
-}
-
-function list_length(_accu, _param) {
-  while(true) {
-    var param = _param;
-    var accu = _accu;
-    if (param) {
-      _param = param[1];
-      _accu = accu + 1 | 0;
-      continue ;
-      
-    } else {
-      return accu;
-    }
-  };
-}
-
-function of_list(l) {
-  if (l) {
-    var a = Caml_array.caml_make_vect(list_length(0, l), l[0]);
-    var _i = 1;
-    var _param = l[1];
-    while(true) {
-      var param = _param;
-      var i = _i;
-      if (param) {
-        a[i] = param[0];
-        _param = param[1];
-        _i = i + 1 | 0;
-        continue ;
-        
-      } else {
-        return a;
-      }
-    };
-  } else {
-    return /* array */[];
-  }
-}
-
-function fold_left(f, x, a) {
-  var r = x;
-  for(var i = 0 ,i_finish = a.length - 1 | 0; i <= i_finish; ++i){
-    r = Curry._2(f, r, a[i]);
-  }
-  return r;
-}
-
-function fold_right(f, a, x) {
-  var r = x;
-  for(var i = a.length - 1 | 0; i >= 0; --i){
-    r = Curry._2(f, a[i], r);
-  }
-  return r;
-}
-
-var Bottom = Caml_exceptions.create("Array.Bottom");
-
-function sort(cmp, a) {
-  var maxson = function (l, i) {
-    var i31 = ((i + i | 0) + i | 0) + 1 | 0;
-    var x = i31;
-    if ((i31 + 2 | 0) < l) {
-      if (Curry._2(cmp, Caml_array.caml_array_get(a, i31), Caml_array.caml_array_get(a, i31 + 1 | 0)) < 0) {
-        x = i31 + 1 | 0;
-      }
-      if (Curry._2(cmp, Caml_array.caml_array_get(a, x), Caml_array.caml_array_get(a, i31 + 2 | 0)) < 0) {
-        x = i31 + 2 | 0;
-      }
-      return x;
-    } else if ((i31 + 1 | 0) < l && Curry._2(cmp, Caml_array.caml_array_get(a, i31), Caml_array.caml_array_get(a, i31 + 1 | 0)) < 0) {
-      return i31 + 1 | 0;
-    } else if (i31 < l) {
-      return i31;
-    } else {
-      throw [
-            Bottom,
-            i
-          ];
-    }
-  };
-  var trickle = function (l, i, e) {
-    try {
-      var l$1 = l;
-      var _i = i;
-      var e$1 = e;
-      while(true) {
-        var i$1 = _i;
-        var j = maxson(l$1, i$1);
-        if (Curry._2(cmp, Caml_array.caml_array_get(a, j), e$1) > 0) {
-          Caml_array.caml_array_set(a, i$1, Caml_array.caml_array_get(a, j));
-          _i = j;
-          continue ;
-          
-        } else {
-          return Caml_array.caml_array_set(a, i$1, e$1);
-        }
-      };
-    }
-    catch (raw_exn){
-      var exn = Js_exn.internalToOCamlException(raw_exn);
-      if (exn[0] === Bottom) {
-        return Caml_array.caml_array_set(a, exn[1], e);
-      } else {
-        throw exn;
-      }
-    }
-  };
-  var bubble = function (l, i) {
-    try {
-      var l$1 = l;
-      var _i = i;
-      while(true) {
-        var i$1 = _i;
-        var j = maxson(l$1, i$1);
-        Caml_array.caml_array_set(a, i$1, Caml_array.caml_array_get(a, j));
-        _i = j;
-        continue ;
-        
-      };
-    }
-    catch (raw_exn){
-      var exn = Js_exn.internalToOCamlException(raw_exn);
-      if (exn[0] === Bottom) {
-        return exn[1];
-      } else {
-        throw exn;
-      }
-    }
-  };
-  var trickleup = function (_i, e) {
-    while(true) {
-      var i = _i;
-      var father = (i - 1 | 0) / 3 | 0;
-      if (i === father) {
-        throw [
-              Caml_builtin_exceptions.assert_failure,
-              [
-                "array.ml",
-                168,
-                4
-              ]
-            ];
-      }
-      if (Curry._2(cmp, Caml_array.caml_array_get(a, father), e) < 0) {
-        Caml_array.caml_array_set(a, i, Caml_array.caml_array_get(a, father));
-        if (father > 0) {
-          _i = father;
-          continue ;
-          
-        } else {
-          return Caml_array.caml_array_set(a, 0, e);
-        }
-      } else {
-        return Caml_array.caml_array_set(a, i, e);
-      }
-    };
-  };
-  var l = a.length;
-  for(var i = ((l + 1 | 0) / 3 | 0) - 1 | 0; i >= 0; --i){
-    trickle(l, i, Caml_array.caml_array_get(a, i));
-  }
-  for(var i$1 = l - 1 | 0; i$1 >= 2; --i$1){
-    var e = Caml_array.caml_array_get(a, i$1);
-    Caml_array.caml_array_set(a, i$1, Caml_array.caml_array_get(a, 0));
-    trickleup(bubble(i$1, 0), e);
-  }
-  if (l > 1) {
-    var e$1 = Caml_array.caml_array_get(a, 1);
-    Caml_array.caml_array_set(a, 1, Caml_array.caml_array_get(a, 0));
-    return Caml_array.caml_array_set(a, 0, e$1);
-  } else {
-    return 0;
-  }
-}
-
-function stable_sort(cmp, a) {
-  var merge = function (src1ofs, src1len, src2, src2ofs, src2len, dst, dstofs) {
-    var src1r = src1ofs + src1len | 0;
-    var src2r = src2ofs + src2len | 0;
-    var _i1 = src1ofs;
-    var _s1 = Caml_array.caml_array_get(a, src1ofs);
-    var _i2 = src2ofs;
-    var _s2 = Caml_array.caml_array_get(src2, src2ofs);
-    var _d = dstofs;
-    while(true) {
-      var d = _d;
-      var s2 = _s2;
-      var i2 = _i2;
-      var s1 = _s1;
-      var i1 = _i1;
-      if (Curry._2(cmp, s1, s2) <= 0) {
-        Caml_array.caml_array_set(dst, d, s1);
-        var i1$1 = i1 + 1 | 0;
-        if (i1$1 < src1r) {
-          _d = d + 1 | 0;
-          _s1 = Caml_array.caml_array_get(a, i1$1);
-          _i1 = i1$1;
-          continue ;
-          
-        } else {
-          return blit(src2, i2, dst, d + 1 | 0, src2r - i2 | 0);
-        }
-      } else {
-        Caml_array.caml_array_set(dst, d, s2);
-        var i2$1 = i2 + 1 | 0;
-        if (i2$1 < src2r) {
-          _d = d + 1 | 0;
-          _s2 = Caml_array.caml_array_get(src2, i2$1);
-          _i2 = i2$1;
-          continue ;
-          
-        } else {
-          return blit(a, i1, dst, d + 1 | 0, src1r - i1 | 0);
-        }
-      }
-    };
-  };
-  var isortto = function (srcofs, dst, dstofs, len) {
-    for(var i = 0 ,i_finish = len - 1 | 0; i <= i_finish; ++i){
-      var e = Caml_array.caml_array_get(a, srcofs + i | 0);
-      var j = (dstofs + i | 0) - 1 | 0;
-      while(j >= dstofs && Curry._2(cmp, Caml_array.caml_array_get(dst, j), e) > 0) {
-        Caml_array.caml_array_set(dst, j + 1 | 0, Caml_array.caml_array_get(dst, j));
-        j = j - 1 | 0;
-      };
-      Caml_array.caml_array_set(dst, j + 1 | 0, e);
-    }
-    return /* () */0;
-  };
-  var sortto = function (srcofs, dst, dstofs, len) {
-    if (len <= 5) {
-      return isortto(srcofs, dst, dstofs, len);
-    } else {
-      var l1 = len / 2 | 0;
-      var l2 = len - l1 | 0;
-      sortto(srcofs + l1 | 0, dst, dstofs + l1 | 0, l2);
-      sortto(srcofs, a, srcofs + l2 | 0, l1);
-      return merge(srcofs + l2 | 0, l1, dst, dstofs + l1 | 0, l2, dst, dstofs);
-    }
-  };
-  var l = a.length;
-  if (l <= 5) {
-    return isortto(0, a, 0, l);
-  } else {
-    var l1 = l / 2 | 0;
-    var l2 = l - l1 | 0;
-    var t = Caml_array.caml_make_vect(l2, Caml_array.caml_array_get(a, 0));
-    sortto(l1, t, 0, l2);
-    sortto(0, a, l2, l1);
-    return merge(l2, l1, t, 0, l2, a, 0);
-  }
-}
-
-var create_matrix = make_matrix;
-
-var concat = Caml_array.caml_array_concat;
-
-var fast_sort = stable_sort;
-
-exports.init          = init;
-exports.make_matrix   = make_matrix;
-exports.create_matrix = create_matrix;
-exports.append        = append;
-exports.concat        = concat;
-exports.sub           = sub;
-exports.copy          = copy;
-exports.fill          = fill;
-exports.blit          = blit;
-exports.to_list       = to_list;
-exports.of_list       = of_list;
-exports.iter          = iter;
-exports.map           = map;
-exports.iteri         = iteri;
-exports.mapi          = mapi;
-exports.fold_left     = fold_left;
-exports.fold_right    = fold_right;
-exports.sort          = sort;
-exports.stable_sort   = stable_sort;
-exports.fast_sort     = fast_sort;
-/* No side effect */
-
-},{"./curry.js":7,"./js_exn.js":25,"./caml_array.js":11,"./caml_exceptions.js":16,"./caml_builtin_exceptions.js":10}],26:[function(require,module,exports) {
-// Generated by BUCKLESCRIPT VERSION 2.1.0, PLEASE EDIT WITH CARE
-'use strict';
-
-var $$Array                 = require("bs-platform/lib/js/array.js");
-var Block                   = require("bs-platform/lib/js/block.js");
-var Curry                   = require("bs-platform/lib/js/curry.js");
-var Caml_builtin_exceptions = require("bs-platform/lib/js/caml_builtin_exceptions.js");
-
-var defaultProps = /* record */[
-  /* id : None */0,
-  /* value : None */0,
-  /* onClick : None */0,
-  /* onChange : None */0
-];
-
-function $$default() {
-  return /* () */0;
-}
-
-function chain(handlerOne, handlerTwo, payload) {
-  Curry._1(handlerOne, payload);
-  return Curry._1(handlerTwo, payload);
-}
-
-var Callback = /* module */[
-  /* default */$$default,
-  /* chain */chain
-];
-
-function basicComponent(debugName) {
-  return /* record */[
-          /* debugName */debugName,
-          /* render */(function () {
-              throw [
-                    Caml_builtin_exceptions.assert_failure,
-                    [
-                      "rereact.re",
-                      52,
-                      21
-                    ]
-                  ];
-            }),
-          /* initialState */(function () {
-              return /* () */0;
-            }),
-          /* reducer */(function (_, _$1) {
-              return /* NoUpdate */0;
-            })
-        ];
-}
-
-function statelessComponent(debugName) {
-  var init = basicComponent(debugName);
-  return /* record */[
-          /* debugName */init[/* debugName */0],
-          /* render */init[/* render */1],
-          /* initialState */(function () {
-              return /* () */0;
-            }),
-          /* reducer */init[/* reducer */3]
-        ];
-}
-
-var statefulComponent = basicComponent;
-
-var reducerComponent = basicComponent;
-
-function stringToElement(value) {
-  return /* Flat */Block.__(0, [/* :: */[
-              /* String */Block.__(0, [value]),
-              /* [] */0
-            ]]);
-}
-
-function element(component) {
-  return /* Flat */Block.__(0, [/* :: */[
-              /* Component */Block.__(1, [component]),
-              /* [] */0
-            ]]);
-}
-
-function listToElement(elements) {
-  return /* Nested */Block.__(1, [
-            "List",
-            defaultProps,
-            elements
-          ]);
-}
-
-function arrayToElement(elements) {
-  return /* Nested */Block.__(1, [
-            "List",
-            defaultProps,
-            $$Array.to_list(elements)
-          ]);
-}
-
-var nullElement = /* Flat */Block.__(0, [/* [] */0]);
-
-exports.defaultProps       = defaultProps;
-exports.Callback           = Callback;
-exports.basicComponent     = basicComponent;
-exports.statelessComponent = statelessComponent;
-exports.statefulComponent  = statefulComponent;
-exports.reducerComponent   = reducerComponent;
-exports.stringToElement    = stringToElement;
-exports.nullElement        = nullElement;
-exports.element            = element;
-exports.listToElement      = listToElement;
-exports.arrayToElement     = arrayToElement;
-/* No side effect */
-
-},{"bs-platform/lib/js/array.js":24,"bs-platform/lib/js/block.js":6,"bs-platform/lib/js/curry.js":7,"bs-platform/lib/js/caml_builtin_exceptions.js":10}],20:[function(require,module,exports) {
-
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-process.prependListener = noop;
-process.prependOnceListener = noop;
-
-process.listeners = function (name) { return [] }
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-},{}],12:[function(require,module,exports) {
-var process = require("process");
-'use strict';
-
-var Curry                   = require("./curry.js");
-var Caml_builtin_exceptions = require("./caml_builtin_exceptions.js");
-
-function $caret(prim, prim$1) {
-  return prim + prim$1;
-}
-
-var stdin = undefined;
-
-var stdout = /* record */[
-  /* buffer */"",
-  /* output */(function (_, s) {
-      var v = s.length - 1 | 0;
-      if (( (typeof process !== "undefined") && process.stdout && process.stdout.write)) {
-        return ( process.stdout.write )(s);
-      } else if (s[v] === "\n") {
-        console.log(s.slice(0, v));
-        return /* () */0;
-      } else {
-        console.log(s);
-        return /* () */0;
-      }
-    })
-];
-
-var stderr = /* record */[
-  /* buffer */"",
-  /* output */(function (_, s) {
-      var v = s.length - 1 | 0;
-      if (s[v] === "\n") {
-        console.log(s.slice(0, v));
-        return /* () */0;
-      } else {
-        console.log(s);
-        return /* () */0;
-      }
-    })
-];
-
-function caml_ml_open_descriptor_in() {
-  throw [
-        Caml_builtin_exceptions.failure,
-        "caml_ml_open_descriptor_in not implemented"
-      ];
-}
-
-function caml_ml_open_descriptor_out() {
-  throw [
-        Caml_builtin_exceptions.failure,
-        "caml_ml_open_descriptor_out not implemented"
-      ];
-}
-
-function caml_ml_flush(oc) {
-  if (oc[/* buffer */0] !== "") {
-    Curry._2(oc[/* output */1], oc, oc[/* buffer */0]);
-    oc[/* buffer */0] = "";
-    return /* () */0;
-  } else {
-    return 0;
-  }
-}
-
-var node_std_output = (function (s){
-   return (typeof process !== "undefined") && process.stdout && (process.stdout.write(s), true);
-   }
-);
-
-function caml_ml_output(oc, str, offset, len) {
-  var str$1 = offset === 0 && len === str.length ? str : str.slice(offset, len);
-  if (( (typeof process !== "undefined") && process.stdout && process.stdout.write ) && oc === stdout) {
-    return ( process.stdout.write )(str$1);
-  } else {
-    var id = str$1.lastIndexOf("\n");
-    if (id < 0) {
-      oc[/* buffer */0] = oc[/* buffer */0] + str$1;
-      return /* () */0;
-    } else {
-      oc[/* buffer */0] = oc[/* buffer */0] + str$1.slice(0, id + 1 | 0);
-      caml_ml_flush(oc);
-      oc[/* buffer */0] = oc[/* buffer */0] + str$1.slice(id + 1 | 0);
-      return /* () */0;
-    }
-  }
-}
-
-function caml_ml_output_char(oc, $$char) {
-  return caml_ml_output(oc, String.fromCharCode($$char), 0, 1);
-}
-
-function caml_ml_input(_, _$1, _$2, _$3) {
-  throw [
-        Caml_builtin_exceptions.failure,
-        "caml_ml_input ic not implemented"
-      ];
-}
-
-function caml_ml_input_char() {
-  throw [
-        Caml_builtin_exceptions.failure,
-        "caml_ml_input_char not implemnted"
-      ];
-}
-
-function caml_ml_out_channels_list() {
-  return /* :: */[
-          stdout,
-          /* :: */[
-            stderr,
-            /* [] */0
-          ]
-        ];
-}
-
-exports.$caret                      = $caret;
-exports.stdin                       = stdin;
-exports.stdout                      = stdout;
-exports.stderr                      = stderr;
-exports.caml_ml_open_descriptor_in  = caml_ml_open_descriptor_in;
-exports.caml_ml_open_descriptor_out = caml_ml_open_descriptor_out;
-exports.caml_ml_flush               = caml_ml_flush;
-exports.node_std_output             = node_std_output;
-exports.caml_ml_output              = caml_ml_output;
-exports.caml_ml_output_char         = caml_ml_output_char;
-exports.caml_ml_input               = caml_ml_input;
-exports.caml_ml_input_char          = caml_ml_input_char;
-exports.caml_ml_out_channels_list   = caml_ml_out_channels_list;
-/* stdin Not a pure module */
-
-},{"./curry.js":7,"./caml_builtin_exceptions.js":10,"process":20}],13:[function(require,module,exports) {
+},{}],8:[function(require,module,exports) {
 'use strict';
 
 var Block                   = require("./block.js");
@@ -2219,7 +1247,327 @@ exports.caml_lessthan          = caml_lessthan;
 exports.caml_lessequal         = caml_lessequal;
 /* No side effect */
 
-},{"./block.js":6,"./caml_builtin_exceptions.js":10}],15:[function(require,module,exports) {
+},{"./block.js":5,"./caml_builtin_exceptions.js":7}],18:[function(require,module,exports) {
+
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+},{}],10:[function(require,module,exports) {
+var process = require("process");
+'use strict';
+
+var Curry                   = require("./curry.js");
+var Caml_builtin_exceptions = require("./caml_builtin_exceptions.js");
+
+function $caret(prim, prim$1) {
+  return prim + prim$1;
+}
+
+var stdin = undefined;
+
+var stdout = /* record */[
+  /* buffer */"",
+  /* output */(function (_, s) {
+      var v = s.length - 1 | 0;
+      if (( (typeof process !== "undefined") && process.stdout && process.stdout.write)) {
+        return ( process.stdout.write )(s);
+      } else if (s[v] === "\n") {
+        console.log(s.slice(0, v));
+        return /* () */0;
+      } else {
+        console.log(s);
+        return /* () */0;
+      }
+    })
+];
+
+var stderr = /* record */[
+  /* buffer */"",
+  /* output */(function (_, s) {
+      var v = s.length - 1 | 0;
+      if (s[v] === "\n") {
+        console.log(s.slice(0, v));
+        return /* () */0;
+      } else {
+        console.log(s);
+        return /* () */0;
+      }
+    })
+];
+
+function caml_ml_open_descriptor_in() {
+  throw [
+        Caml_builtin_exceptions.failure,
+        "caml_ml_open_descriptor_in not implemented"
+      ];
+}
+
+function caml_ml_open_descriptor_out() {
+  throw [
+        Caml_builtin_exceptions.failure,
+        "caml_ml_open_descriptor_out not implemented"
+      ];
+}
+
+function caml_ml_flush(oc) {
+  if (oc[/* buffer */0] !== "") {
+    Curry._2(oc[/* output */1], oc, oc[/* buffer */0]);
+    oc[/* buffer */0] = "";
+    return /* () */0;
+  } else {
+    return 0;
+  }
+}
+
+var node_std_output = (function (s){
+   return (typeof process !== "undefined") && process.stdout && (process.stdout.write(s), true);
+   }
+);
+
+function caml_ml_output(oc, str, offset, len) {
+  var str$1 = offset === 0 && len === str.length ? str : str.slice(offset, len);
+  if (( (typeof process !== "undefined") && process.stdout && process.stdout.write ) && oc === stdout) {
+    return ( process.stdout.write )(str$1);
+  } else {
+    var id = str$1.lastIndexOf("\n");
+    if (id < 0) {
+      oc[/* buffer */0] = oc[/* buffer */0] + str$1;
+      return /* () */0;
+    } else {
+      oc[/* buffer */0] = oc[/* buffer */0] + str$1.slice(0, id + 1 | 0);
+      caml_ml_flush(oc);
+      oc[/* buffer */0] = oc[/* buffer */0] + str$1.slice(id + 1 | 0);
+      return /* () */0;
+    }
+  }
+}
+
+function caml_ml_output_char(oc, $$char) {
+  return caml_ml_output(oc, String.fromCharCode($$char), 0, 1);
+}
+
+function caml_ml_input(_, _$1, _$2, _$3) {
+  throw [
+        Caml_builtin_exceptions.failure,
+        "caml_ml_input ic not implemented"
+      ];
+}
+
+function caml_ml_input_char() {
+  throw [
+        Caml_builtin_exceptions.failure,
+        "caml_ml_input_char not implemnted"
+      ];
+}
+
+function caml_ml_out_channels_list() {
+  return /* :: */[
+          stdout,
+          /* :: */[
+            stderr,
+            /* [] */0
+          ]
+        ];
+}
+
+exports.$caret                      = $caret;
+exports.stdin                       = stdin;
+exports.stdout                      = stdout;
+exports.stderr                      = stderr;
+exports.caml_ml_open_descriptor_in  = caml_ml_open_descriptor_in;
+exports.caml_ml_open_descriptor_out = caml_ml_open_descriptor_out;
+exports.caml_ml_flush               = caml_ml_flush;
+exports.node_std_output             = node_std_output;
+exports.caml_ml_output              = caml_ml_output;
+exports.caml_ml_output_char         = caml_ml_output_char;
+exports.caml_ml_input               = caml_ml_input;
+exports.caml_ml_input_char          = caml_ml_input_char;
+exports.caml_ml_out_channels_list   = caml_ml_out_channels_list;
+/* stdin Not a pure module */
+
+},{"./curry.js":9,"./caml_builtin_exceptions.js":7,"process":18}],11:[function(require,module,exports) {
 var process = require("process");
 'use strict';
 
@@ -2321,7 +1669,7 @@ exports.caml_sys_is_directory   = caml_sys_is_directory;
 exports.caml_sys_file_exists    = caml_sys_file_exists;
 /* No side effect */
 
-},{"./caml_builtin_exceptions.js":10,"process":20}],21:[function(require,module,exports) {
+},{"./caml_builtin_exceptions.js":7,"process":18}],19:[function(require,module,exports) {
 'use strict';
 
 var Caml_builtin_exceptions = require("./caml_builtin_exceptions.js");
@@ -2365,7 +1713,7 @@ exports.caml_nativeint_bswap = caml_nativeint_bswap;
 exports.imul                 = imul;
 /* imul Not a pure module */
 
-},{"./caml_builtin_exceptions.js":10}],23:[function(require,module,exports) {
+},{"./caml_builtin_exceptions.js":7}],21:[function(require,module,exports) {
 'use strict';
 
 
@@ -2398,7 +1746,7 @@ var repeat = ( (String.prototype.repeat && function (count,self){return self.rep
 exports.repeat = repeat;
 /* repeat Not a pure module */
 
-},{}],22:[function(require,module,exports) {
+},{}],20:[function(require,module,exports) {
 'use strict';
 
 var Caml_obj                = require("./caml_obj.js");
@@ -3000,7 +2348,7 @@ exports.bits_of_float = bits_of_float;
 exports.get64         = get64;
 /* two_ptr_32_dbl Not a pure module */
 
-},{"./caml_obj.js":13,"./caml_int32.js":21,"./caml_utils.js":23,"./caml_builtin_exceptions.js":10}],14:[function(require,module,exports) {
+},{"./caml_obj.js":8,"./caml_int32.js":19,"./caml_utils.js":21,"./caml_builtin_exceptions.js":7}],12:[function(require,module,exports) {
 'use strict';
 
 var Curry                   = require("./curry.js");
@@ -3803,7 +3151,7 @@ exports.caml_int64_of_string     = caml_int64_of_string;
 exports.caml_nativeint_of_string = caml_nativeint_of_string;
 /* float_of_string Not a pure module */
 
-},{"./curry.js":7,"./caml_int32.js":21,"./caml_int64.js":22,"./caml_utils.js":23,"./caml_builtin_exceptions.js":10}],17:[function(require,module,exports) {
+},{"./curry.js":9,"./caml_int32.js":19,"./caml_int64.js":20,"./caml_utils.js":21,"./caml_builtin_exceptions.js":7}],13:[function(require,module,exports) {
 'use strict';
 
 var Caml_builtin_exceptions = require("./caml_builtin_exceptions.js");
@@ -4008,7 +3356,55 @@ exports.string_of_char            = string_of_char;
 exports.get                       = get;
 /* No side effect */
 
-},{"./caml_builtin_exceptions.js":10}],18:[function(require,module,exports) {
+},{"./caml_builtin_exceptions.js":7}],14:[function(require,module,exports) {
+'use strict';
+
+
+var id = [0];
+
+function caml_set_oo_id(b) {
+  b[1] = id[0];
+  id[0] += 1;
+  return b;
+}
+
+function get_id() {
+  id[0] += 1;
+  return id[0];
+}
+
+function create(str) {
+  var v_001 = get_id(/* () */0);
+  var v = /* tuple */[
+    str,
+    v_001
+  ];
+  v.tag = 248;
+  return v;
+}
+
+function isCamlExceptionOrOpenVariant(e) {
+  if (e === undefined) {
+    return /* false */0;
+  } else if (e.tag === 248) {
+    return /* true */1;
+  } else {
+    var slot = e[0];
+    if (slot !== undefined) {
+      return +(slot.tag === 248);
+    } else {
+      return /* false */0;
+    }
+  }
+}
+
+exports.caml_set_oo_id               = caml_set_oo_id;
+exports.get_id                       = get_id;
+exports.create                       = create;
+exports.isCamlExceptionOrOpenVariant = isCamlExceptionOrOpenVariant;
+/* No side effect */
+
+},{}],15:[function(require,module,exports) {
 'use strict';
 
 
@@ -4017,7 +3413,7 @@ var not_implemented = (function (s){ throw new Error(s)});
 exports.not_implemented = not_implemented;
 /* not_implemented Not a pure module */
 
-},{}],19:[function(require,module,exports) {
+},{}],16:[function(require,module,exports) {
 'use strict';
 
 var Block = require("./block.js");
@@ -4247,7 +3643,7 @@ exports.erase_rel    = erase_rel;
 exports.concat_fmt   = concat_fmt;
 /* No side effect */
 
-},{"./block.js":6}],8:[function(require,module,exports) {
+},{"./block.js":5}],6:[function(require,module,exports) {
 'use strict';
 
 var Curry                    = require("./curry.js");
@@ -4943,7 +4339,7 @@ exports.unsafe_really_input = unsafe_really_input;
 exports.do_at_exit          = do_at_exit;
 /* No side effect */
 
-},{"./curry.js":7,"./caml_io.js":12,"./caml_obj.js":13,"./caml_sys.js":15,"./caml_format.js":14,"./caml_string.js":17,"./caml_exceptions.js":16,"./caml_missing_polyfill.js":18,"./caml_builtin_exceptions.js":10,"./camlinternalFormatBasics.js":19}],9:[function(require,module,exports) {
+},{"./curry.js":9,"./caml_io.js":10,"./caml_obj.js":8,"./caml_sys.js":11,"./caml_format.js":12,"./caml_string.js":13,"./caml_exceptions.js":14,"./caml_missing_polyfill.js":15,"./caml_builtin_exceptions.js":7,"./camlinternalFormatBasics.js":16}],4:[function(require,module,exports) {
 'use strict';
 
 var Curry                   = require("./curry.js");
@@ -6636,1179 +6032,242 @@ exports.sort_uniq    = sort_uniq;
 exports.merge        = merge;
 /* No side effect */
 
-},{"./curry.js":7,"./caml_obj.js":13,"./pervasives.js":8,"./caml_builtin_exceptions.js":10}],27:[function(require,module,exports) {
+},{"./curry.js":9,"./caml_obj.js":8,"./pervasives.js":6,"./caml_builtin_exceptions.js":7}],3:[function(require,module,exports) {
 // Generated by BUCKLESCRIPT VERSION 2.1.0, PLEASE EDIT WITH CARE
 'use strict';
 
-var List                    = require("bs-platform/lib/js/list.js");
-var Block                   = require("bs-platform/lib/js/block.js");
-var Curry                   = require("bs-platform/lib/js/curry.js");
-var Caml_builtin_exceptions = require("bs-platform/lib/js/caml_builtin_exceptions.js");
+var List     = require("bs-platform/lib/js/list.js");
+var Block    = require("bs-platform/lib/js/block.js");
+var Caml_obj = require("bs-platform/lib/js/caml_obj.js");
 
-var globalInstance = [/* IFlat */Block.__(0, [/* [] */0])];
-
-function createDomElement(name, id, value, onClick, onChange, children, _) {
-  return /* Nested */Block.__(1, [
-            name,
-            /* record */[
-              /* id */id,
-              /* value */value,
-              /* onClick */onClick,
-              /* onChange */onChange
-            ],
-            children
-          ]);
-}
-
-function div(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("div", param, param$1, param$2, param$3, param$4, param$5);
-}
-
-function h1(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("h1", param, param$1, param$2, param$3, param$4, param$5);
-}
-
-function h2(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("h2", param, param$1, param$2, param$3, param$4, param$5);
-}
-
-function h3(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("h3", param, param$1, param$2, param$3, param$4, param$5);
-}
-
-function h4(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("h4", param, param$1, param$2, param$3, param$4, param$5);
-}
-
-function h5(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("h5", param, param$1, param$2, param$3, param$4, param$5);
-}
-
-function h6(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("h6", param, param$1, param$2, param$3, param$4, param$5);
-}
-
-function span(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("span", param, param$1, param$2, param$3, param$4, param$5);
-}
-
-function ul(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("ul", param, param$1, param$2, param$3, param$4, param$5);
-}
-
-function li(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("li", param, param$1, param$2, param$3, param$4, param$5);
-}
-
-function img(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("img", param, param$1, param$2, param$3, param$4, param$5);
-}
-
-function button(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("button", param, param$1, param$2, param$3, param$4, param$5);
-}
-
-function input(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("input", param, param$1, param$2, param$3, param$4, param$5);
-}
-
-function addProps(domElement, props) {
-  var match = props[/* id */0];
-  if (match) {
-    domElement.setAttribute("id", match[0]);
-  }
-  var match$1 = props[/* value */1];
-  if (match$1) {
-    domElement.setAttribute("value", match$1[0]);
-  }
-  var match$2 = props[/* onClick */2];
-  if (match$2) {
-    domElement.addEventListener("click", match$2[0]);
-  }
-  var match$3 = props[/* onChange */3];
-  if (match$3) {
-    domElement.addEventListener("change", match$3[0]);
-    return /* () */0;
-  } else {
-    return /* () */0;
-  }
-}
-
-function createSelf(instance) {
+function createDomElement(name, children, _) {
   return /* record */[
-          /* state */instance[/* iState */2],
-          /* reduce */(function (payloadToAction, payload) {
-              var match = instance[/* component */0];
-              if (match) {
-                var action = Curry._1(payloadToAction, payload);
-                var stateUpdate = Curry._1(match[0][/* reducer */3], action);
-                instance[/* pendingStateUpdates */6][0] = /* :: */[
-                  stateUpdate,
-                  instance[/* pendingStateUpdates */6][0]
-                ];
-                return /* () */0;
-              } else {
-                return /* () */0;
-              }
-            }),
-          /* send */(function (action) {
-              var match = instance[/* component */0];
-              if (match) {
-                var stateUpdate = Curry._1(match[0][/* reducer */3], action);
-                instance[/* pendingStateUpdates */6][0] = /* :: */[
-                  stateUpdate,
-                  instance[/* pendingStateUpdates */6][0]
-                ];
-                return /* () */0;
-              } else {
-                return /* () */0;
-              }
-            })
+          /* elementType : Node */Block.__(1, [name]),
+          /* children */children
         ];
 }
 
-function createInstance(component, element, instanceSubTree, subElements) {
-  var iState = Curry._1(component[/* initialState */2], /* () */0);
+function stringToElement(value) {
   return /* record */[
-          /* component : Some */[component],
-          /* element */element,
-          /* iState */iState,
-          /* instanceSubTree */instanceSubTree,
-          /* domElement : None */0,
-          /* subElements */subElements,
-          /* pendingStateUpdates */[/* [] */0]
+          /* elementType : Text */Block.__(0, [value]),
+          /* children : [] */0
         ];
 }
 
-function mapRenderedElement(f, renderedElement) {
-  if (renderedElement.tag) {
-    var l = renderedElement[1];
-    var nextL = List.map((function (param) {
-            return mapRenderedElement(f, param);
-          }), l);
-    var unchanged = List.for_all2((function (prim, prim$1) {
-            return +(prim === prim$1);
-          }), l, nextL);
-    if (unchanged !== 0) {
-      return renderedElement;
-    } else {
-      return /* INested */Block.__(1, [
-                renderedElement[0],
-                nextL,
-                renderedElement[2]
-              ]);
-    }
-  } else {
-    var l$1 = renderedElement[0];
-    var nextL$1 = List.map(f, l$1);
-    var unchanged$1 = List.for_all2((function (prim, prim$1) {
-            return +(prim === prim$1);
-          }), l$1, nextL$1);
-    if (unchanged$1 !== 0) {
-      return renderedElement;
-    } else {
-      return /* IFlat */Block.__(0, [nextL$1]);
-    }
-  }
+function equalizeLists(aList, bList) {
+  var aOptionList = List.map((function (a) {
+          return /* Some */[a];
+        }), aList);
+  var bOptionList = List.map((function (a) {
+          return /* Some */[a];
+        }), bList);
+  return /* tuple */[
+          aOptionList,
+          bOptionList
+        ];
 }
 
-function renderReactElement(reactElement) {
-  if (reactElement.tag) {
-    var elements = reactElement[2];
-    var name = reactElement[0];
-    if (name === "List") {
-      return /* INested */Block.__(1, [
-                name,
-                List.map(renderReactElement, elements),
-                /* None */0
-              ]);
-    } else {
-      return /* INested */Block.__(1, [
-                name,
-                List.map(renderReactElement, elements),
-                /* None */0
-              ]);
-    }
-  } else {
-    return /* IFlat */Block.__(0, [List.map(reconcile, reactElement[0])]);
-  }
-}
-
-function reconcile(element) {
-  if (element.tag) {
-    var component = element[0];
-    var instance = createInstance(component, element, /* IFlat */Block.__(0, [/* [] */0]), /* Flat */Block.__(0, [/* [] */0]));
-    var self = createSelf(instance);
-    var subElements = Curry._1(component[/* render */1], self);
-    var instanceSubTree = renderReactElement(subElements);
-    return /* Instance */[/* record */[
-              /* component */instance[/* component */0],
-              /* element */instance[/* element */1],
-              /* iState */instance[/* iState */2],
-              /* instanceSubTree */instanceSubTree,
-              /* domElement */instance[/* domElement */4],
-              /* subElements */subElements,
-              /* pendingStateUpdates */instance[/* pendingStateUpdates */6]
-            ]];
-  } else {
-    return /* Instance */[/* record */[
-              /* component : None */0,
-              /* element */element,
-              /* iState : () */0,
-              /* instanceSubTree : IFlat */Block.__(0, [/* [] */0]),
-              /* domElement : None */0,
-              /* subElements : Flat */Block.__(0, [/* [] */0]),
-              /* pendingStateUpdates */[/* [] */0]
-            ]];
-  }
-}
-
-function executePendingStateUpdates(opaqueInstance) {
-  var instance = opaqueInstance[0];
-  var executeUpdate = function (state, stateUpdate) {
-    var match = Curry._1(stateUpdate, state);
-    if (match) {
-      return match[0];
-    } else {
-      return state;
-    }
-  };
-  var executeUpdates = function (_state, _stateUpdates) {
-    while(true) {
-      var stateUpdates = _stateUpdates;
-      var state = _state;
-      if (stateUpdates) {
-        var nextState = executeUpdate(state, stateUpdates[0]);
-        _stateUpdates = stateUpdates[1];
-        _state = nextState;
-        continue ;
-        
-      } else {
-        return state;
-      }
-    };
-  };
-  var pendingUpdates = List.rev(instance[/* pendingStateUpdates */6][0]);
-  instance[/* pendingStateUpdates */6][0] = /* [] */0;
-  var nextState = executeUpdates(instance[/* iState */2], pendingUpdates);
-  var match = +(instance[/* iState */2] === nextState);
-  if (match !== 0) {
-    return opaqueInstance;
-  } else {
-    var newrecord = instance.slice();
-    return /* Instance */[(newrecord[/* iState */2] = nextState, newrecord)];
-  }
-}
-
-function flushPendingUpdatesFromInstance(instance) {
-  var instance$1 = executePendingStateUpdates(instance);
-  console.log(instance$1[0][/* iState */2]);
-  return instance$1;
-}
-
-function flushPendingUpdates(renderedElement) {
-  return mapRenderedElement(flushPendingUpdatesFromInstance, renderedElement);
-}
-
-function renderRenderedElement(parentElement, oldRenderedElement, newRenderedElement) {
-  if (oldRenderedElement) {
-    var oldRenderedElement$1 = oldRenderedElement[0];
-    var exit = 0;
-    if (oldRenderedElement$1.tag) {
-      var match = oldRenderedElement$1[2];
-      if (match) {
-        var oldDom = match[0];
-        var oldElements = oldRenderedElement$1[1];
-        if (newRenderedElement.tag) {
-          if (newRenderedElement[2]) {
-            var newName = newRenderedElement[0];
-            if (oldRenderedElement$1[0] === newName) {
-              var newElements = newRenderedElement[1];
-              if (newName === "List") {
-                return /* INested */Block.__(1, [
-                          newName,
-                          List.map2((function (a, b) {
-                                  return renderRenderedElement(oldDom, /* Some */[a], b);
-                                }), oldElements, newElements),
-                          /* Some */[oldDom]
-                        ]);
-              } else {
-                var node = document.createElement(newName);
-                oldDom.appendChild(node);
-                return /* INested */Block.__(1, [
-                          newName,
-                          List.map2((function (a, b) {
-                                  return renderRenderedElement(node, /* Some */[a], b);
-                                }), oldElements, newElements),
-                          /* Some */[node]
-                        ]);
-              }
-            } else {
-              exit = 1;
-            }
-          } else {
-            exit = 1;
-          }
-        } else {
-          exit = 1;
-        }
-      } else {
-        exit = 1;
-      }
-    } else {
-      var oldList = oldRenderedElement$1[0];
-      if (newRenderedElement.tag) {
-        exit = 1;
-      } else {
-        var newList = newRenderedElement[0];
-        if (List.length(oldList) === List.length(newList)) {
-          return /* IFlat */Block.__(0, [List.map2((function (a, b) {
-                            return reconcileRenderedElement(parentElement, /* Some */[a], b);
-                          }), oldList, newList)]);
-        } else {
-          exit = 1;
-        }
-      }
-    }
-    if (exit === 1) {
-      if (oldRenderedElement$1.tag) {
-        var match$1 = oldRenderedElement$1[2];
-        if (match$1) {
-          match$1[0].removeChild(parentElement);
-        } else {
-          throw [
-                Caml_builtin_exceptions.match_failure,
-                [
-                  "/Users/lpalmes/Developer/reason/rereact-nano/src/rereact/rereactDom.re",
-                  236,
-                  4
-                ]
-              ];
-        }
-      } else {
-        List.iter((function (param) {
-                var domElement = param[0][/* domElement */4];
-                if (domElement) {
-                  domElement[0].removeChild(parentElement);
-                  return /* () */0;
-                } else {
-                  return /* () */0;
-                }
-              }), oldRenderedElement$1[0]);
-      }
-      if (newRenderedElement.tag) {
-        var elements = newRenderedElement[1];
-        var name = newRenderedElement[0];
-        if (name === "List") {
-          return /* INested */Block.__(1, [
-                    name,
-                    List.map((function (x) {
-                            return renderRenderedElement(parentElement, /* None */0, x);
-                          }), elements),
-                    newRenderedElement[2]
-                  ]);
-        } else {
-          var node$1 = document.createElement(name);
-          parentElement.appendChild(node$1);
-          return /* INested */Block.__(1, [
-                    name,
-                    List.map((function (param) {
-                            return renderRenderedElement(node$1, /* None */0, param);
-                          }), elements),
-                    /* Some */[node$1]
-                  ]);
-        }
-      } else {
-        return /* IFlat */Block.__(0, [List.map((function (a) {
-                          return reconcileRenderedElement(parentElement, /* None */0, a);
-                        }), newRenderedElement[0])]);
-      }
-    }
-    
-  } else {
-    return newRenderedElement;
-  }
-}
-
-function reconcileRenderedElement(parentElement, oldOpaqueInstance, newOpaqueInstance) {
-  if (oldOpaqueInstance) {
-    var match = oldOpaqueInstance[0][0];
-    var match$1 = match[/* domElement */4];
-    if (match$1) {
-      var newInstance = newOpaqueInstance[0];
-      var newElement = newInstance[/* element */1];
-      var oldDomElement = match$1[0];
-      var oldElement = match[/* element */1];
-      oldDomElement.removeChild(parentElement);
-      var exit = 0;
-      if (oldElement.tag) {
-        if (newElement.tag) {
-          var newComponent = newElement[0];
-          if (oldElement[0][/* debugName */0] === newComponent[/* debugName */0]) {
-            var self = createSelf(newInstance);
-            var subElements = Curry._1(newComponent[/* render */1], self);
-            var instanceSubTree = renderReactElement(subElements);
-            return /* Instance */[/* record */[
-                      /* component */newInstance[/* component */0],
-                      /* element */newInstance[/* element */1],
-                      /* iState */newInstance[/* iState */2],
-                      /* instanceSubTree */instanceSubTree,
-                      /* domElement : Some */[oldDomElement],
-                      /* subElements */subElements,
-                      /* pendingStateUpdates */newInstance[/* pendingStateUpdates */6]
-                    ]];
-          } else {
-            exit = 1;
-          }
-        } else {
-          exit = 1;
-        }
-      } else if (newElement.tag) {
-        exit = 1;
-      } else {
-        oldDomElement.innerText = newElement[0];
-        var newrecord = newInstance.slice();
-        return /* Instance */[(newrecord[/* element */1] = newElement, newrecord)];
-      }
-      if (exit === 1) {
-        throw [
-              Caml_builtin_exceptions.match_failure,
-              [
-                "/Users/lpalmes/Developer/reason/rereact-nano/src/rereact/rereactDom.re",
-                285,
-                4
-              ]
-            ];
-      }
-      
-    } else {
-      throw [
-            Caml_builtin_exceptions.match_failure,
-            [
-              "/Users/lpalmes/Developer/reason/rereact-nano/src/rereact/rereactDom.re",
-              279,
-              2
-            ]
+function instantiate(element) {
+  var match = element[/* elementType */0];
+  if (match.tag) {
+    var node = document.createElement(match[0]);
+    var childInstances = List.map(instantiate, element[/* children */1]);
+    List.iter((function (e) {
+            node.appendChild(e[/* dom */1]);
+            return /* () */0;
+          }), childInstances);
+    return /* record */[
+            /* element */element,
+            /* dom */node,
+            /* childInstances */childInstances
           ];
-    }
   } else {
-    var instance = newOpaqueInstance[0];
-    var match$2 = instance[/* domElement */4];
-    if (match$2) {
-      var domElement = match$2[0];
-      var element = instance[/* element */1];
-      domElement.removeChild(parentElement);
-      if (element.tag) {
-        var self$1 = createSelf(instance);
-        var subElements$1 = Curry._1(element[0][/* render */1], self$1);
-        var instanceSubTree$1 = renderReactElement(subElements$1);
-        return /* Instance */[/* record */[
-                  /* component */instance[/* component */0],
-                  /* element */instance[/* element */1],
-                  /* iState */instance[/* iState */2],
-                  /* instanceSubTree */instanceSubTree$1,
-                  /* domElement : Some */[domElement],
-                  /* subElements */subElements$1,
-                  /* pendingStateUpdates */instance[/* pendingStateUpdates */6]
+    var dom = document.createElement("span");
+    dom.innerText = match[0];
+    return /* record */[
+            /* element */element,
+            /* dom */dom,
+            /* childInstances : [] */0
+          ];
+  }
+}
+
+function reconcile(parentDom, instance, didactElement) {
+  if (instance) {
+    var instance$1 = instance[0];
+    if (didactElement) {
+      var didactElement$1 = didactElement[0];
+      if (Caml_obj.caml_equal(instance$1[/* element */0][/* elementType */0], didactElement$1[/* elementType */0])) {
+        return /* Some */[/* record */[
+                  /* element */didactElement$1,
+                  /* dom */instance$1[/* dom */1],
+                  /* childInstances */instance$1[/* childInstances */2]
                 ]];
       } else {
-        domElement.innerText = element[0];
-        var newrecord$1 = instance.slice();
-        return /* Instance */[(newrecord$1[/* element */1] = element, newrecord$1)];
+        var newInstance = instantiate(didactElement$1);
+        parentDom.removeChild(instance$1[/* dom */1]);
+        parentDom.appendChild(newInstance[/* dom */1]);
+        return /* Some */[newInstance];
       }
     } else {
-      throw [
-            Caml_builtin_exceptions.match_failure,
-            [
-              "/Users/lpalmes/Developer/reason/rereact-nano/src/rereact/rereactDom.re",
-              302,
-              4
-            ]
-          ];
+      parentDom.removeChild(instance$1[/* dom */1]);
+      return /* None */0;
     }
-  }
-}
-
-function rerender(parentElement, renderedElement) {
-  var flushedRenderedElement = mapRenderedElement(flushPendingUpdatesFromInstance, renderedElement);
-  if (renderedElement === flushedRenderedElement) {
-    return renderedElement;
+  } else if (didactElement) {
+    var newInstance$1 = instantiate(didactElement[0]);
+    parentDom.appendChild(newInstance$1[/* dom */1]);
+    return /* Some */[newInstance$1];
   } else {
-    return renderRenderedElement(parentElement, /* Some */[renderedElement], flushedRenderedElement);
+    return /* None */0;
   }
 }
 
-function render(reactElement, parentElement) {
-  var match = parentElement.lastElementChild;
-  var instance = match !== null ? (parentElement.removeChild(match), renderReactElement(reactElement)) : renderReactElement(reactElement);
-  globalInstance[0] = instance;
-  setInterval((function () {
-          globalInstance[0] = rerender(parentElement, globalInstance[0]);
-          return /* () */0;
-        }), 100);
-  return globalInstance;
-}
-
-exports.globalInstance                  = globalInstance;
-exports.createDomElement                = createDomElement;
-exports.div                             = div;
-exports.h1                              = h1;
-exports.h2                              = h2;
-exports.h3                              = h3;
-exports.h4                              = h4;
-exports.h5                              = h5;
-exports.h6                              = h6;
-exports.span                            = span;
-exports.ul                              = ul;
-exports.li                              = li;
-exports.img                             = img;
-exports.button                          = button;
-exports.input                           = input;
-exports.addProps                        = addProps;
-exports.createSelf                      = createSelf;
-exports.createInstance                  = createInstance;
-exports.mapRenderedElement              = mapRenderedElement;
-exports.renderReactElement              = renderReactElement;
-exports.reconcile                       = reconcile;
-exports.executePendingStateUpdates      = executePendingStateUpdates;
-exports.flushPendingUpdatesFromInstance = flushPendingUpdatesFromInstance;
-exports.flushPendingUpdates             = flushPendingUpdates;
-exports.renderRenderedElement           = renderRenderedElement;
-exports.reconcileRenderedElement        = reconcileRenderedElement;
-exports.rerender                        = rerender;
-exports.render                          = render;
-/* No side effect */
-
-},{"bs-platform/lib/js/list.js":9,"bs-platform/lib/js/block.js":6,"bs-platform/lib/js/curry.js":7,"bs-platform/lib/js/caml_builtin_exceptions.js":10}],3:[function(require,module,exports) {
-// Generated by BUCKLESCRIPT VERSION 2.1.0, PLEASE EDIT WITH CARE
-'use strict';
-
-var Block      = require("bs-platform/lib/js/block.js");
-var Curry      = require("bs-platform/lib/js/curry.js");
-var Rereact    = require("./rereact/rereact.bs.js");
-var Pervasives = require("bs-platform/lib/js/pervasives.js");
-var RereactDom = require("./rereact/rereactDom.bs.js");
-
-function createElement(_, _$1) {
-  return Rereact.element(/* record */[
-              /* debugName */"MiniTest",
-              /* render */(function (param) {
-                  var send = param[/* send */2];
-                  return RereactDom.div(/* None */0, /* None */0, /* None */0, /* None */0, /* :: */[
-                              RereactDom.button(/* None */0, /* None */0, /* Some */[(function () {
-                                        return Curry._1(send, /* Increment */Block.__(0, [1]));
-                                      })], /* None */0, /* :: */[
-                                    Rereact.stringToElement("Increment"),
-                                    /* [] */0
-                                  ], /* () */0),
-                              /* :: */[
-                                RereactDom.span(/* None */0, /* None */0, /* None */0, /* None */0, /* :: */[
-                                      Rereact.stringToElement(Pervasives.string_of_int(param[/* state */0])),
-                                      /* [] */0
-                                    ], /* () */0),
-                                /* :: */[
-                                  RereactDom.button(/* None */0, /* None */0, /* Some */[(function () {
-                                            return Curry._1(send, /* Decrement */Block.__(1, [1]));
-                                          })], /* None */0, /* :: */[
-                                        Rereact.stringToElement("Decrement"),
-                                        /* [] */0
-                                      ], /* () */0),
-                                  /* [] */0
-                                ]
-                              ]
-                            ], /* () */0);
-                }),
-              /* initialState */(function () {
-                  return 1;
-                }),
-              /* reducer */(function (action, state) {
-                  if (action.tag) {
-                    var value = action[0];
-                    if ((state - value | 0) >= 0) {
-                      return /* Update */[state - value | 0];
-                    } else {
-                      return /* NoUpdate */0;
-                    }
-                  } else {
-                    return /* Update */[state + action[0] | 0];
-                  }
-                })
-            ]);
-}
-
-exports.createElement = createElement;
-/* No side effect */
-
-},{"bs-platform/lib/js/block.js":6,"bs-platform/lib/js/curry.js":7,"./rereact/rereact.bs.js":26,"bs-platform/lib/js/pervasives.js":8,"./rereact/rereactDom.bs.js":27}],4:[function(require,module,exports) {
-// Generated by BUCKLESCRIPT VERSION 2.1.0, PLEASE EDIT WITH CARE
-'use strict';
-
-var List                    = require("bs-platform/lib/js/list.js");
-var Block                   = require("bs-platform/lib/js/block.js");
-var Curry                   = require("bs-platform/lib/js/curry.js");
-var Caml_builtin_exceptions = require("bs-platform/lib/js/caml_builtin_exceptions.js");
-
-var globalInstance = [/* IFlat */Block.__(0, [/* [] */0])];
-
-function createDomElement(name, id, value, onClick, onChange, children, _) {
-  return /* Nested */Block.__(1, [
-            name,
-            /* record */[
-              /* id */id,
-              /* value */value,
-              /* onClick */onClick,
-              /* onChange */onChange
-            ],
-            children
-          ]);
-}
-
-function div(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("div", param, param$1, param$2, param$3, param$4, param$5);
-}
-
-function h1(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("h1", param, param$1, param$2, param$3, param$4, param$5);
-}
-
-function h2(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("h2", param, param$1, param$2, param$3, param$4, param$5);
-}
-
-function h3(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("h3", param, param$1, param$2, param$3, param$4, param$5);
-}
-
-function h4(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("h4", param, param$1, param$2, param$3, param$4, param$5);
-}
-
-function h5(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("h5", param, param$1, param$2, param$3, param$4, param$5);
-}
-
-function h6(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("h6", param, param$1, param$2, param$3, param$4, param$5);
-}
-
-function span(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("span", param, param$1, param$2, param$3, param$4, param$5);
-}
-
-function ul(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("ul", param, param$1, param$2, param$3, param$4, param$5);
-}
-
-function li(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("li", param, param$1, param$2, param$3, param$4, param$5);
-}
-
-function img(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("img", param, param$1, param$2, param$3, param$4, param$5);
-}
-
-function button(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("button", param, param$1, param$2, param$3, param$4, param$5);
-}
-
-function input(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("input", param, param$1, param$2, param$3, param$4, param$5);
-}
-
-function addProps(domElement, props) {
-  var match = props[/* id */0];
-  if (match) {
-    domElement.setAttribute("id", match[0]);
-  }
-  var match$1 = props[/* value */1];
-  if (match$1) {
-    domElement.setAttribute("value", match$1[0]);
-  }
-  var match$2 = props[/* onClick */2];
-  if (match$2) {
-    domElement.addEventListener("click", match$2[0]);
-  }
-  var match$3 = props[/* onChange */3];
-  if (match$3) {
-    domElement.addEventListener("change", match$3[0]);
-    return /* () */0;
-  } else {
-    return /* () */0;
-  }
-}
-
-function createSelf(instance) {
-  return /* record */[
-          /* state */instance[/* iState */2],
-          /* reduce */(function (payloadToAction, payload) {
-              var match = instance[/* component */0];
-              if (match) {
-                var action = Curry._1(payloadToAction, payload);
-                var stateUpdate = Curry._1(match[0][/* reducer */3], action);
-                instance[/* pendingStateUpdates */6][0] = /* :: */[
-                  stateUpdate,
-                  instance[/* pendingStateUpdates */6][0]
-                ];
-                return /* () */0;
-              } else {
-                return /* () */0;
-              }
-            }),
-          /* send */(function (action) {
-              var match = instance[/* component */0];
-              if (match) {
-                var stateUpdate = Curry._1(match[0][/* reducer */3], action);
-                instance[/* pendingStateUpdates */6][0] = /* :: */[
-                  stateUpdate,
-                  instance[/* pendingStateUpdates */6][0]
-                ];
-                return /* () */0;
-              } else {
-                return /* () */0;
-              }
-            })
-        ];
-}
-
-function createInstance(component, element, instanceSubTree, subElements) {
-  var iState = Curry._1(component[/* initialState */2], /* () */0);
-  return /* record */[
-          /* component : Some */[component],
-          /* element */element,
-          /* iState */iState,
-          /* instanceSubTree */instanceSubTree,
-          /* domElement : None */0,
-          /* subElements */subElements,
-          /* pendingStateUpdates */[/* [] */0]
-        ];
-}
-
-function mapRenderedElement(f, renderedElement) {
-  if (renderedElement.tag) {
-    var l = renderedElement[1];
-    var nextL = List.map((function (param) {
-            return mapRenderedElement(f, param);
-          }), l);
-    var unchanged = List.for_all2((function (prim, prim$1) {
-            return +(prim === prim$1);
-          }), l, nextL);
-    if (unchanged !== 0) {
-      return renderedElement;
-    } else {
-      return /* INested */Block.__(1, [
-                renderedElement[0],
-                nextL,
-                renderedElement[2]
-              ]);
-    }
-  } else {
-    var l$1 = renderedElement[0];
-    var nextL$1 = List.map(f, l$1);
-    var unchanged$1 = List.for_all2((function (prim, prim$1) {
-            return +(prim === prim$1);
-          }), l$1, nextL$1);
-    if (unchanged$1 !== 0) {
-      return renderedElement;
-    } else {
-      return /* IFlat */Block.__(0, [nextL$1]);
-    }
-  }
-}
-
-function renderReactElement(reactElement) {
-  if (reactElement.tag) {
-    var elements = reactElement[2];
-    var name = reactElement[0];
-    if (name === "List") {
-      return /* INested */Block.__(1, [
-                name,
-                List.map(renderReactElement, elements),
-                /* None */0
-              ]);
-    } else {
-      return /* INested */Block.__(1, [
-                name,
-                List.map(renderReactElement, elements),
-                /* None */0
-              ]);
-    }
-  } else {
-    return /* IFlat */Block.__(0, [List.map(reconcile, reactElement[0])]);
-  }
-}
-
-function reconcile(element) {
-  if (element.tag) {
-    var component = element[0];
-    var instance = createInstance(component, element, /* IFlat */Block.__(0, [/* [] */0]), /* Flat */Block.__(0, [/* [] */0]));
-    var self = createSelf(instance);
-    var subElements = Curry._1(component[/* render */1], self);
-    var instanceSubTree = renderReactElement(subElements);
-    return /* Instance */[/* record */[
-              /* component */instance[/* component */0],
-              /* element */instance[/* element */1],
-              /* iState */instance[/* iState */2],
-              /* instanceSubTree */instanceSubTree,
-              /* domElement */instance[/* domElement */4],
-              /* subElements */subElements,
-              /* pendingStateUpdates */instance[/* pendingStateUpdates */6]
-            ]];
-  } else {
-    return /* Instance */[/* record */[
-              /* component : None */0,
-              /* element */element,
-              /* iState : () */0,
-              /* instanceSubTree : IFlat */Block.__(0, [/* [] */0]),
-              /* domElement : None */0,
-              /* subElements : Flat */Block.__(0, [/* [] */0]),
-              /* pendingStateUpdates */[/* [] */0]
-            ]];
-  }
-}
-
-function executePendingStateUpdates(opaqueInstance) {
-  var instance = opaqueInstance[0];
-  var executeUpdate = function (state, stateUpdate) {
-    var match = Curry._1(stateUpdate, state);
-    if (match) {
-      return match[0];
-    } else {
-      return state;
-    }
-  };
-  var executeUpdates = function (_state, _stateUpdates) {
-    while(true) {
-      var stateUpdates = _stateUpdates;
-      var state = _state;
-      if (stateUpdates) {
-        var nextState = executeUpdate(state, stateUpdates[0]);
-        _stateUpdates = stateUpdates[1];
-        _state = nextState;
-        continue ;
-        
-      } else {
-        return state;
-      }
-    };
-  };
-  var pendingUpdates = List.rev(instance[/* pendingStateUpdates */6][0]);
-  instance[/* pendingStateUpdates */6][0] = /* [] */0;
-  var nextState = executeUpdates(instance[/* iState */2], pendingUpdates);
-  var match = +(instance[/* iState */2] === nextState);
-  if (match !== 0) {
-    return opaqueInstance;
-  } else {
-    var newrecord = instance.slice();
-    return /* Instance */[(newrecord[/* iState */2] = nextState, newrecord)];
-  }
-}
-
-function flushPendingUpdatesFromInstance(instance) {
-  var instance$1 = executePendingStateUpdates(instance);
-  console.log(instance$1[0][/* iState */2]);
-  return instance$1;
-}
-
-function flushPendingUpdates(renderedElement) {
-  return mapRenderedElement(flushPendingUpdatesFromInstance, renderedElement);
-}
-
-function renderRenderedElement(parentElement, oldRenderedElement, newRenderedElement) {
-  if (oldRenderedElement) {
-    var oldRenderedElement$1 = oldRenderedElement[0];
-    var exit = 0;
-    if (oldRenderedElement$1.tag) {
-      var match = oldRenderedElement$1[2];
-      if (match) {
-        var oldDom = match[0];
-        var oldElements = oldRenderedElement$1[1];
-        if (newRenderedElement.tag) {
-          if (newRenderedElement[2]) {
-            var newName = newRenderedElement[0];
-            if (oldRenderedElement$1[0] === newName) {
-              var newElements = newRenderedElement[1];
-              if (newName === "List") {
-                return /* INested */Block.__(1, [
-                          newName,
-                          List.map2((function (a, b) {
-                                  return renderRenderedElement(oldDom, /* Some */[a], b);
-                                }), oldElements, newElements),
-                          /* Some */[oldDom]
-                        ]);
-              } else {
-                var node = document.createElement(newName);
-                oldDom.appendChild(node);
-                return /* INested */Block.__(1, [
-                          newName,
-                          List.map2((function (a, b) {
-                                  return renderRenderedElement(node, /* Some */[a], b);
-                                }), oldElements, newElements),
-                          /* Some */[node]
-                        ]);
-              }
-            } else {
-              exit = 1;
-            }
-          } else {
-            exit = 1;
-          }
-        } else {
-          exit = 1;
-        }
-      } else {
-        exit = 1;
-      }
-    } else {
-      var oldList = oldRenderedElement$1[0];
-      if (newRenderedElement.tag) {
-        exit = 1;
-      } else {
-        var newList = newRenderedElement[0];
-        if (List.length(oldList) === List.length(newList)) {
-          return /* IFlat */Block.__(0, [List.map2((function (a, b) {
-                            return reconcileRenderedElement(parentElement, /* Some */[a], b);
-                          }), oldList, newList)]);
-        } else {
-          exit = 1;
-        }
-      }
-    }
-    if (exit === 1) {
-      if (oldRenderedElement$1.tag) {
-        var match$1 = oldRenderedElement$1[2];
-        if (match$1) {
-          match$1[0].removeChild(parentElement);
-        } else {
-          throw [
-                Caml_builtin_exceptions.match_failure,
-                [
-                  "/Users/lpalmes/Developer/reason/rereact-nano/src/rereactDom.re",
-                  236,
-                  4
-                ]
-              ];
-        }
-      } else {
-        List.iter((function (param) {
-                var domElement = param[0][/* domElement */4];
-                if (domElement) {
-                  domElement[0].removeChild(parentElement);
-                  return /* () */0;
+function reconcileChildren(instance, didactElement) {
+  var match = equalizeLists(instance[/* childInstances */2], didactElement[/* children */1]);
+  var partial_arg = instance[/* dom */1];
+  return List.fold_left((function (a, b) {
+                if (b) {
+                  return /* :: */[
+                          b[0],
+                          a
+                        ];
                 } else {
-                  return /* () */0;
+                  return a;
                 }
-              }), oldRenderedElement$1[0]);
-      }
-      if (newRenderedElement.tag) {
-        var elements = newRenderedElement[1];
-        var name = newRenderedElement[0];
-        if (name === "List") {
-          return /* INested */Block.__(1, [
-                    name,
-                    List.map((function (x) {
-                            return renderRenderedElement(parentElement, /* None */0, x);
-                          }), elements),
-                    newRenderedElement[2]
-                  ]);
-        } else {
-          var node$1 = document.createElement(name);
-          parentElement.appendChild(node$1);
-          return /* INested */Block.__(1, [
-                    name,
-                    List.map((function (param) {
-                            return renderRenderedElement(node$1, /* None */0, param);
-                          }), elements),
-                    /* Some */[node$1]
-                  ]);
-        }
-      } else {
-        return /* IFlat */Block.__(0, [List.map((function (a) {
-                          return reconcileRenderedElement(parentElement, /* None */0, a);
-                        }), newRenderedElement[0])]);
-      }
-    }
-    
-  } else {
-    return newRenderedElement;
-  }
+              }), /* [] */0, List.map2((function (param, param$1) {
+                    return reconcile(partial_arg, param, param$1);
+                  }), match[0], match[1]));
 }
 
-function reconcileRenderedElement(parentElement, oldOpaqueInstance, newOpaqueInstance) {
-  if (oldOpaqueInstance) {
-    var match = oldOpaqueInstance[0][0];
-    var match$1 = match[/* domElement */4];
-    if (match$1) {
-      var newInstance = newOpaqueInstance[0];
-      var newElement = newInstance[/* element */1];
-      var oldDomElement = match$1[0];
-      var oldElement = match[/* element */1];
-      oldDomElement.removeChild(parentElement);
-      var exit = 0;
-      if (oldElement.tag) {
-        if (newElement.tag) {
-          var newComponent = newElement[0];
-          if (oldElement[0][/* debugName */0] === newComponent[/* debugName */0]) {
-            var self = createSelf(newInstance);
-            var subElements = Curry._1(newComponent[/* render */1], self);
-            var instanceSubTree = renderReactElement(subElements);
-            return /* Instance */[/* record */[
-                      /* component */newInstance[/* component */0],
-                      /* element */newInstance[/* element */1],
-                      /* iState */newInstance[/* iState */2],
-                      /* instanceSubTree */instanceSubTree,
-                      /* domElement : Some */[oldDomElement],
-                      /* subElements */subElements,
-                      /* pendingStateUpdates */newInstance[/* pendingStateUpdates */6]
-                    ]];
-          } else {
-            exit = 1;
-          }
-        } else {
-          exit = 1;
-        }
-      } else if (newElement.tag) {
-        exit = 1;
-      } else {
-        oldDomElement.innerText = newElement[0];
-        var newrecord = newInstance.slice();
-        return /* Instance */[(newrecord[/* element */1] = newElement, newrecord)];
-      }
-      if (exit === 1) {
-        throw [
-              Caml_builtin_exceptions.match_failure,
-              [
-                "/Users/lpalmes/Developer/reason/rereact-nano/src/rereactDom.re",
-                285,
-                4
-              ]
-            ];
-      }
-      
-    } else {
-      throw [
-            Caml_builtin_exceptions.match_failure,
-            [
-              "/Users/lpalmes/Developer/reason/rereact-nano/src/rereactDom.re",
-              279,
-              2
-            ]
-          ];
-    }
-  } else {
-    var instance = newOpaqueInstance[0];
-    var match$2 = instance[/* domElement */4];
-    if (match$2) {
-      var domElement = match$2[0];
-      var element = instance[/* element */1];
-      domElement.removeChild(parentElement);
-      if (element.tag) {
-        var self$1 = createSelf(instance);
-        var subElements$1 = Curry._1(element[0][/* render */1], self$1);
-        var instanceSubTree$1 = renderReactElement(subElements$1);
-        return /* Instance */[/* record */[
-                  /* component */instance[/* component */0],
-                  /* element */instance[/* element */1],
-                  /* iState */instance[/* iState */2],
-                  /* instanceSubTree */instanceSubTree$1,
-                  /* domElement : Some */[domElement],
-                  /* subElements */subElements$1,
-                  /* pendingStateUpdates */instance[/* pendingStateUpdates */6]
-                ]];
-      } else {
-        domElement.innerText = element[0];
-        var newrecord$1 = instance.slice();
-        return /* Instance */[(newrecord$1[/* element */1] = element, newrecord$1)];
-      }
-    } else {
-      throw [
-            Caml_builtin_exceptions.match_failure,
-            [
-              "/Users/lpalmes/Developer/reason/rereact-nano/src/rereactDom.re",
-              302,
-              4
-            ]
-          ];
-    }
-  }
+var DidactDom = /* module */[
+  /* instantiate */instantiate,
+  /* reconcile */reconcile,
+  /* reconcileChildren */reconcileChildren
+];
+
+var instance = [/* None */0];
+
+function render(element, parentDom) {
+  var newInstance = reconcile(parentDom, instance[0], /* Some */[element]);
+  instance[0] = newInstance;
+  return newInstance;
 }
 
-function rerender(parentElement, renderedElement) {
-  var flushedRenderedElement = mapRenderedElement(flushPendingUpdatesFromInstance, renderedElement);
-  if (renderedElement === flushedRenderedElement) {
-    return renderedElement;
-  } else {
-    return renderRenderedElement(parentElement, /* Some */[renderedElement], flushedRenderedElement);
-  }
-}
-
-function render(reactElement, parentElement) {
-  var match = parentElement.lastElementChild;
-  var instance = match !== null ? (parentElement.removeChild(match), renderReactElement(reactElement)) : renderReactElement(reactElement);
-  globalInstance[0] = instance;
-  setInterval((function () {
-          globalInstance[0] = rerender(parentElement, globalInstance[0]);
-          return /* () */0;
-        }), 100);
-  return globalInstance;
-}
-
-exports.globalInstance                  = globalInstance;
-exports.createDomElement                = createDomElement;
-exports.div                             = div;
-exports.h1                              = h1;
-exports.h2                              = h2;
-exports.h3                              = h3;
-exports.h4                              = h4;
-exports.h5                              = h5;
-exports.h6                              = h6;
-exports.span                            = span;
-exports.ul                              = ul;
-exports.li                              = li;
-exports.img                             = img;
-exports.button                          = button;
-exports.input                           = input;
-exports.addProps                        = addProps;
-exports.createSelf                      = createSelf;
-exports.createInstance                  = createInstance;
-exports.mapRenderedElement              = mapRenderedElement;
-exports.renderReactElement              = renderReactElement;
-exports.reconcile                       = reconcile;
-exports.executePendingStateUpdates      = executePendingStateUpdates;
-exports.flushPendingUpdatesFromInstance = flushPendingUpdatesFromInstance;
-exports.flushPendingUpdates             = flushPendingUpdates;
-exports.renderRenderedElement           = renderRenderedElement;
-exports.reconcileRenderedElement        = reconcileRenderedElement;
-exports.rerender                        = rerender;
-exports.render                          = render;
+exports.createDomElement = createDomElement;
+exports.stringToElement  = stringToElement;
+exports.equalizeLists    = equalizeLists;
+exports.DidactDom        = DidactDom;
+exports.instance         = instance;
+exports.render           = render;
 /* No side effect */
 
-},{"bs-platform/lib/js/list.js":9,"bs-platform/lib/js/block.js":6,"bs-platform/lib/js/curry.js":7,"bs-platform/lib/js/caml_builtin_exceptions.js":10}],2:[function(require,module,exports) {
+},{"bs-platform/lib/js/list.js":4,"bs-platform/lib/js/block.js":5,"bs-platform/lib/js/caml_obj.js":8}],22:[function(require,module,exports) {
 // Generated by BUCKLESCRIPT VERSION 2.1.0, PLEASE EDIT WITH CARE
 'use strict';
 
-var MiniTest   = require("./miniTest.bs.js");
-var RereactDom = require("./rereactDom.bs.js");
+var Didact = require("./didact.bs.js");
 
-function render() {
-  var match = document.getElementById("container");
-  if (match !== null) {
-    RereactDom.render(MiniTest.createElement(/* [] */0, /* () */0), match);
-    return /* () */0;
-  } else {
-    console.log("No dom element found :(");
-    return /* () */0;
-  }
+function div(param, param$1) {
+  return Didact.createDomElement("div", param, param$1);
 }
 
-var ParcelModule = /* module */[];
+function h1(param, param$1) {
+  return Didact.createDomElement("h1", param, param$1);
+}
 
-render(/* () */0);
+function h2(param, param$1) {
+  return Didact.createDomElement("h2", param, param$1);
+}
 
-exports.render       = render;
-exports.ParcelModule = ParcelModule;
-/*  Not a pure module */
+function h3(param, param$1) {
+  return Didact.createDomElement("h3", param, param$1);
+}
 
-},{"./miniTest.bs.js":3,"./rereactDom.bs.js":4}],0:[function(require,module,exports) {
+function h4(param, param$1) {
+  return Didact.createDomElement("h4", param, param$1);
+}
+
+function h5(param, param$1) {
+  return Didact.createDomElement("h5", param, param$1);
+}
+
+function h6(param, param$1) {
+  return Didact.createDomElement("h6", param, param$1);
+}
+
+function span(param, param$1) {
+  return Didact.createDomElement("span", param, param$1);
+}
+
+function ul(param, param$1) {
+  return Didact.createDomElement("ul", param, param$1);
+}
+
+function li(param, param$1) {
+  return Didact.createDomElement("li", param, param$1);
+}
+
+function img(param, param$1) {
+  return Didact.createDomElement("img", param, param$1);
+}
+
+function button(param, param$1) {
+  return Didact.createDomElement("button", param, param$1);
+}
+
+function input(param, param$1) {
+  return Didact.createDomElement("input", param, param$1);
+}
+
+exports.div    = div;
+exports.h1     = h1;
+exports.h2     = h2;
+exports.h3     = h3;
+exports.h4     = h4;
+exports.h5     = h5;
+exports.h6     = h6;
+exports.span   = span;
+exports.ul     = ul;
+exports.li     = li;
+exports.img    = img;
+exports.button = button;
+exports.input  = input;
+/* No side effect */
+
+},{"./didact.bs.js":3}],2:[function(require,module,exports) {
+// Generated by BUCKLESCRIPT VERSION 2.1.0, PLEASE EDIT WITH CARE
+'use strict';
+
+var Didact         = require("./didact.bs.js");
+var DidactElements = require("./didactElements.bs.js");
+
+var match = document.getElementById("container");
+
+if (match !== null) {
+  console.log(match);
+  var componentA = DidactElements.h1(/* :: */[
+        Didact.stringToElement("Hola"),
+        /* [] */0
+      ], /* () */0);
+  var componentB = DidactElements.div(/* :: */[
+        DidactElements.button(/* :: */[
+              Didact.stringToElement("click me"),
+              /* [] */0
+            ], /* () */0),
+        /* [] */0
+      ], /* () */0);
+  Didact.render(componentA, match);
+  setInterval((function () {
+          Didact.render(componentB, match);
+          return /* () */0;
+        }), 2000);
+} else {
+  console.log("No dom element found :(");
+}
+
+/* match Not a pure module */
+
+},{"./didact.bs.js":3,"./didactElements.bs.js":22}],0:[function(require,module,exports) {
 var global = (1, eval)('this');
 var OldModule = module.bundle.Module;
 function Module() {
@@ -7826,7 +6285,7 @@ function Module() {
 module.bundle.Module = Module;
 
 if (!module.bundle.parent && typeof WebSocket !== 'undefined') {
-  var ws = new WebSocket('ws://' + window.location.hostname + ':49432/');
+  var ws = new WebSocket('ws://' + window.location.hostname + ':49635/');
   ws.onmessage = function(event) {
     var data = JSON.parse(event.data);
 

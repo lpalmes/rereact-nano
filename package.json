@@ -6,7 +6,8 @@
     "start": "bsb -make-world -w",
     "clean": "bsb -clean-world",
     "webpack": "webpack -w",
-    "bundle": "parcel -o src/example.html"
+    "bundle:didact": "parcel -o src/didact/index.html",
+    "bundle": "parcel -o src/rereact/example.html"
   },
   "keywords": ["BuckleScript"],
   "author": "",

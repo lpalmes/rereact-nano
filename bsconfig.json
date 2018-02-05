@@ -1,7 +1,12 @@
 {
   "name": "rereact-nano",
   "version": "0.1.0",
-  "sources": ["src"],
+  "sources": [
+    {
+      "dir": "src",
+      "subdirs": true
+    }
+  ],
   "package-specs": {
     "module": "commonjs",
     "in-source": true

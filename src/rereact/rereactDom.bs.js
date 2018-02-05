@@ -340,7 +340,7 @@ function renderRenderedElement(parentElement, oldRenderedElement, newRenderedEle
           throw [
                 Caml_builtin_exceptions.match_failure,
                 [
-                  "/Users/lpalmes/Developer/reason/rereact-nano/src/rereactDom.re",
+                  "/Users/lpalmes/Developer/reason/rereact-nano/src/rereact/rereactDom.re",
                   236,
                   4
                 ]
@@ -435,7 +435,7 @@ function reconcileRenderedElement(parentElement, oldOpaqueInstance, newOpaqueIns
         throw [
               Caml_builtin_exceptions.match_failure,
               [
-                "/Users/lpalmes/Developer/reason/rereact-nano/src/rereactDom.re",
+                "/Users/lpalmes/Developer/reason/rereact-nano/src/rereact/rereactDom.re",
                 285,
                 4
               ]
@@ -446,7 +446,7 @@ function reconcileRenderedElement(parentElement, oldOpaqueInstance, newOpaqueIns
       throw [
             Caml_builtin_exceptions.match_failure,
             [
-              "/Users/lpalmes/Developer/reason/rereact-nano/src/rereactDom.re",
+              "/Users/lpalmes/Developer/reason/rereact-nano/src/rereact/rereactDom.re",
               279,
               2
             ]
@@ -481,7 +481,7 @@ function reconcileRenderedElement(parentElement, oldOpaqueInstance, newOpaqueIns
       throw [
             Caml_builtin_exceptions.match_failure,
             [
-              "/Users/lpalmes/Developer/reason/rereact-nano/src/rereactDom.re",
+              "/Users/lpalmes/Developer/reason/rereact-nano/src/rereact/rereactDom.re",
               302,
               4
             ]
