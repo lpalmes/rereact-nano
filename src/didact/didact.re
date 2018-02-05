@@ -1,96 +1,94 @@
-type didactElementType =
-  | Text(string)
-  | Node(string);
+type sideEffects = unit => unit;
 
-type didactElement = {
-  elementType: didactElementType,
-  children: list(didactElement)
-};
+type stateless = unit;
 
-type didactInstance = {
-  element: didactElement,
-  dom: Dom.element,
-  childInstances: list(didactInstance)
-};
+type actionless = unit;
 
-let createDomElement = (name, ~children: list(didactElement), _: unit) => {
-  elementType: Node(name),
-  children
-};
-
-let stringToElement = value => {elementType: Text(value), children: []};
-
-let equalizeLists = (aList, bList) : (list(option('a)), list(option('b))) => {
-  let aOptionList = List.map(a => Some(a), aList);
-  let bOptionList = List.map(a => Some(a), bList);
-  (aOptionList, bOptionList);
-};
-
-module DidactDom = {
-  open Bs_webapi.Dom;
-  let rec instantiate = (element: didactElement) : didactInstance =>
-    switch element.elementType {
-    | Node(name) =>
-      let node = Document.createElement(name, document);
-      let childInstances = List.map(instantiate, element.children);
-      List.iter(
-        e => {
-          let _ = Element.appendChild(e.dom, node);
-          ();
-        },
-        childInstances
-      );
-      {dom: node, element, childInstances};
-    | Text(value) =>
-      let dom = Document.createElement("span", document);
-      Element.setInnerText(dom, value);
-      {dom, element, childInstances: []};
-    }
-  and reconcile =
-      (
-        parentDom: Dom.element,
-        instance: option(didactInstance),
-        didactElement: option(didactElement)
-      ) =>
-    switch (instance, didactElement) {
-    | (None, Some(didactElement)) =>
-      let newInstance = instantiate(didactElement);
-      Element.appendChild(newInstance.dom, parentDom);
-      Some(newInstance);
-    | (Some(instance), None) =>
-      Element.removeChild(instance.dom, parentDom) |> ignore;
-      None;
-    | (Some({element} as instance), Some(didactElement))
-        when element.elementType == didactElement.elementType =>
-      Some({...instance, element: didactElement})
-    | (Some(instance), Some(didactElement)) =>
-      let newInstance = instantiate(didactElement);
-      Element.removeChild(instance.dom, parentDom) |> ignore;
-      Element.appendChild(newInstance.dom, parentDom);
-      Some(newInstance);
-    | (None, None) => None
-    }
-  and reconcileChildren =
-      (instance: didactInstance, didactElement: didactElement)
-      : list(didactInstance) => {
-    let (a, b) =
-      equalizeLists(instance.childInstances, didactElement.children);
-    List.map2(reconcile(instance.dom), a, b)
-    |> List.fold_left(
-         (a, b) =>
-           switch b {
-           | Some(x) => [x, ...a]
-           | None => a
-           },
-         []
-       );
+module Callback = {
+  type t('payload) = 'payload => unit;
+  let default = _event => ();
+  let chain = (handlerOne, handlerTwo, payload) => {
+    handlerOne(payload);
+    handlerTwo(payload);
   };
 };
 
-let instance: ref(option(didactInstance)) = ref(None);
+type props = {
+  id: option(string),
+  value: option(string),
+  onClick: option(Dom.event => unit),
+  onChange: option(Dom.event => unit)
+};
 
-let render = (element, parentDom) => {
-  let newInstance = DidactDom.reconcile(parentDom, instance^, Some(element));
-  instance := newInstance;
-  newInstance;
+let defaultProps = {id: None, value: None, onClick: None, onChange: None};
+
+type reduce('payload, 'action) = ('payload => 'action) => Callback.t('payload);
+
+type update('state, 'action) =
+  | NoUpdate
+  | Update('state)
+and self('state, 'action) = {
+  state: 'state,
+  reduce: 'payload .reduce('payload, 'action),
+  send: 'action => unit
+};
+
+type didactElementType =
+  | Text(string)
+  | Node(string)
+  | Component(component('state, 'action)): didactElementType
+and didactElement = {
+  elementType: didactElementType,
+  props,
+  children: list(didactElement)
+}
+and componentSpec('state, 'initialState, 'action) = {
+  debugName: string,
+  render: self('state, 'action) => didactElement,
+  initialState: unit => 'initialState,
+  reducer: ('action, 'state) => update('state, 'action)
+}
+and component('state, 'action) = componentSpec('state, 'state, 'action);
+
+let createDomElement =
+    (
+      name,
+      ~onClick: option(Dom.event => unit)=?,
+      ~children: list(didactElement),
+      _: unit
+    ) => {
+  elementType: Node(name),
+  props: {
+    ...defaultProps,
+    onClick
+  },
+  children
+};
+
+let basicComponent = debugName : componentSpec(_, _, _) => {
+  debugName,
+  render: _self => assert false,
+  initialState: () => (),
+  reducer: (_action, _state) => NoUpdate
+};
+
+let statelessComponent = debugName => {
+  ...basicComponent(debugName),
+  initialState: () => ()
+};
+
+let statefulComponent = debugName => basicComponent(debugName);
+
+let reducerComponent = debugName => basicComponent(debugName);
+
+let stringToElement = value => {
+  elementType: Text(value),
+  props: defaultProps,
+  children: []
+};
+
+let component = component => {
+  elementType: Component(component),
+  props: defaultProps,
+  children: []
 };

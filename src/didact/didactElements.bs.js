@@ -3,56 +3,56 @@
 
 var Didact = require("./didact.bs.js");
 
-function div(param, param$1) {
-  return Didact.createDomElement("div", param, param$1);
+function div(param, param$1, param$2) {
+  return Didact.createDomElement("div", param, param$1, param$2);
 }
 
-function h1(param, param$1) {
-  return Didact.createDomElement("h1", param, param$1);
+function h1(param, param$1, param$2) {
+  return Didact.createDomElement("h1", param, param$1, param$2);
 }
 
-function h2(param, param$1) {
-  return Didact.createDomElement("h2", param, param$1);
+function h2(param, param$1, param$2) {
+  return Didact.createDomElement("h2", param, param$1, param$2);
 }
 
-function h3(param, param$1) {
-  return Didact.createDomElement("h3", param, param$1);
+function h3(param, param$1, param$2) {
+  return Didact.createDomElement("h3", param, param$1, param$2);
 }
 
-function h4(param, param$1) {
-  return Didact.createDomElement("h4", param, param$1);
+function h4(param, param$1, param$2) {
+  return Didact.createDomElement("h4", param, param$1, param$2);
 }
 
-function h5(param, param$1) {
-  return Didact.createDomElement("h5", param, param$1);
+function h5(param, param$1, param$2) {
+  return Didact.createDomElement("h5", param, param$1, param$2);
 }
 
-function h6(param, param$1) {
-  return Didact.createDomElement("h6", param, param$1);
+function h6(param, param$1, param$2) {
+  return Didact.createDomElement("h6", param, param$1, param$2);
 }
 
-function span(param, param$1) {
-  return Didact.createDomElement("span", param, param$1);
+function span(param, param$1, param$2) {
+  return Didact.createDomElement("span", param, param$1, param$2);
 }
 
-function ul(param, param$1) {
-  return Didact.createDomElement("ul", param, param$1);
+function ul(param, param$1, param$2) {
+  return Didact.createDomElement("ul", param, param$1, param$2);
 }
 
-function li(param, param$1) {
-  return Didact.createDomElement("li", param, param$1);
+function li(param, param$1, param$2) {
+  return Didact.createDomElement("li", param, param$1, param$2);
 }
 
-function img(param, param$1) {
-  return Didact.createDomElement("img", param, param$1);
+function img(param, param$1, param$2) {
+  return Didact.createDomElement("img", param, param$1, param$2);
 }
 
-function button(param, param$1) {
-  return Didact.createDomElement("button", param, param$1);
+function button(param, param$1, param$2) {
+  return Didact.createDomElement("button", param, param$1, param$2);
 }
 
-function input(param, param$1) {
-  return Didact.createDomElement("input", param, param$1);
+function input(param, param$1, param$2) {
+  return Didact.createDomElement("input", param, param$1, param$2);
 }
 
 exports.div    = div;
