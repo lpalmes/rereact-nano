@@ -2,7 +2,7 @@
 'use strict';
 
 var MiniTest   = require("./miniTest.bs.js");
-var RereactDom = require("./rereactDom.bs.js");
+var RereactDom = require("./rereact/rereactDom.bs.js");
 
 function render() {
   var match = document.getElementById("container");

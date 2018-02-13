@@ -1,4 +1,14 @@
-open RereactDom;
+open RereactElements;
+
+module Test = {
+  let createElement = (~children as _, _) =>
+    Rereact.element({
+      debugName: "Test component",
+      initialState: () => (),
+      reducer: (_, _) => Rereact.NoUpdate,
+      render: (_) => <h1> (Rereact.stringToElement("Hello")) </h1>
+    });
+};
 
 type superState = int;
 
@@ -29,6 +39,19 @@ let createElement = (~children as _, _) =>
         <button onClick=((_) => send(Decrement(1)))>
           (Rereact.stringToElement("Decrement"))
         </button>
+        (
+          state == 2 ?
+            <ul>
+              <li> (Rereact.stringToElement("blue")) </li>
+              <li> (Rereact.stringToElement("black")) </li>
+              <li> (Rereact.stringToElement("yellow")) </li>
+              <li> (Rereact.stringToElement("green")) </li>
+            </ul> :
+            <ul>
+              <li> (Rereact.stringToElement("blue")) </li>
+              <li> (Rereact.stringToElement("black")) </li>
+            </ul>
+        )
       </div>
   });
 /* (

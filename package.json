@@ -5,20 +5,20 @@
     "build": "bsb -make-world",
     "start": "bsb -make-world -w",
     "clean": "bsb -clean-world",
-    "webpack": "webpack -w",
-    "bundle:didact": "parcel -o src/didact/index.html",
-    "bundle": "parcel -o src/rereact/example.html"
+    "bundle": "parcel -o src/index.html"
   },
-  "keywords": ["BuckleScript"],
+  "keywords": [
+    "BuckleScript"
+  ],
   "author": "",
   "license": "MIT",
   "devDependencies": {
     "bs-platform": "^2.1.0"
   },
   "dependencies": {
+    "bs-jest": "^0.3.2",
     "bs-webapi": "^0.7.0",
     "parcel-bundler": "^1.4.1",
-    "reductive": "^0.2.0",
-    "webpack": "^3.10.0"
+    "reductive": "^0.2.0"
   }
 }

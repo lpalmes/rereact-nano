@@ -1,4 +1,16 @@
-open Didact;
+open Rereact;
+
+let createDomElement =
+    (
+      name,
+      ~id: option(string)=?,
+      ~value: option(string)=?,
+      ~onClick: option(Dom.event => unit)=?,
+      ~onChange: option(Dom.event => unit)=?,
+      ~children: list(reactElement),
+      _: unit
+    ) =>
+  Nested(name, {id, value, onClick, onChange}, children);
 
 let div = createDomElement("div");
 
