@@ -4,7 +4,7 @@ type renderedElement =
   | IFlat(list(opaqueInstance))
   | INested(string, list(renderedElement), Dom.element)
 and instance('state, 'action) = {
-  component: option(component('state, 'action)),
+  mutable component: component('state, 'action),
   element,
   mutable iState: 'state,
   mutable instanceSubTree: renderedElement,
@@ -16,9 +16,13 @@ and opaqueInstance =
 
 let globalInstance = ref(IFlat([]));
 
-let addProps = (domElement: Dom.element, props) => {
+let addProps = (domElement: Dom.element, props: RereactProps.props) => {
   switch props.id {
   | Some(value) => Webapi.Dom.Element.setAttribute("id", value, domElement)
+  | None => ()
+  };
+  switch props.className {
+  | Some(value) => Webapi.Dom.Element.setAttribute("class", value, domElement)
   | None => ()
   };
   switch props.value {
@@ -26,11 +30,11 @@ let addProps = (domElement: Dom.element, props) => {
   | None => ()
   };
   switch props.onClick {
-  | Some(func) => Webapi.Dom.Element.addEventListener("click", func, domElement)
+  | Some(func) => Webapi.Dom.Element.addEventListener("click", (_) => func(), domElement)
   | None => ()
   };
   switch props.onChange {
-  | Some(func) => Webapi.Dom.Element.addEventListener("change", func, domElement)
+  | Some(func) => Webapi.Dom.Element.addEventListener("change", (_) => func(), domElement)
   | None => ()
   };
 };
@@ -58,7 +62,7 @@ let executePendingStateUpdates = opaqueInstance => {
 let createInstance = (~component, ~element) => {
   let iState = component.initialState();
   {
-    component: Some(component),
+    component,
     element,
     dom: Webapi.Dom.Document.createElement("span", Webapi.Dom.document),
     iState,
@@ -113,17 +117,24 @@ let rec reconcile =
   | (Some(INested(_, _, dom)), None) =>
     Webapi.Dom.Element.removeChild(dom, parentDom);
     None;
-  | (Some(INested(iName, iElements, dom)), Some(Nested(name, props, elements))) =>
-    let node =
-      if (iName != name) {
-        Webapi.Dom.Element.removeChild(dom, parentDom);
-        let node = Webapi.Dom.Document.createElement(name, Webapi.Dom.document);
-        Webapi.Dom.Element.appendChild(node, parentDom);
-        addProps(node, props);
-        node;
-      } else {
-        dom;
-      };
+  | (Some(INested(iName, iElements, dom)), Some(Nested(name, props, elements))) when iName != name =>
+    Webapi.Dom.Element.removeChild(dom, parentDom);
+    let node = Webapi.Dom.Document.createElement(name, Webapi.Dom.document);
+    Webapi.Dom.Element.appendChild(node, parentDom);
+    addProps(node, props);
+    let els =
+      List.map(reconcile(node, None), List.map(e => Some(e), elements))
+      |> List.fold_left(
+           (instances, e) =>
+             switch e {
+             | Some(instance) => [instance, ...instances]
+             | None => instances
+             },
+           []
+         )
+      |> List.rev;
+    Some(INested(name, els, node));
+  | (Some(INested(iName, iElements, dom)), Some(Nested(name, props, elements))) when iName == name =>
     let (a, b) = equalizeList(iElements, elements);
     /* List.iter(Js.log, iElements);
        print_newline();
@@ -136,7 +147,7 @@ let rec reconcile =
       ();
     };
     let els =
-      List.map2(reconcile(node), a, b)
+      List.map2(reconcile(dom), a, b)
       |> List.fold_left(
            (instances, e) =>
              switch e {
@@ -146,7 +157,7 @@ let rec reconcile =
            []
          )
       |> List.rev;
-    Some(INested(name, els, node));
+    Some(INested(name, els, dom));
   | (None, Some(Flat(elements))) =>
     let els =
       elements
@@ -199,6 +210,7 @@ and reconcileElement =
       Some(Instance({element: Component(_), dom, instanceSubTree} as instance)),
       Component(newComponent)
     ) =>
+    instance.component = Obj.magic(newComponent);
     let self = createSelf(Obj.magic(instance));
     let subElements = newComponent.render(Obj.magic(self));
     let instanceSubTree = reconcile(dom, Some(instanceSubTree), Some(subElements));
@@ -211,12 +223,12 @@ and reconcileElement =
       instance.instanceSubTree = v;
     | None => ()
     };
-    Some(Instance(instance));
+    Some(Instance({...instance, element}));
   | (None, String(value)) =>
     Webapi.Dom.Element.setInnerText(parentDom, value);
     Some(
       Instance({
-        component: None,
+        component: basicComponent("String"),
         element,
         iState: (),
         instanceSubTree: IFlat([]),
@@ -235,28 +247,37 @@ and reconcileElement =
   }
 and createSelf = instance : self(_) => {
   state: instance.iState,
-  reduce: (payloadToAction, payload) =>
-    switch instance.component {
-    | Some(component) =>
-      let action = payloadToAction(payload);
-      let stateUpdate = component.reducer(action);
-      instance.pendingStateUpdates := [stateUpdate, ...instance.pendingStateUpdates^];
-      executePendingStateUpdates(Instance(instance));
-      reconcileElement(instance.dom, Some(Instance(instance)), instance.element);
-      ();
-    | _ => ()
-    },
-  send: action =>
-    switch instance.component {
-    | Some(component) =>
-      let stateUpdate = component.reducer(action);
-      instance.pendingStateUpdates := [stateUpdate, ...instance.pendingStateUpdates^];
-      executePendingStateUpdates(Instance(instance));
-      reconcileElement(instance.dom, Some(Instance(instance)), instance.element);
-      ();
-    | _ => ()
-    }
+  reduce: (payloadToAction, payload) => {
+    let action = payloadToAction(payload);
+    let stateUpdate = instance.component.reducer(action);
+    instance.pendingStateUpdates := [stateUpdate, ...instance.pendingStateUpdates^];
+    executePendingStateUpdates(Instance(instance));
+    reconcileElement(instance.dom, Some(Instance(instance)), instance.element) |> ignore;
+  },
+  send: action => {
+    let stateUpdate = instance.component.reducer(action);
+    instance.pendingStateUpdates := [stateUpdate, ...instance.pendingStateUpdates^];
+    executePendingStateUpdates(Instance(instance));
+    Js.log(instance.component.debugName);
+    reconcileElement(instance.dom, Some(Instance(instance)), instance.element) |> ignore;
+  }
 };
 
-let render = (reactElement, parentDom: Dom.element) =>
-  reconcile(parentDom, None, Some(reactElement));
+let parentContainer = ref(Webapi.Dom.Document.createElement("span", Webapi.Dom.document));
+
+let rootInstance: ref(option(renderedElement)) = ref(None);
+
+let render = (reactElement, parentDom: Dom.element) => {
+  parentContainer := parentDom;
+  rootInstance := reconcile(parentDom, rootInstance^, Some(reactElement));
+  switch rootInstance^ {
+  | Some(v) => v
+  | None => IFlat([])
+  };
+};
+
+let hotUpdate = (reactElement, instance) =>
+  switch (reconcile(parentContainer^, Some(instance), Some(reactElement))) {
+  | Some(v) => v
+  | None => IFlat([])
+  };

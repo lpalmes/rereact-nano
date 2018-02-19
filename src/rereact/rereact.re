@@ -1,11 +1,4 @@
-type props = {
-  id: option(string),
-  value: option(string),
-  onClick: option((Dom.event => unit)),
-  onChange: option((Dom.event => unit))
-};
-
-let defaultProps = {id: None, value: None, onClick: None, onChange: None};
+open RereactProps;
 
 type sideEffects = unit => unit;
 
@@ -15,10 +8,10 @@ type actionless = unit;
 
 module Callback = {
   type t('payload) = 'payload => unit;
-  let default = (_event) => ();
+  let default = _event => ();
   let chain = (handlerOne, handlerTwo, payload) => {
     handlerOne(payload);
-    handlerTwo(payload)
+    handlerTwo(payload);
   };
 };
 
@@ -47,25 +40,21 @@ and componentSpec('state, 'initialState, 'action) = {
 }
 and component('state, 'action) = componentSpec('state, 'state, 'action);
 
-let basicComponent = (debugName) : componentSpec(_, _, _) => {
+let basicComponent = debugName : componentSpec(_, _, _) => {
   debugName,
-  render: (_self) => assert false,
+  render: _self => assert false,
   initialState: () => (),
   reducer: (_action, _state) => NoUpdate
 };
 
-let statelessComponent = (debugName) => {...basicComponent(debugName), initialState: () => ()};
+let statelessComponent = debugName => {...basicComponent(debugName), initialState: () => ()};
 
-let statefulComponent = (debugName) => basicComponent(debugName);
+let statefulComponent = debugName => basicComponent(debugName);
 
-let reducerComponent = (debugName) => basicComponent(debugName);
+let reducerComponent = debugName => basicComponent(debugName);
 
-let stringToElement = (value) => Flat([String(value)]);
+let stringToElement = value => Flat([String(value)]);
 
 let nullElement = Flat([]);
 
-let element = (component) => Flat([Component(component)]);
-
-let listToElement = (elements) => Nested("List", defaultProps, elements);
-
-let arrayToElement = (elements) => Nested("List", defaultProps, Array.to_list(elements));
+let element = component => Flat([Component(component)]);

@@ -3,12 +3,13 @@
 
 var Block = require("bs-platform/lib/js/block.js");
 
-function createDomElement(name, id, value, onClick, onChange, children, _) {
+function createDomElement(name, id, value, onClick, onChange, className, children, _) {
   return /* Nested */Block.__(1, [
             name,
             /* record */[
               /* id */id,
               /* value */value,
+              /* className */className,
               /* onClick */onClick,
               /* onChange */onChange
             ],
@@ -16,56 +17,56 @@ function createDomElement(name, id, value, onClick, onChange, children, _) {
           ]);
 }
 
-function div(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("div", param, param$1, param$2, param$3, param$4, param$5);
+function div(param, param$1, param$2, param$3, param$4, param$5, param$6) {
+  return createDomElement("div", param, param$1, param$2, param$3, param$4, param$5, param$6);
 }
 
-function h1(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("h1", param, param$1, param$2, param$3, param$4, param$5);
+function h1(param, param$1, param$2, param$3, param$4, param$5, param$6) {
+  return createDomElement("h1", param, param$1, param$2, param$3, param$4, param$5, param$6);
 }
 
-function h2(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("h2", param, param$1, param$2, param$3, param$4, param$5);
+function h2(param, param$1, param$2, param$3, param$4, param$5, param$6) {
+  return createDomElement("h2", param, param$1, param$2, param$3, param$4, param$5, param$6);
 }
 
-function h3(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("h3", param, param$1, param$2, param$3, param$4, param$5);
+function h3(param, param$1, param$2, param$3, param$4, param$5, param$6) {
+  return createDomElement("h3", param, param$1, param$2, param$3, param$4, param$5, param$6);
 }
 
-function h4(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("h4", param, param$1, param$2, param$3, param$4, param$5);
+function h4(param, param$1, param$2, param$3, param$4, param$5, param$6) {
+  return createDomElement("h4", param, param$1, param$2, param$3, param$4, param$5, param$6);
 }
 
-function h5(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("h5", param, param$1, param$2, param$3, param$4, param$5);
+function h5(param, param$1, param$2, param$3, param$4, param$5, param$6) {
+  return createDomElement("h5", param, param$1, param$2, param$3, param$4, param$5, param$6);
 }
 
-function h6(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("h6", param, param$1, param$2, param$3, param$4, param$5);
+function h6(param, param$1, param$2, param$3, param$4, param$5, param$6) {
+  return createDomElement("h6", param, param$1, param$2, param$3, param$4, param$5, param$6);
 }
 
-function span(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("span", param, param$1, param$2, param$3, param$4, param$5);
+function span(param, param$1, param$2, param$3, param$4, param$5, param$6) {
+  return createDomElement("span", param, param$1, param$2, param$3, param$4, param$5, param$6);
 }
 
-function ul(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("ul", param, param$1, param$2, param$3, param$4, param$5);
+function ul(param, param$1, param$2, param$3, param$4, param$5, param$6) {
+  return createDomElement("ul", param, param$1, param$2, param$3, param$4, param$5, param$6);
 }
 
-function li(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("li", param, param$1, param$2, param$3, param$4, param$5);
+function li(param, param$1, param$2, param$3, param$4, param$5, param$6) {
+  return createDomElement("li", param, param$1, param$2, param$3, param$4, param$5, param$6);
 }
 
-function img(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("img", param, param$1, param$2, param$3, param$4, param$5);
+function img(param, param$1, param$2, param$3, param$4, param$5, param$6) {
+  return createDomElement("img", param, param$1, param$2, param$3, param$4, param$5, param$6);
 }
 
-function button(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("button", param, param$1, param$2, param$3, param$4, param$5);
+function button(param, param$1, param$2, param$3, param$4, param$5, param$6) {
+  return createDomElement("button", param, param$1, param$2, param$3, param$4, param$5, param$6);
 }
 
-function input(param, param$1, param$2, param$3, param$4, param$5) {
-  return createDomElement("input", param, param$1, param$2, param$3, param$4, param$5);
+function input(param, param$1, param$2, param$3, param$4, param$5, param$6) {
+  return createDomElement("input", param, param$1, param$2, param$3, param$4, param$5, param$6);
 }
 
 exports.createDomElement = createDomElement;

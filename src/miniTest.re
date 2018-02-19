@@ -1,5 +1,7 @@
 open RereactElements;
 
+open Nice;
+
 module Test = {
   let createElement = (~children as _, _) =>
     Rereact.element({
@@ -13,8 +15,8 @@ module Test = {
 type superState = int;
 
 type action =
-  | Increment(int)
-  | Decrement(int);
+  | Increment
+  | Decrement;
 
 let createElement = (~children as _, _) =>
   Rereact.element({
@@ -22,35 +24,29 @@ let createElement = (~children as _, _) =>
     initialState: () => 1,
     reducer: (action: action, state) =>
       switch action {
-      | Increment(value) => Rereact.Update(state + value)
-      | Decrement(value) =>
-        if (state - value >= 0) {
-          Rereact.Update(state - value);
+      | Increment => Rereact.Update(state + 1)
+      | Decrement =>
+        if (state >= 1) {
+          Rereact.Update(state - 1)
         } else {
-          Rereact.NoUpdate;
+          Rereact.NoUpdate
         }
       },
     render: ({state, send}) =>
       <div>
-        <button onClick=((_) => send(Increment(1)))>
-          (Rereact.stringToElement("Increment"))
-        </button>
+        <button onClick=((_) => send(Increment))> (Rereact.stringToElement("Increment")) </button>
         <span> (Rereact.stringToElement(string_of_int(state))) </span>
-        <button onClick=((_) => send(Decrement(1)))>
-          (Rereact.stringToElement("Decrement"))
-        </button>
+        <button onClick=((_) => send(Decrement))> (Rereact.stringToElement("Decrement")) </button>
         (
           state == 2 ?
             <ul>
               <li> (Rereact.stringToElement("blue")) </li>
-              <li> (Rereact.stringToElement("black")) </li>
+              <li> (Rereact.stringToElement("grey")) </li>
               <li> (Rereact.stringToElement("yellow")) </li>
               <li> (Rereact.stringToElement("green")) </li>
+              <h1> (Rereact.stringToElement("Gera re puto, no me rompas las bolas")) </h1>
             </ul> :
-            <ul>
-              <li> (Rereact.stringToElement("blue")) </li>
-              <li> (Rereact.stringToElement("black")) </li>
-            </ul>
+            <h1> (Rereact.stringToElement("Halo")) </h1>
         )
       </div>
   });

@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "bs-jest": "^0.3.2",
+    "bs-nice": "^0.1.6",
     "bs-webapi": "^0.7.0",
     "parcel-bundler": "^1.4.1",
     "reductive": "^0.2.0"

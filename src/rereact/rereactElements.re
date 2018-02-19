@@ -5,12 +5,13 @@ let createDomElement =
       name,
       ~id: option(string)=?,
       ~value: option(string)=?,
-      ~onClick: option(Dom.event => unit)=?,
-      ~onChange: option(Dom.event => unit)=?,
+      ~onClick: option(unit => unit)=?,
+      ~onChange: option(unit => unit)=?,
+      ~className: option(string)=?,
       ~children: list(reactElement),
       _: unit
     ) =>
-  Nested(name, {id, value, onClick, onChange}, children);
+  Nested(name, {id, value, onClick, className, onChange}, children);
 
 let div = createDomElement("div");
 

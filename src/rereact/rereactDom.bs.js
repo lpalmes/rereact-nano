@@ -4,6 +4,7 @@
 var List       = require("bs-platform/lib/js/list.js");
 var Block      = require("bs-platform/lib/js/block.js");
 var Curry      = require("bs-platform/lib/js/curry.js");
+var Rereact    = require("./rereact.bs.js");
 var Pervasives = require("bs-platform/lib/js/pervasives.js");
 
 var globalInstance = [/* IFlat */Block.__(0, [/* [] */0])];
@@ -13,17 +14,27 @@ function addProps(domElement, props) {
   if (match) {
     domElement.setAttribute("id", match[0]);
   }
-  var match$1 = props[/* value */1];
+  var match$1 = props[/* className */2];
   if (match$1) {
-    domElement.setAttribute("value", match$1[0]);
+    domElement.setAttribute("class", match$1[0]);
   }
-  var match$2 = props[/* onClick */2];
+  var match$2 = props[/* value */1];
   if (match$2) {
-    domElement.addEventListener("click", match$2[0]);
+    domElement.setAttribute("value", match$2[0]);
   }
-  var match$3 = props[/* onChange */3];
+  var match$3 = props[/* onClick */3];
   if (match$3) {
-    domElement.addEventListener("change", match$3[0]);
+    var func = match$3[0];
+    domElement.addEventListener("click", (function () {
+            return Curry._1(func, /* () */0);
+          }));
+  }
+  var match$4 = props[/* onChange */4];
+  if (match$4) {
+    var func$1 = match$4[0];
+    domElement.addEventListener("change", (function () {
+            return Curry._1(func$1, /* () */0);
+          }));
     return /* () */0;
   } else {
     return /* () */0;
@@ -65,7 +76,7 @@ function executePendingStateUpdates(opaqueInstance) {
 function createInstance(component, element) {
   var iState = Curry._1(component[/* initialState */2], /* () */0);
   return /* record */[
-          /* component : Some */[component],
+          /* component */component,
           /* element */element,
           /* iState */iState,
           /* instanceSubTree : IFlat */Block.__(0, [/* [] */0]),
@@ -132,45 +143,65 @@ function reconcile(parentDom, instance, element) {
     var match = instance[0];
     if (match.tag) {
       var dom = match[2];
+      var iName = match[0];
       if (element) {
         var match$1 = element[0];
         if (match$1.tag) {
+          var elements = match$1[2];
           var name = match$1[0];
-          var node;
-          if (match[0] !== name) {
+          if (iName !== name) {
             parentDom.removeChild(dom);
-            var node$1 = document.createElement(name);
-            parentDom.appendChild(node$1);
-            addProps(node$1, match$1[1]);
-            node = node$1;
+            var node = document.createElement(name);
+            parentDom.appendChild(node);
+            addProps(node, match$1[1]);
+            var els = List.rev(List.fold_left((function (instances, e) {
+                        if (e) {
+                          return /* :: */[
+                                  e[0],
+                                  instances
+                                ];
+                        } else {
+                          return instances;
+                        }
+                      }), /* [] */0, List.map((function (param) {
+                            return reconcile(node, /* None */0, param);
+                          }), List.map((function (e) {
+                                return /* Some */[e];
+                              }), elements))));
+            return /* Some */[/* INested */Block.__(1, [
+                        name,
+                        els,
+                        node
+                      ])];
+          } else if (iName === name) {
+            var match$2 = equalizeList(match[1], elements);
+            var b = match$2[1];
+            var a = match$2[0];
+            if (List.length(a) !== List.length(b)) {
+              console.log("Lists are different size");
+              console.log(List.length(a));
+              console.log(List.length(b));
+            }
+            var els$1 = List.rev(List.fold_left((function (instances, e) {
+                        if (e) {
+                          return /* :: */[
+                                  e[0],
+                                  instances
+                                ];
+                        } else {
+                          return instances;
+                        }
+                      }), /* [] */0, List.map2((function (param, param$1) {
+                            return reconcile(dom, param, param$1);
+                          }), a, b)));
+            return /* Some */[/* INested */Block.__(1, [
+                        name,
+                        els$1,
+                        dom
+                      ])];
           } else {
-            node = dom;
+            return /* None */0;
           }
-          var match$2 = equalizeList(match[1], match$1[2]);
-          var b = match$2[1];
-          var a = match$2[0];
-          if (List.length(a) !== List.length(b)) {
-            console.log("Lists are different size");
-            console.log(List.length(a));
-            console.log(List.length(b));
-          }
-          var els = List.rev(List.fold_left((function (instances, e) {
-                      if (e) {
-                        return /* :: */[
-                                e[0],
-                                instances
-                              ];
-                      } else {
-                        return instances;
-                      }
-                    }), /* [] */0, List.map2((function (param, param$1) {
-                          return reconcile(node, param, param$1);
-                        }), a, b)));
-          return /* Some */[/* INested */Block.__(1, [
-                      name,
-                      els,
-                      node
-                    ])];
         } else {
           return /* None */0;
         }
@@ -183,7 +214,7 @@ function reconcile(parentDom, instance, element) {
       if (match$3.tag) {
         return /* None */0;
       } else {
-        var els$1 = List.rev(List.fold_left((function (instances, e) {
+        var els$2 = List.rev(List.fold_left((function (instances, e) {
                     if (e) {
                       return /* :: */[
                               e[0],
@@ -197,7 +228,7 @@ function reconcile(parentDom, instance, element) {
                       }), List.map((function (i) {
                             return /* Some */[i];
                           }), match[0]), match$3[0])));
-        return /* Some */[/* IFlat */Block.__(0, [els$1])];
+        return /* Some */[/* IFlat */Block.__(0, [els$2])];
       }
     } else {
       return /* None */0;
@@ -206,10 +237,10 @@ function reconcile(parentDom, instance, element) {
     var match$4 = element[0];
     if (match$4.tag) {
       var name$1 = match$4[0];
-      var node$2 = document.createElement(name$1);
-      parentDom.appendChild(node$2);
-      addProps(node$2, match$4[1]);
-      var els$2 = List.rev(List.fold_left((function (instances, e) {
+      var node$1 = document.createElement(name$1);
+      parentDom.appendChild(node$1);
+      addProps(node$1, match$4[1]);
+      var els$3 = List.rev(List.fold_left((function (instances, e) {
                   if (e) {
                     return /* :: */[
                             e[0],
@@ -219,17 +250,17 @@ function reconcile(parentDom, instance, element) {
                     return instances;
                   }
                 }), /* [] */0, List.map((function (param) {
-                      return reconcile(node$2, /* None */0, param);
+                      return reconcile(node$1, /* None */0, param);
                     }), List.map((function (e) {
                           return /* Some */[e];
                         }), match$4[2]))));
       return /* Some */[/* INested */Block.__(1, [
                   name$1,
-                  els$2,
-                  node$2
+                  els$3,
+                  node$1
                 ])];
     } else {
-      var els$3 = List.fold_left((function (instances, e) {
+      var els$4 = List.fold_left((function (instances, e) {
               if (e) {
                 return /* :: */[
                         e[0],
@@ -241,7 +272,7 @@ function reconcile(parentDom, instance, element) {
             }), /* [] */0, List.map((function (param) {
                   return reconcileElement(parentDom, /* None */0, param);
                 }), match$4[0]));
-      return /* Some */[/* IFlat */Block.__(0, [els$3])];
+      return /* Some */[/* IFlat */Block.__(0, [els$4])];
     }
   } else {
     return /* None */0;
@@ -256,8 +287,10 @@ function reconcileElement(parentDom, instance, element) {
       var instanceSubTree = instance$1[/* instanceSubTree */3];
       var dom = instance$1[/* dom */4];
       if (element.tag) {
+        var newComponent = element[0];
+        instance$1[/* component */0] = newComponent;
         var self = createSelf(instance$1);
-        var subElements = Curry._1(element[0][/* render */1], self);
+        var subElements = Curry._1(newComponent[/* render */1], self);
         var instanceSubTree$1 = reconcile(dom, /* Some */[instanceSubTree], /* Some */[subElements]);
         if (instanceSubTree$1) {
           var v = instanceSubTree$1[0];
@@ -266,7 +299,8 @@ function reconcileElement(parentDom, instance, element) {
           }
           instance$1[/* instanceSubTree */3] = v;
         }
-        return /* Some */[/* Instance */[instance$1]];
+        var newrecord = instance$1.slice();
+        return /* Some */[/* Instance */[(newrecord[/* element */1] = element, newrecord)]];
       } else {
         return /* None */0;
       }
@@ -280,8 +314,8 @@ function reconcileElement(parentDom, instance, element) {
           return /* Some */[/* Instance */[instance$1]];
         } else {
           dom$1.innerText = value;
-          var newrecord = instance$1.slice();
-          return /* Some */[/* Instance */[(newrecord[/* element */1] = element, newrecord)]];
+          var newrecord$1 = instance$1.slice();
+          return /* Some */[/* Instance */[(newrecord$1[/* element */1] = element, newrecord$1)]];
         }
       }
     }
@@ -302,7 +336,7 @@ function reconcileElement(parentDom, instance, element) {
   } else {
     parentDom.innerText = element[0];
     return /* Some */[/* Instance */[/* record */[
-                /* component : None */0,
+                /* component */Rereact.basicComponent("String"),
                 /* element */element,
                 /* iState : () */0,
                 /* instanceSubTree : IFlat */Block.__(0, [/* [] */0]),
@@ -316,41 +350,52 @@ function createSelf(instance) {
   return /* record */[
           /* state */instance[/* iState */2],
           /* reduce */(function (payloadToAction, payload) {
-              var match = instance[/* component */0];
-              if (match) {
-                var action = Curry._1(payloadToAction, payload);
-                var stateUpdate = Curry._1(match[0][/* reducer */3], action);
-                instance[/* pendingStateUpdates */5][0] = /* :: */[
-                  stateUpdate,
-                  instance[/* pendingStateUpdates */5][0]
-                ];
-                executePendingStateUpdates(/* Instance */[instance]);
-                reconcileElement(instance[/* dom */4], /* Some */[/* Instance */[instance]], instance[/* element */1]);
-                return /* () */0;
-              } else {
-                return /* () */0;
-              }
+              var action = Curry._1(payloadToAction, payload);
+              var stateUpdate = Curry._1(instance[/* component */0][/* reducer */3], action);
+              instance[/* pendingStateUpdates */5][0] = /* :: */[
+                stateUpdate,
+                instance[/* pendingStateUpdates */5][0]
+              ];
+              executePendingStateUpdates(/* Instance */[instance]);
+              reconcileElement(instance[/* dom */4], /* Some */[/* Instance */[instance]], instance[/* element */1]);
+              return /* () */0;
             }),
           /* send */(function (action) {
-              var match = instance[/* component */0];
-              if (match) {
-                var stateUpdate = Curry._1(match[0][/* reducer */3], action);
-                instance[/* pendingStateUpdates */5][0] = /* :: */[
-                  stateUpdate,
-                  instance[/* pendingStateUpdates */5][0]
-                ];
-                executePendingStateUpdates(/* Instance */[instance]);
-                reconcileElement(instance[/* dom */4], /* Some */[/* Instance */[instance]], instance[/* element */1]);
-                return /* () */0;
-              } else {
-                return /* () */0;
-              }
+              var stateUpdate = Curry._1(instance[/* component */0][/* reducer */3], action);
+              instance[/* pendingStateUpdates */5][0] = /* :: */[
+                stateUpdate,
+                instance[/* pendingStateUpdates */5][0]
+              ];
+              executePendingStateUpdates(/* Instance */[instance]);
+              console.log(instance[/* component */0][/* debugName */0]);
+              reconcileElement(instance[/* dom */4], /* Some */[/* Instance */[instance]], instance[/* element */1]);
+              return /* () */0;
             })
         ];
 }
 
+var parentContainer = [document.createElement("span")];
+
+var rootInstance = [/* None */0];
+
 function render(reactElement, parentDom) {
-  return reconcile(parentDom, /* None */0, /* Some */[reactElement]);
+  parentContainer[0] = parentDom;
+  rootInstance[0] = reconcile(parentDom, rootInstance[0], /* Some */[reactElement]);
+  var match = rootInstance[0];
+  if (match) {
+    return match[0];
+  } else {
+    return /* IFlat */Block.__(0, [/* [] */0]);
+  }
+}
+
+function hotUpdate(reactElement, instance) {
+  var match = reconcile(parentContainer[0], /* Some */[instance], /* Some */[reactElement]);
+  if (match) {
+    return match[0];
+  } else {
+    return /* IFlat */Block.__(0, [/* [] */0]);
+  }
 }
 
 exports.globalInstance             = globalInstance;
@@ -363,5 +408,8 @@ exports.equalizeList               = equalizeList;
 exports.reconcile                  = reconcile;
 exports.reconcileElement           = reconcileElement;
 exports.createSelf                 = createSelf;
+exports.parentContainer            = parentContainer;
+exports.rootInstance               = rootInstance;
 exports.render                     = render;
-/* No side effect */
+exports.hotUpdate                  = hotUpdate;
+/* parentContainer Not a pure module */

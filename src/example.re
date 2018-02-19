@@ -1,18 +1,8 @@
-let render = () =>
-  switch (
-    Bs_webapi.Dom.Document.getElementById("container", Bs_webapi.Dom.document)
-  ) {
-  | Some(dom) =>
-    let instance = RereactDom.render(<MiniTest />, dom);
-    ();
-  | None => print_endline("No dom element found :(")
-  };
+let instance = ref(RereactDom.(IFlat([])));
 
-module ParcelModule = {
-  [@bs.val] [@bs.scope "module.hot"]
-  external dispose : (unit => unit) => unit = "";
-  [@bs.val] [@bs.scope "module.hot"]
-  external accept : (unit => unit) => unit = "";
+switch (Webapi.Dom.Document.getElementById("container", Webapi.Dom.document)) {
+| Some(dom) => instance := RereactDom.render(<MiniTest />, dom)
+| None => print_endline("No dom element found :(")
 };
 
-render();
+print_endline("Rerender");
