@@ -27,12 +27,15 @@ function basicComponent(debugName) {
                     Caml_builtin_exceptions.assert_failure,
                     [
                       "rereact.re",
-                      45,
+                      46,
                       19
                     ]
                   ];
             }),
           /* initialState */(function () {
+              return /* () */0;
+            }),
+          /* didMount */(function () {
               return /* () */0;
             }),
           /* reducer */(function (_, _$1) {
@@ -49,7 +52,8 @@ function statelessComponent(debugName) {
           /* initialState */(function () {
               return /* () */0;
             }),
-          /* reducer */init[/* reducer */3]
+          /* didMount */init[/* didMount */3],
+          /* reducer */init[/* reducer */4]
         ];
 }
 

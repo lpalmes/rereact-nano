@@ -205,6 +205,7 @@ and reconcileElement =
       instance.instanceSubTree = v;
     | None => ()
     };
+    component.didMount(Obj.magic(self));
     Some(Instance(instance));
   | (
       Some(Instance({element: Component(_), dom, instanceSubTree} as instance)),

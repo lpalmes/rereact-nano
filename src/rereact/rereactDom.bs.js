@@ -332,6 +332,7 @@ function reconcileElement(parentDom, instance, element) {
       }
       instance$2[/* instanceSubTree */3] = v$1;
     }
+    Curry._1(component[/* didMount */3], self$1);
     return /* Some */[/* Instance */[instance$2]];
   } else {
     parentDom.innerText = element[0];
@@ -351,7 +352,7 @@ function createSelf(instance) {
           /* state */instance[/* iState */2],
           /* reduce */(function (payloadToAction, payload) {
               var action = Curry._1(payloadToAction, payload);
-              var stateUpdate = Curry._1(instance[/* component */0][/* reducer */3], action);
+              var stateUpdate = Curry._1(instance[/* component */0][/* reducer */4], action);
               instance[/* pendingStateUpdates */5][0] = /* :: */[
                 stateUpdate,
                 instance[/* pendingStateUpdates */5][0]
@@ -361,7 +362,7 @@ function createSelf(instance) {
               return /* () */0;
             }),
           /* send */(function (action) {
-              var stateUpdate = Curry._1(instance[/* component */0][/* reducer */3], action);
+              var stateUpdate = Curry._1(instance[/* component */0][/* reducer */4], action);
               instance[/* pendingStateUpdates */5][0] = /* :: */[
                 stateUpdate,
                 instance[/* pendingStateUpdates */5][0]

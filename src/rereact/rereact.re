@@ -36,6 +36,7 @@ and componentSpec('state, 'initialState, 'action) = {
   debugName: string,
   render: self('state, 'action) => reactElement,
   initialState: unit => 'initialState,
+  didMount: self('state, 'action) => unit,
   reducer: ('action, 'state) => update('state, 'action)
 }
 and component('state, 'action) = componentSpec('state, 'state, 'action);
@@ -44,6 +45,7 @@ let basicComponent = debugName : componentSpec(_, _, _) => {
   debugName,
   render: _self => assert false,
   initialState: () => (),
+  didMount: _self => (),
   reducer: (_action, _state) => NoUpdate
 };
 

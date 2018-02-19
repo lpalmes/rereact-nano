@@ -11,7 +11,8 @@
     "module": "commonjs",
     "in-source": true
   },
+  "ppx-flags": ["graphql_ppx/ppx"],
   "suffix": ".bs.js",
-  "bs-dependencies": ["bs-webapi", "bs-jest", "bs-nice"],
+  "bs-dependencies": ["bs-webapi", "bs-jest", "bs-nice", "bs-fetch"],
   "refmt": 3
 }
